@@ -36,63 +36,25 @@ final class ConducteursController extends AbstractController
 
             return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('conducteurs/index.html.twig', [
-            'conducteurs' => $conducteursRepository->findAll(),
-             'form' => $form,
-        ]);
-    }
 
-    #[Route('/new', name: 'app_conducteurs_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
-    {
-        $conducteur = new Conducteurs();
-        $form = $this->createForm(ConducteursType::class, $conducteur);
-        $form->handleRequest($request);
+            $editForms = [];
+        foreach ($conducteur as $conducteurs) {
+            $editform = $this->createForm(ConducteursType::class, $conducteur);
+            $editform->handleRequest($request);
+            $editForms[$conducteur->getId()] = $editform->createView();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $hashedPassword = $passwordHasher->hashPassword(
-                $conducteur,
-                $conducteur->getPassword()
-            );
+            if ($editform->isSubmitted() && $editform->isValid()) {
+                $entityManager->flush();
 
-    
-            $conducteur->setPassword($hashedPassword);
-            $entityManager->persist($conducteur);
-            $entityManager->flush();
+                return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
+            }
 
-            return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
+            return $this->render('conducteurs/index.html.twig', [
+                'conducteurs' => $conducteursRepository->findAll(),
+                'form' => $form,
+                'formEdit' => $editform,
+            ]);
         }
-
-        return $this->render('conducteurs/index.html.twig', [
-            'conducteur1' => $conducteur,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_conducteurs_show', methods: ['GET'])]
-    public function show(Conducteurs $conducteur): Response
-    {
-        return $this->render('conducteurs/show.html.twig', [
-            'conducteur' => $conducteur,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_conducteurs_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Conducteurs $conducteur, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ConducteursType::class, $conducteur);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('conducteurs/edit.html.twig', [
-            'conducteur' => $conducteur,
-            'form' => $form,
-        ]);
     }
 
     #[Route('/{id}', name: 'app_conducteurs_delete', methods: ['POST'])]
