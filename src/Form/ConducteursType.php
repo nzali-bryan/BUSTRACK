@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Form;
-
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use App\Entity\Conducteurs;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,10 +13,11 @@ class ConducteursType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('roles')
+           
             ->add('password')
-            ->add('telephone')
-        ;
+            // ->add('telephone')
+            ->add('telephone');
+                ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
