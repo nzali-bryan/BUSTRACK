@@ -1,0 +1,107 @@
+
+:root {
+  --color-fond-secodaire:#0A1628;
+  --color-btn-primary:#019271;
+  --color-btn-primary-hover:#00C9A7;
+  --color-btn-secondary:#019271;
+  --color-btn-secondary-hover:#019242;
+;
+  /* Couleurs principales */
+  --color-primary: #4A6FA5;   
+  --color-secondary: #6FAF8F;
+
+  /* Couleurs de fond */
+  --color-background: #F5F7FA;  
+  --color-surface: #ffffff;
+
+  --color-bordures:#DDE4EC; 
+  --color-text-primary: #0D1B2A;
+  --color-text-secondary: #5A7184;
+  --color-text-secodaire:#16253b; 
+
+
+  --color-success: #7FB77E;
+  --color-error: #C76D6D;
+  --color-warning:#ffd32a;
+
+}
+.Ajouter{
+    background-color: var(--color-btn-primary);
+    color: var(--color-fond-secodaire);
+    height: 30px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border: 0;
+}
+.Ajouter:hover{
+    background-color: var(--color-btn-primary-hover);
+}
+.content-modal{
+    border: 2px solid var(--color-fond-secodaire);
+}
+.entete_form{
+    background-color: var(--color-fond-secodaire);
+}
+.title-modal{
+    display: inline;
+    margin: 2px 10px;
+    border-radius: 15px;
+    width: 100%;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border: 2px solid var(--color-btn-primary-hover);
+    background-color: #019271;
+    color:var(--color-btn-primary-hover);
+    font-weight: 500;
+}
+
+.form_control label{
+    color: var(--color-text-secondary);
+    display: block;
+}
+
+.form_control input{
+    width: 100%;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border: 1px solid var(--color-bordures);
+}
+.Annuler{
+    background-color: white;
+    color: var(--color-btn-secondary);
+    border: 1px solid var(--color-btn-secondary);
+    font-size: 25px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    width: 200px;
+}
+.Annuler:hover{
+    background-color: var(--color-btn-secondary);
+    color: var(--color-text-primary);
+}
+.Enregistrer{
+    color: var(--color-text-primary);
+    background-color: var(--color-btn-secondary);
+    font-size: 23px;
+    width: 200px;
+    height: 44px;
+    border: 0px;
+    
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+
+}

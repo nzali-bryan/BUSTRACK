@@ -4,10 +4,11 @@
  
 {% block body %}
  {{ include('style.html.twig') }}
+ <link rel="stylesheet" href="css1/admin/form.css">
 
     <header>
         <h1 class=" d-inline">Gestion des Conducteurs</h1>
-        <button class=" d-inline btn btn-primary position-absolute end-0 my-1 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
+        <button class="Ajouter d-inline position-absolute end-0 my-2 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
             Ajouter Bus
         </button>
     </header>
@@ -49,29 +50,44 @@
 
     <div class="modal fade" id="busModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content content-modal">
 
-      <div class="modal-header">
-        <h5 class="modal-title">Ajouter un Bus</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-header entete_form">
+        <h5 class="modal-title text-center title-modal"><i class="bi bi-person-add fs-3"></i>Ajouter un Conducteur</h5>
       </div>
 
       <div class="modal-body">
 
         {{ form_start(form) }}
-
-        {{ form_row(form.nom) }}
-        {{ form_row(form.password) }}
-        {{ form_row(form.telephone) }}
+      {{ form_row(form.nom, {
+        'attr': {'class': 'form-control',
+        'placeholder': 'Entrer le Nom'
+        
+      
+      }}) }}
+       
+        {{ form_row(form.password, {'attr': {
+            'class': 'form-control',
+            'placeholder': 'Entrer le mot de passe'
+            }}) }}
+        {{ form_row(form.telephone, {
+            'attr': {'class': 'form-control',
+            'placeholder': 'Numero',
+            'pattern': '[0-9]{9}',
+            'type':'tel',
+            'value': '+237'
+            }}) }}
 
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-success">Enregistrer</button>
+      <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
+        <button class="Enregistrer mx-4 mt-1">Enregistrer</button>
         {{ form_end(form) }}
       </div>
 
     </div>
   </div>
 </div>
+ 
 {% endblock %}
