@@ -1,0 +1,19 @@
+:root {
+
+  /* Couleurs principales */
+  --color-primary: #4A6FA5;      /* boutons principaux, liens */
+  --color-secondary: #6FAF8F;    /* accents */
+
+  /* Couleurs de fond */
+  --color-background: #F5F7FA;  
+  --color-surface: #ffffff;     /* cartes, sections */ 
+
+ 
+  --color-text-primary: #2F3E46;
+  --color-text-secondary: #6C757D; 
+
+
+  --color-success: #7FB77E;
+  --color-error: #C76D6D;
+
+}

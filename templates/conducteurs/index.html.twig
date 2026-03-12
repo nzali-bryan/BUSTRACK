@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conducteurs index{% endblock %}
+
+{% block body %}
+    <h1>Conducteurs index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Telephone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for conducteur in conducteurs %}
+            <tr>
+                <td>{{ conducteur.id }}</td>
+                <td>{{ conducteur.nom }}</td>
+                <td>{{ conducteur.roles ? conducteur.roles|json_encode : '' }}</td>
+                <td>{{ conducteur.password }}</td>
+                <td>{{ conducteur.telephone }}</td>
+                <td>
+                    <a href="{{ path('app_conducteurs_show', {'id': conducteur.id}) }}">show</a>
+                    <a href="{{ path('app_conducteurs_edit', {'id': conducteur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_conducteurs_new') }}">Nouveau Bus</a>
+{% endblock %}

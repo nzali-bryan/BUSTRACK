@@ -63,5 +63,8 @@
             "allow-contrib": false,
             "require": "6.4.*"
         }
+    },
+    "require-dev": {
+        "phpdocumentor/reflection-docblock": "5.2"
     }
 }

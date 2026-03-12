@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conducteurs{% endblock %}
+
+{% block body %}
+    <h1>Conducteurs</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ conducteur.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ conducteur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ conducteur.roles ? conducteur.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ conducteur.password }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ conducteur.telephone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_conducteurs_index') }}">back to list</a>
+
+    <a href="{{ path('app_conducteurs_edit', {'id': conducteur.id}) }}">edit</a>
+
+    {{ include('conducteurs/_delete_form.html.twig') }}
+{% endblock %}
