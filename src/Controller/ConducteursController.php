@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/conducteurs')]
@@ -23,13 +24,20 @@ final class ConducteursController extends AbstractController
     }
 
     #[Route('/new', name: 'app_conducteurs_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
     {
         $conducteur = new Conducteurs();
         $form = $this->createForm(ConducteursType::class, $conducteur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $passwordHasher->hashPassword(
+                $conducteur,
+                $conducteur->getPassword()
+            );
+
+    
+            $conducteur->setPassword($hashedPassword);
             $entityManager->persist($conducteur);
             $entityManager->flush();
 
