@@ -15,11 +15,30 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/conducteurs')]
 final class ConducteursController extends AbstractController
 {
-    #[Route(name: 'app_conducteurs_index', methods: ['GET'])]
-    public function index(ConducteursRepository $conducteursRepository): Response
+    #[Route(name: 'app_conducteurs_index', methods: ['GET', 'POST'])]
+    public function index(ConducteursRepository $conducteursRepository,Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
+
     {
+        $conducteur = new Conducteurs();
+        $form = $this->createForm(ConducteursType::class, $conducteur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $passwordHasher->hashPassword(
+                $conducteur,
+                $conducteur->getPassword()
+            );
+
+    
+            $conducteur->setPassword($hashedPassword);
+            $entityManager->persist($conducteur);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('conducteurs/index.html.twig', [
             'conducteurs' => $conducteursRepository->findAll(),
+             'form' => $form,
         ]);
     }
 
@@ -44,8 +63,8 @@ final class ConducteursController extends AbstractController
             return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('conducteurs/new.html.twig', [
-            'conducteur' => $conducteur,
+        return $this->render('conducteurs/index.html.twig', [
+            'conducteur1' => $conducteur,
             'form' => $form,
         ]);
     }
