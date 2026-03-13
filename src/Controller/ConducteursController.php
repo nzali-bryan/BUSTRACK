@@ -81,21 +81,31 @@ final class ConducteursController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_conducteurs_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Conducteurs $conducteur, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Conducteurs $conducteur, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
     {
         $form = $this->createForm(ConducteursType::class, $conducteur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+                $hashedPassword = $passwordHasher->hashPassword(
+                $conducteur,
+                $conducteur->getPassword()
+            );
+
+    
+            $conducteur->setPassword($hashedPassword);
+            $entityManager->persist($conducteur);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('conducteurs/edit.html.twig', [
-            'conducteur' => $conducteur,
-            'form' => $form,
-        ]);
+        // return $this->render('conducteurs/edit.html.twig', [
+        //     'conducteur' => $conducteur,
+        //     'form' => $form,
+        // ]);
+        return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_conducteurs_delete', methods: ['POST'])]
