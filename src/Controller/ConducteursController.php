@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/conducteurs' , name:'conducteurs')]
+#[Route('/conducteurs' )]
 final class ConducteursController extends AbstractController
 {
     #[Route(name: 'app_conducteurs_index', methods: ['GET', 'POST'])]
@@ -43,13 +43,7 @@ final class ConducteursController extends AbstractController
         ]);
     }
 
-        #[Route(name: 'app_administrateur_index', methods: ['GET'])]
-    public function conducterus(ConducteursRepository $conducteursRepository): Response
-    {
-        return $this->render('administrateur/index.html.twig', [
-            // 'administrateurs' => $administrateurRepository->findAll(),
-        ]);
-    }
+
 
     #[Route('/new', name: 'app_conducteurs_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
