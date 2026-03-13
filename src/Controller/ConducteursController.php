@@ -66,6 +66,7 @@ final class ConducteursController extends AbstractController
             return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
         }
 
+
         return $this->render('conducteurs/index.html.twig', [
             'conducteur1' => $conducteur,
             'form' => $form,
@@ -85,26 +86,18 @@ final class ConducteursController extends AbstractController
     {
         $form = $this->createForm(ConducteursType::class, $conducteur);
         $form->handleRequest($request);
+        $hashedPassword = $passwordHasher->hashPassword(
+        $conducteur,
+        $conducteur->getPassword());
+        $conducteur->setPassword($hashedPassword);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $data = $request->request->all()['conducteurs'];
 
-                $hashedPassword = $passwordHasher->hashPassword(
-                $conducteur,
-                $conducteur->getPassword()
-            );
-
-    
-            $conducteur->setPassword($hashedPassword);
-            $entityManager->persist($conducteur);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        // return $this->render('conducteurs/edit.html.twig', [
-        //     'conducteur' => $conducteur,
-        //     'form' => $form,
-        // ]);
+        $conducteur->setNom($data['nom']);
+        $conducteur->setPassword($data['password']);
+        $conducteur->setTelephone($data['telephone']);
+        $entityManager->flush();
+        
         return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
     }
 

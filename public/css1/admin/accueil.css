@@ -103,3 +103,9 @@
 .colorIcon{
     color: var(--color-primary);
 }
+.ajouter{
+    background-color:var(--color-btn-primary) !important;
+}
+.ajouter:hover{
+    background-color:  var(--color-btn-primary-hover) !important;
+}
