@@ -61,7 +61,7 @@
 }
 
 .form_control label{
-    color: var(--color-text-secondary);
+    color: var(--color-text-secondary) !important;
     display: block;
 }
 
@@ -72,7 +72,10 @@
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
-    border: 1px solid var(--color-bordures);
+    border: 1px solid var(--color-bordures) !important;
+}
+.form_control:focus{
+    box-shadow: 1px 1px 5px var(--color-btn-primary-hover) !important;
 }
 .Annuler{
     background-color: white;

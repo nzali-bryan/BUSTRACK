@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TrajetsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,24 @@ class Trajets
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $ligne = null;
+
+    /**
+     * @var Collection<int, Point>
+     */
+    #[ORM\OneToMany(targetEntity: Point::class, mappedBy: 'id_trajet')]
+    private Collection $id_point;
+
+    /**
+     * @var Collection<int, Bus>
+     */
+    #[ORM\OneToMany(targetEntity: Bus::class, mappedBy: 'trajet')]
+    private Collection $buses;
+
+    public function __construct()
+    {
+        $this->id_point = new ArrayCollection();
+        $this->buses = new ArrayCollection();
+    }
 
   
 
@@ -62,6 +82,66 @@ class Trajets
     public function setLigne(string $ligne): static
     {
         $this->ligne = $ligne;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Point>
+     */
+    public function getIdPoint(): Collection
+    {
+        return $this->id_point;
+    }
+
+    public function addIdPoint(Point $idPoint): static
+    {
+        if (!$this->id_point->contains($idPoint)) {
+            $this->id_point->add($idPoint);
+            $idPoint->setIdTrajet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdPoint(Point $idPoint): static
+    {
+        if ($this->id_point->removeElement($idPoint)) {
+            // set the owning side to null (unless already changed)
+            if ($idPoint->getIdTrajet() === $this) {
+                $idPoint->setIdTrajet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bus>
+     */
+    public function getBuses(): Collection
+    {
+        return $this->buses;
+    }
+
+    public function addBus(Bus $bus): static
+    {
+        if (!$this->buses->contains($bus)) {
+            $this->buses->add($bus);
+            $bus->setTrajet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBus(Bus $bus): static
+    {
+        if ($this->buses->removeElement($bus)) {
+            // set the owning side to null (unless already changed)
+            if ($bus->getTrajet() === $this) {
+                $bus->setTrajet(null);
+            }
+        }
 
         return $this;
     }

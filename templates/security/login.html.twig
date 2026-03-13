@@ -49,8 +49,8 @@
                                         You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
                                     </div>
                                 {% endif %} #}
-                                <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control " placeholder="Nom Administrateur" autocomplete="username" required autofocus>      
-                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Mot de passe">
+                                <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control form_control" placeholder="Nom Administrateur" autocomplete="username" required autofocus>      
+                                <input type="password" name="password" id="inputPassword" class="form-control form_control" autocomplete="current-password" required placeholder="Mot de passe">
                                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
                                 <button type="submit"  class="bouton">Connexion</button>

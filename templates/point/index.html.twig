@@ -18,7 +18,7 @@
             </li>
 
             <li class="nav-item my-3">
-                <a class="nav-link  fs-3 colorDashboard" href="#">
+                <a class="nav-link  fs-3 colorDashboard" href="{{ path('app_buss_index') }}">
                      <i class="fas fa-bus"></i><span class=" fs-5">Bus</span>
                 </a>
             </li>
@@ -111,18 +111,18 @@
 
         {{ form_start(form) }}
       {{ form_row(form.nom, {
-        'attr': {'class': 'form-control',
+        'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Nom'
         
       
       }}) }}
        
         {{ form_row(form.zone, {'attr': {
-            'class': 'form-control',
+            'class': 'form-control form_control',
             'placeholder': 'Entrer la zone'
             }}) }}
         {{ form_row(form.description, {
-            'attr': {'class': 'form-control',
+            'attr': {'class': 'form-control form_control',
             'placeholder': 'Ex:Ndokiti coté Brasserie',
         }}) }}
 
@@ -161,16 +161,16 @@
 
             <div class="mb-3">
                 <label>Nom</label>
-                <input type="text" name="points[nom]" value="{{ point.nom }}" class="form-control">
+                <input type="text" name="points[nom]" value="{{ point.nom }}" class="form-control form_control">
             </div>
 
             <div class="mb-3">
                 <label>Zone</label>
-                <input type="text" name="points[zone]" value="{{ point.zone }}" class="form-control">
+                <input type="text" name="points[zone]" value="{{ point.zone }}" class="form-control form_control">
             </div>
             <div class="mb-3">
                 <label>Description</label>
-                <input type="text" name="points[description]" value="{{ point.description }}" class="form-control">
+                <input type="text" name="points[description]" value="{{ point.description }}" class="form-control form_control">
             </div>
             <div class="modal-footer">
                 <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>

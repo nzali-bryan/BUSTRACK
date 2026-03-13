@@ -31,13 +31,31 @@ class PointRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Point
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findOneBySomeField($value): ?Point
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.exampleField = :val')
+           ->setParameter('val', $value)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+    public function createAvailablePointsQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('tri')
+                    ->where('tri.id_trajet IS NULL')
+                    ->orderBy('tri.nom', 'ASC');
+    }
+    public function findPointsByTrajetId(int $trajetId): array
+{
+    return $this->createQueryBuilder('p') 
+        ->where('p.id_trajet = :trajetId')  
+        ->setParameter('trajetId', $trajetId)
+        ->orderBy('p.nom', 'ASC')    
+        ->getQuery()          
+        ->getResult();               
 }
+}
+// Retourne un QueryBuilder, pas un array
+

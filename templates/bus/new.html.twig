@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Bus{% endblock %}
+
+{% block body %}
+    <h1>Create new Bus</h1>
+
+    {{ include('bus/_form.html.twig') }}
+
+    <a href="{{ path('app_bus_index') }}">back to list</a>
+{% endblock %}

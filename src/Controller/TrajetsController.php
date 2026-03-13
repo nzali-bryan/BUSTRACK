@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Trajets;
 use App\Form\TrajetsType;
+
+use App\Repository\PointRepository;
 use App\Repository\TrajetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,20 +17,39 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TrajetsController extends AbstractController
 {
     #[Route(name: 'app_trajets_index', methods: ['GET','POST'])]
-    public function index(Request $request,TrajetsRepository $trajetsRepository,EntityManagerInterface $entityManager): Response
+    public function index(Request $request,TrajetsRepository $trajetsRepository,PointRepository $pointRepository,EntityManagerInterface $entityManager): Response
     {
         $trajet = new Trajets();
         $form = $this->createForm(TrajetsType::class, $trajet);
         $form->handleRequest($request);
+        $trajets = $trajetsRepository->findAll();
+        $pointsByTrajet = [];
+        foreach ($trajets as $trajet) {
+            $pointsByTrajet[$trajet->getId()] = $pointRepository->findPointsByTrajetId($trajet->getId());
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($trajet);
             $entityManager->flush();
+                // 2️⃣ Récupérer les points sélectionnés
+            $depart = $form->get('depart')->getData();
+            $arrivee = $form->get('arrivee')->getData();
+
+            // 3️⃣ Mettre le trajet dans les points
+            $depart->setIdTrajet($trajet);
+            $arrivee->setIdTrajet($trajet);
+
+            $entityManager->persist($depart);
+            $entityManager->persist($arrivee);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Trajet créé avec succès !');
 
             return $this->redirectToRoute('app_trajets_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('trajets/index.html.twig', [
             'trajets' => $trajetsRepository->findAll(),
+            'pointsByTrajet' => $pointsByTrajet,
             'form' => $form,
         ]);
     }

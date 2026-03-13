@@ -65,16 +65,27 @@
                 <tr>
                     <th>Id</th>
                     <th>Nom</th>
-                    <th>Ligne</th>
+                    <th>pointA</th>
+                    <th>PointB</th>
                     <th>Etat</th>
                     <th>actions</th>
                 </tr>
             </thead>
             <tbody class=" table-secondary">
             {% for trajet in trajets %}
+                {% set points = pointsByTrajet[trajet.id] %}
+
                 <tr class="w-75">
+
                     <td>{{ trajet.id }}</td>
                     <td>{{ trajet.nom }}</td>
+                    
+                        {% for point in points %}
+                        <td>
+                                {{ point.nom }}
+                        </td>    
+                        {% endfor %}
+                    
                     <td>{{ trajet.ligne }}</td>
                     <td>{{ trajet.etat }}</td>
                     
@@ -112,7 +123,7 @@
 
         {{ form_start(form) }}
         {{ form_row(form.nom, {
-            'attr': {'class': 'form-control',
+            'attr': {'class': 'form-control form_control',
             'placeholder': 'Entrer le Nom'
         
         }}) }}
@@ -120,14 +131,22 @@
              {'attr':
                 {
                     'type': 'text',
-                    'class': 'form-control',
+                    'class': 'form-control form_control',
                     'placeholder': 'ligne12',
                 }             
              }        
         )}}
        
         {{ form_row(form.etat, {'attr': {
-            'class': 'form-control',
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
+        {{ form_row(form.arrivee, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
+        {{ form_row(form.depart, {'attr': {
+            'class': 'form-control form_control',
             'placeholder': ''
         }}) }}
 
@@ -167,15 +186,15 @@
 
             <div class="mb-3">
                 <label>Nom</label>
-                <input type="text" name="trajets[nom]" value="{{ trajet.nom }}" class="form-control">
+                <input type="text" name="trajets[nom]" value="{{ trajet.nom }}" class="form-control form_control">
             </div>
             <div class="mb-3">
                 <label>Ligne</label>
-                <input type="text" name="trajets[ligne]" value="{{trajet.ligne}}" class="form-control" required>
+                <input type="text" name="trajets[ligne]" value="{{trajet.ligne}}" class="form-control form_control" required>
             </div>
             <div class="mb-3">
         <label>Etat</label>
-                <input type="text" name="trajets[etat]" value="{{ trajet.etat }}" class="form-control">
+                <input type="text" name="trajets[etat]" value="{{ trajet.etat }}" class="form-control form_control">
             </div>
             <div class="modal-footer">
                 <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
