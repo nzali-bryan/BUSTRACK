@@ -1,34 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+{{ include('style.html.twig') }}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+
+
+
+        <link rel="stylesheet" href="css1/admin/index.css">
+        <link rel="stylesheet" href="css1/admin/root.css">
+       <div class=" d-flex justify-content-center align-items-center min-vw-100 flex-wrap">
+
+        <div class="welcome d-flex justify-content-center gap-0">
+            <div >
+                <h1 class=" text-white text-center mt-5 mt-lg-5"><span style="color: var(--color-btn-primary-hover);">BUS</span>TRACK</h1>
+                <h3 class="espace text-center ">ESPACE ADMINISTRATEUR</h3>
+                <div class="espace1 ms-4">
+                    <p class="text-white pilotez">Pilotez le reseau de transport de Douala</p>
+                    <p class="fs-6" style="color: var(--color-text-secondary);">tableau de bord centralisé pour la gesttion complète des Bus, Trajets et Conducteurs du reseau urbain</p>
+                </div>
+                <div class="statistique espace1">
+                    <div class="row">
+                        <div class="col-4 text-statistique text-center"><span class="fs-1 d-block">43</span>conduxteurs</div>
+                        <div class="col-4 text-statistique text-center"><span class="fs-1 d-block">65</span>Trajets</div>
+                        <div class="col-4 text-statistique text-center"><span class="fs-1 d-block">37</span>Bus</div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-    {% endif %}
+        
+        <div class="container-fluid1">    
+            <div class="">
+                <div class="">
+                    <div class="conteneur" >
+                        <h1>Bon retour !</h1>
+                        <h4>Connectez-vous pour acceder à votre tableau bord</h4>
+                        <div>
+                            <form  method="post" class="inputbox">
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-    <label for="inputNom">Nom</label>
-    <input type="text" value="{{ last_username }}" name="Nom" id="inputNom" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+                                {# {% if app.user %}
+                                    <div class="mb-3">
+                                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+                                    </div>
+                                {% endif %} #}
+                                <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control " placeholder="Nom Administrateur" autocomplete="username" required autofocus>      
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Mot de passe">
+                                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> se souvenir
-        </label>
+                                <button type="submit"  class="bouton">Connexion</button>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Connexion
-    </button>
-</form>
+
+    <script src="../../js/bootstrap.bundle.min.js"></script>
 {% endblock %}

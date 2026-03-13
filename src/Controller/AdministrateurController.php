@@ -18,7 +18,7 @@ final class AdministrateurController extends AbstractController
     public function index(AdministrateurRepository $administrateurRepository): Response
     {
         return $this->render('administrateur/index.html.twig', [
-            'administrateurs' => $administrateurRepository->findAll(),
+            // 'administrateurs' => $administrateurRepository->findAll(),
         ]);
     }
 

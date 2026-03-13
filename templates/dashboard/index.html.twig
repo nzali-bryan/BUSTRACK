@@ -11,62 +11,53 @@
 
 {% block body %}
 
-
-    <header class="entete border border-1 border-bottom">
-        <div class="title">
-            <i class="bi bi-bus-front  fs-1"></i>
-            <p class=" d-inline fs-1 fw-semibold">BUSTRACK</p>
-        </div>
-        <div class="description">
-
-        </div>
-    </header>
 <div class="d-flex">
     
-    <!-- Sidebar -->
-    <div id="menu" class=" px-3 bg-white  vh-100 borderDashboard border border-1" style="width: 250px;">
+ <div id="menu" class=" px-3 vh-100 borderDashboard border border-1" style="width: 250px;">
         
-
-        <ul class="nav flex-column w-100">
+        <h1 class=" mb-5 text-center" style="color: white;"><span style="color: var(--color-btn-primary-hover);">Bus</span>Track</h1>
+        <ul class="nav flex-column w-100 text-start">
             <li class="nav-item my-1">
-                <a  class="nav-link active  fs-3 colorDashboard" href="#animate">
+                <a  class="nav-link   fs-3 colorDashboard" href="#">
                     <i class="bi bi-house"></i> <span class=" fs-5">Dashboard</span>
                 </a>
             </li>
 
-            <li class="nav-item my-1">
+            <li class="nav-item my-3">
                 <a class="nav-link  fs-3 colorDashboard" href="#">
-                     <i class="fas fa-bus"></i><span class=" fs-5">Gestion de Bus</span>
+                     <i class="fas fa-bus"></i><span class=" fs-5">Bus</span>
                 </a>
             </li>
 
-            <li class="nav-item my-1">
-                <a class="nav-link  fs-3 colorDashboard" href="#">
+            <li class="nav-item my-3">
+                <a class="nav-link active  fs-3 colorDashboard" href="{{path('app_conducteurs_index')}}">
                    <i class="fas fa-user-tie"></i> <span class=" fs-5">Conducteurs</span>
                 </a>
             </li>
 
-            <li class="nav-item my-1">
+            <li class="nav-item my-3">
                 <a class="nav-link fs-3 colorDashboard" href="#">
                    <i class="fas fa-route"></i></i> <span class=" fs-5"> Trajet</span>
                 </a>
             </li>
 
-            <li class="nav-item my-1">
+            <li class="nav-item my-3">
                 <a class="nav-link fs-3 colorDashboard" href="#">
-                   <i class="bi bi-geo-alt"></i><span class=" fs-6">Pointd'Embarquement</span>
+                   <i class="bi bi-geo-alt"></i><span class=" fs-6">Point</span>
                 </a>
             </li>
-            <li class="nav-item my-1">
-                <a id="danger" class="nav-link text-danger fs-3 colorDashboard" href=" {{ path('deconnexion') }} ">
+            <li class="nav-item my-3">
+                <a id="danger" class="nav-link text-danger fs-3 colorDashboard" href="{{path ('deconnexion')}}">
                     <i class="bi bi-box-arrow-right"></i> <span class=" fs-5">Déconnexion</span>
                 </a>
             </li>
         </ul>
     </div>
 
+
     <!-- Contenu -->
-    <div id="animate" class="container-fluid Dashboard ">
+    <div class="corps">
+        <div id="animate" class="container-fluid Dashboard ">
         <h3 style="color: var(--color-text-primary);">Actions rapides</h3>
         <div class="mt-3  row gap-3 gap-4">
             <div class=" mx-2 pe-4 row gap-3 gap-4">
@@ -106,23 +97,24 @@
     </div>
 
 </div>
-    <script src="../../js/bootstrap.bundle.min.js"></script>
-    <script>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
 
-    const links = document.querySelectorAll("#menu .nav-link");
+        const links = document.querySelectorAll("#menu .nav-link");
 
-    links.forEach(link => {
-        link.addEventListener("click", function(){
+        links.forEach(link => {
+            link.addEventListener("click", function(){
 
-            // enlever active sur tous les liens
-            links.forEach(l => l.classList.remove("active"));
+                // enlever active sur tous les liens
+                links.forEach(l => l.classList.remove("active"));
 
-            // ajouter active au lien cliqué
-            this.classList.add("active");
+                // ajouter active au lien cliqué
+                this.classList.add("active");
 
+            });
         });
-    });
-    </script>
+        </script>
+    </div>
 
 
 {% endblock %}

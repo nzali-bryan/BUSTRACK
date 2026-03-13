@@ -1,17 +1,24 @@
-/* *{
-    list-style: none;
-} */
+.corps{
+    margin-left: 250px;
+}
 .colorDashboard{
-    color: var(--color-text-primary) !important;
+    color: var(--color-text-secondary) !important;
 }
 .colorDashboard:hover{
-    color: var(--color-text-primary);
-    background-color: #f0f0f0;
+    color: var(--color-text-secondary);
+    background-color: #1c2a3e;
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+}
+
+#menu{
+    position: fixed;
+    z-index: 5;
+    background: var(--color-fond-secodaire);
+
 }
 .Dashboard{
        background-color: var(--color-background);
@@ -38,13 +45,25 @@
 }
 /*  */
 .nav-link.active{
-    background:#f4f1f1;;
-    color:#4A6FA5 !important;
+    background:none;
+    text-align: center;
+    color:var(--color-btn-primary-hover) !important;
     border-radius:6px;
     font-weight: 500;
+    border: 2px solid var(--color-btn-primary-hover);
 }
 #danger{
-    color: red !important;
+    color: rgb(205, 14, 14) !important;
+    border: 1px solid rgb(203, 5, 5);
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    background-color: rgba(255, 0, 0, 0.563);
+}
+#danger:hover{
+    background-color: rgba(255, 0, 0, 0.379);
 }
 .action{
     cursor: pointer;

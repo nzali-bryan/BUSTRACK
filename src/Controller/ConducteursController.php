@@ -6,13 +6,14 @@ use App\Entity\Conducteurs;
 use App\Form\ConducteursType;
 use App\Repository\ConducteursRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/conducteurs')]
+#[Route('/conducteurs' , name:'conducteurs')]
 final class ConducteursController extends AbstractController
 {
     #[Route(name: 'app_conducteurs_index', methods: ['GET', 'POST'])]
@@ -39,6 +40,14 @@ final class ConducteursController extends AbstractController
         return $this->render('conducteurs/index.html.twig', [
             'conducteurs' => $conducteursRepository->findAll(),
              'form' => $form,
+        ]);
+    }
+
+        #[Route(name: 'app_administrateur_index', methods: ['GET'])]
+    public function conducterus(ConducteursRepository $conducteursRepository): Response
+    {
+        return $this->render('administrateur/index.html.twig', [
+            // 'administrateurs' => $administrateurRepository->findAll(),
         ]);
     }
 

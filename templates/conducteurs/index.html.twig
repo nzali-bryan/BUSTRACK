@@ -6,14 +6,60 @@
  {{ include('style.html.twig') }}
  <link rel="stylesheet" href="css1/admin/form.css">
 
+
+ <div id="menu" class=" px-3 vh-100 borderDashboard border border-1" style="width: 250px;">
+        
+        <h1 class=" mb-5 text-center" style="color: white;"><span style="color: var(--color-btn-primary-hover);">Bus</span>Track</h1>
+        <ul class="nav flex-column w-100 text-start">
+            <li class="nav-item my-1">
+                <a  class="nav-link   fs-3 colorDashboard" href="{{ path('app_administrateur_index') }}">
+                    <i class="bi bi-house"></i> <span class=" fs-5">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link  fs-3 colorDashboard" href="#">
+                     <i class="fas fa-bus"></i><span class=" fs-5">Bus</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link active  fs-3 colorDashboard" href="#animate">
+                   <i class="fas fa-user-tie"></i> <span class=" fs-5">Conducteurs</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link fs-3 colorDashboard" href="#">
+                   <i class="fas fa-route"></i></i> <span class=" fs-5"> Trajet</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link fs-3 colorDashboard" href="#">
+                   <i class="bi bi-geo-alt"></i><span class=" fs-6">Point</span>
+                </a>
+            </li>
+            <li class="nav-item my-3">
+                <a id="danger" class="nav-link text-danger fs-3 colorDashboard" href="#">
+                    <i class="bi bi-box-arrow-right"></i> <span class=" fs-5">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+<div class="corps">
+
     <header>
         <h1 class=" d-inline">Gestion des Conducteurs</h1>
         <button class="Ajouter d-inline position-absolute end-0 my-2 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
             Ajouter Bus
         </button>
+        <hr>
     </header>
 
-    <div class=" table-responsive">
+    <div class=" table-responsive mx-2 rounded rounded-2 mt-3">
           <table class="table table-hover table-sm text-center">
             <thead class=" table-dark fs-5">
                 <tr>
@@ -89,5 +135,22 @@
     </div>
   </div>
 </div>
- 
+
+</div>
+
+<script>
+    const links = document.querySelectorAll("#menu .nav-link");
+
+    links.forEach(link => {
+            link.addEventListener("click", function(){
+
+            // enlever active sur tous les liens
+            links.forEach(l => l.classList.remove("active"));
+
+            // ajouter active au lien cliqué
+            this.classList.add("active");
+
+            });
+    });
+</script>
 {% endblock %}
