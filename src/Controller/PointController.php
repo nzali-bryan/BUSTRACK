@@ -30,8 +30,8 @@ final class PointController extends AbstractController
             return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('point/index.html.twig', [
-            'trajets'=>$trajetsRepository->findAll(),
-            'points' => $pointRepository->findAll(),
+            'trajet'=>$trajetsRepository->findAll(),
+            'points' => $pointRepository->findBy([],['nom'=>'ASC']),
             'form' => $form,
         ]);
     }

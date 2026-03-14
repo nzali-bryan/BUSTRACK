@@ -73,7 +73,7 @@
             </thead>
             <tbody class=" table-secondary">
             {% for trajet in trajets %}
-                {% set points = pointsByTrajet[trajet.id] %}
+          
 
                 <tr class="w-75">
 
@@ -135,11 +135,11 @@
             'class': 'form-control form_control',
             'placeholder': ''
         }}) }}
-        {{ form_row(form.arrivee, {'attr': {
+        {{ form_row(form.depart, {'attr': {
             'class': 'form-control form_control',
             'placeholder': ''
         }}) }}
-        {{ form_row(form.depart, {'attr': {
+        {{ form_row(form.arrivee, {'attr': {
             'class': 'form-control form_control',
             'placeholder': ''
         }}) }}
@@ -188,7 +188,11 @@
             </div>
             <div class="mb-3">
         <label>Etat</label>
-                <input type="text" name="trajets[etat]" value="{{ trajet.etat }}" class="form-control form_control">
+            <select name="trajets[etat]" id="" class="form-control form_control">
+                <option value="actif" selected>Actif</option>
+                <option value="inactif">Inactif</option>
+            </select>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>

@@ -98,7 +98,7 @@ class Trajets
     {
         if (!$this->id_point->contains($idPoint)) {
             $this->id_point->add($idPoint);
-            $idPoint->setIdTrajet($this);
+            $idPoint->setTrajet($this);
         }
 
         return $this;
@@ -108,8 +108,8 @@ class Trajets
     {
         if ($this->id_point->removeElement($idPoint)) {
             // set the owning side to null (unless already changed)
-            if ($idPoint->getIdTrajet() === $this) {
-                $idPoint->setIdTrajet(null);
+            if ($idPoint->getTrajet() === $this) {
+                $idPoint->setTrajet(null);
             }
         }
 

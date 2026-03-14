@@ -34,7 +34,7 @@ class TrajetsType extends AbstractType
             'mapped' => false,
             'placeholder' => 'Choisir le point de départ',
             'query_builder' => fn(PointRepository $repo) => $repo->createAvailablePointsQueryBuilder(),
-        ])
+            ])
         ->add('arrivee', EntityType::class, [
             'class' => Point::class,
             'choice_label' => 'nom',

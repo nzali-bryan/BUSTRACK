@@ -66,12 +66,12 @@ class Point
         return $this;
     }
 
-    public function getIdTrajet(): ?Trajets
+    public function getTrajet(): ?Trajets
     {
         return $this->trajet;
     }
 
-    public function setIdTrajet(?Trajets $trajet): static
+    public function setTrajet(?Trajets $trajet): static
     {
         $this->trajet = $trajet;
 

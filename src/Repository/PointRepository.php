@@ -47,15 +47,15 @@ class PointRepository extends ServiceEntityRepository
                     ->where('tri.trajet IS NULL')
                     ->orderBy('tri.nom', 'ASC');
     }
-    public function findPointsByTrajetId(int $trajetId): array
-{
-    return $this->createQueryBuilder('p') 
-        ->where('p.trajet = :trajetId')  
-        ->setParameter('trajetId', $trajetId)
-        ->orderBy('p.nom', 'ASC')    
-        ->getQuery()          
-        ->getResult();               
-}
+//     public function findPointsByTrajetId(int $trajetId): array
+// {
+//     return $this->createQueryBuilder('p') 
+//         ->where('p.trajet = :trajetId')  
+//         ->setParameter('trajetId', $trajetId)
+//         ->orderBy('p.nom', 'ASC')    
+//         ->getQuery()          
+//         ->getResult();               
+// }
 }
 // Retourne un QueryBuilder, pas un array
 

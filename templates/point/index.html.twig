@@ -63,19 +63,20 @@
           <table class="table table-hover table-sm text-center">
             <thead class=" table-dark fs-5">
                 <tr>
-                    <th>Id</th>
+
                     <th>Nom</th>
                     <th>Zone</th>
+                    <th>Trajets</th>
                     <th>actions</th>
                 </tr>
             </thead>
             <tbody class=" table-secondary">
             {% for point in points %}
                 <tr class="w-75">
-                    <td>{{ point.id }}</td>
+                  
                     <td>{{ point.nom }}</td>
                     <td>{{ point.zone }}</td>
-
+                    <td>{{point.trajet.nom ?? 'Aucun Trajet'}}</td>
                     <td>
 
                             <button class="btn ajouter btn-sm" data-bs-toggle="modal" data-bs-target="#editpoint{{ point.id }}">

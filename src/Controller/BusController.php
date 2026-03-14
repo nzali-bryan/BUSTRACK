@@ -33,7 +33,7 @@ final class BusController extends AbstractController
         }
         return $this->render('bus/index.html.twig', [
             'trajets'=> $trajetsRepository->findAll(),
-            'buss' => $busRepository->findAll(),
+            'buss' => $busRepository->findBy([],['nom'=>'ASC']),
             'conducteurs' => $conducteursRepository->findAll(),
             'form' => $form,
            

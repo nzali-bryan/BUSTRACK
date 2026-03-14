@@ -23,21 +23,21 @@ final class TrajetsController extends AbstractController
         $form = $this->createForm(TrajetsType::class, $trajet);
         $form->handleRequest($request);
         $trajets = $trajetsRepository->findAll();
-        $pointsByTrajet = [];
-        foreach ($trajets as $trajet) {
-            $pointsByTrajet[$trajet->getId()] = $pointRepository->findPointsByTrajetId($trajet->getId());
-        }
+        // $pointsByTrajet = [];
+        // foreach ($trajets as $trajet) {
+        //     $pointsByTrajet[$trajet->getId()] = $pointRepository->findPointsByTrajetId($trajet->getId());
+        // }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($trajet);
             $entityManager->flush();
-                // 2️⃣ Récupérer les points sélectionnés
+            // 2️⃣ Récupérer les points sélectionnés
             $depart = $form->get('depart')->getData();
             $arrivee = $form->get('arrivee')->getData();
 
             // 3️⃣ Mettre le trajet dans les points
-            $depart->setIdTrajet($trajet);
-            $arrivee->setIdTrajet($trajet);
+            $depart->setTrajet($trajet);
+            $arrivee->setTrajet($trajet);
 
             $entityManager->persist($depart);
             $entityManager->persist($arrivee);
@@ -48,8 +48,8 @@ final class TrajetsController extends AbstractController
             return $this->redirectToRoute('app_trajets_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('trajets/index.html.twig', [
-            'trajets' => $trajetsRepository->findAll(),
-            'pointsByTrajet' => $pointsByTrajet,
+            'trajets' => $trajetsRepository->findBy([],['nom'=>'ASC']),
+            'points' => $pointRepository->findAll(),
             'form' => $form,
         ]);
     }
@@ -91,7 +91,7 @@ final class TrajetsController extends AbstractController
 
         $trajet->setNom($data['nom']);
         $trajet->setEtat($data['etat']);
-         $trajet->setLigne($data['ligne']);
+        $trajet->setLigne($data['ligne']);
         $entityManager->flush();
         return $this->redirectToRoute('app_trajets_index', [], Response::HTTP_SEE_OTHER);
         
