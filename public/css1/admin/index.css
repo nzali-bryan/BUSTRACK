@@ -15,7 +15,7 @@ body{
 
 
 .welcome{
-    background-color: var(--color-fond-secodaire);
+    background-color: var(--color-fond-secondaire) !important;
     width: 50%;
     height: 100vh;
 }

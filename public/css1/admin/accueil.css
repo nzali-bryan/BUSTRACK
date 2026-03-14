@@ -17,7 +17,7 @@
 #menu{
     position: fixed;
     z-index: 5;
-    background: var(--color-fond-secodaire);
+    background: var(--color-fond-secondaire);
 
 }
 .Dashboard{
@@ -62,8 +62,13 @@
     -o-border-radius: 6px;
    
 }
-#danger:hover{
-    background-color: rgba(255, 0, 0, 0.189);
+#danger:hover,.dang:hover{
+    background-color: rgba(255, 0, 0, 0.189) !important;
+}
+.dang{
+    color: rgb(205, 14, 14) !important;
+    border: 1px solid rgb(203, 5, 5) !important;
+    background: none !important;
 }
 .action{
     cursor: pointer;
@@ -104,8 +109,11 @@
     color: var(--color-primary);
 }
 .ajouter{
-    background-color:var(--color-btn-primary) !important;
+    background-color:none !important;
+    color: var(--color-btn-primary-hover) !important;
+    border: 1px solid var(--color-btn-primary-hover) !important;
 }
 .ajouter:hover{
     background-color:  var(--color-btn-primary-hover) !important;
+    color: var(--color-fond-secondaire) !important;
 }

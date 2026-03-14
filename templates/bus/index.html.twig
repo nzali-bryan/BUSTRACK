@@ -88,7 +88,7 @@
                         {# <a href="{{ path('app_buss_edit', {'id': bus.id}) }}">Modifier</a> #}
                         <form class="mt-1" method="post" action="{{ path('app_buss_delete', {'id': bus.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ bus.id) }}">
-                            <button class="btn btn-danger btn-sm "><i class="bi bi-trash"></i>Supprimer</button>
+                            <button class="btn btn-danger dang btn-sm "><i class="bi bi-trash"></i>Supprimer</button>
                         </form>
                     </td>
                 </tr>
