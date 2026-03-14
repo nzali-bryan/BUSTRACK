@@ -23,7 +23,7 @@ class Point
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_point')]
-    private ?Trajets $id_trajet = null;
+    private ?Trajets $trajet = null;
 
     public function getId(): ?int
     {
@@ -68,12 +68,12 @@ class Point
 
     public function getIdTrajet(): ?Trajets
     {
-        return $this->id_trajet;
+        return $this->trajet;
     }
 
-    public function setIdTrajet(?Trajets $id_trajet): static
+    public function setIdTrajet(?Trajets $trajet): static
     {
-        $this->id_trajet = $id_trajet;
+        $this->trajet = $trajet;
 
         return $this;
     }

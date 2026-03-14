@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Point;
 use App\Repository\PointRepository;
 use Dom\Entity;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class TrajetsType extends AbstractType
 {
@@ -18,7 +20,12 @@ class TrajetsType extends AbstractType
          
         $builder
             ->add('nom')
-            ->add('etat')
+            ->add('etat' , ChoiceType::class, [
+                'choices' => [
+                    'Actif' => 'actif',
+                    'Inactif' => 'inactif',
+                ],])
+
             ->add('ligne')
 
             ->add('depart', EntityType::class, [

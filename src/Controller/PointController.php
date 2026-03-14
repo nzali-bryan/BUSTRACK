@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Point;
 use App\Form\PointType;
 use App\Repository\PointRepository;
+use App\Repository\TrajetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PointController extends AbstractController
 {
     #[Route(name: 'app_point_index',  methods: ['GET', 'POST'])]
-    public function index(Request $request,PointRepository $pointRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request,PointRepository $pointRepository,TrajetsRepository $trajetsRepository, EntityManagerInterface $entityManager): Response
     {
 
         $point = new Point();
@@ -29,6 +30,7 @@ final class PointController extends AbstractController
             return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('point/index.html.twig', [
+            'trajets'=>$trajetsRepository->findAll(),
             'points' => $pointRepository->findAll(),
             'form' => $form,
         ]);

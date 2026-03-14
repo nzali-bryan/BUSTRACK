@@ -63,10 +63,11 @@
           <table class="table table-hover table-sm text-center">
             <thead class=" table-dark fs-5">
                 <tr>
-                    <th>Id</th>
+                
                     <th>Nom</th>
                     <th>Capacite</th>
                     <th>etat</th>
+                    <th>Conducteur</th>
                     <th>Trajet</th>
                     <th>actions</th>
                 </tr>
@@ -74,11 +75,12 @@
             <tbody class=" table-secondary">
             {% for bus in buss %}
                 <tr class="w-75">
-                    <td>{{ bus.id }}</td>
+                    
                     <td>{{ bus.nom }}</td>
                     <td>{{ bus.capacite }}</td>
                     <td>{{bus.etat}}</td>
-                    <td>{{bus.trajet.nom}}</td>
+                    <td>{{bus.conducteurs.nom ?? 'aucun conducteur'}}</td>
+                   <td>{{bus.trajet.nom}}</td>
                     <td>
                         <button class="btn ajouter btn-sm" data-bs-toggle="modal" data-bs-target="#editbus{{ bus.id }}">
                             <i class="bi bi-pencil"></i>Modifier
@@ -106,7 +108,7 @@
     <div class="modal-content content-modal">
 
       <div class="modal-header entete_form">
-        <h5 class="modal-title text-center title-modal"><i class="bi bi-person-add fs-3"></i>Ajouter un bus</h5>
+        <h5 class="modal-title text-center title-modal"><i class="fas fs-3 fa-bus"></i>Ajouter un bus</h5>
       </div>
 
       <div class="modal-body">
@@ -128,6 +130,11 @@
             'attr': {'class': 'form-control form_control',
             'placeholder': 'Etat',
             }}) }}
+            {{
+                form_row(form.conducteurs,{
+                    'attr' : {'class': 'form-control form_control'}
+                })
+            }}
 
         {{ form_row(form.trajet, {
             'attr': {'class': 'form-control form_control',
@@ -139,7 +146,7 @@
       <div class="modal-footer">
       <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
         <button class="Enregistrer mx-4 mt-1">Enregistrer</button>
-        {{ form_end(form) }}
+        {{ form_end(form)  }}
       </div>
 
     </div>
@@ -160,30 +167,54 @@
     <div class="modal-content">
 
       <div class="modal-header entete_form">
-        <h5 class="modal-title text-center title-modal"><i class="bi bi-person-add fs-3"></i>Modifier bus</h5>
+        <h5 class="modal-title text-center title-modal"><i class="fas fs-3 fa-bus"></i>Modifier bus</h5>
       </div>
 
       <div class="modal-body">
-
-        <form method="post" action="{{ path('app_buss_edit', {'id': bus.id}) }}">
+               <form method="post" action="{{ path('app_buss_edit', {'id': bus.id}) }}">
 
             <div class="mb-3">
                 <label>Nom</label>
                 <input type="text" name="buss[nom]" value="{{ bus.nom }}" class="form-control form_control">
             </div>
             <div class="mb-3">
-                <label>Capacité</label>
-                <input type="number" name="buss[capacite]" value="{{ bus.capacite}}" class="form-control form_control" required>
+                <label><i class="mdi mdi-cards-playing-club-multiple-outline:"></i></label>
+                <input type="number" name="buss[capacite]" value="{{bus.capacite}}" class="form-control form_control" required>
+            </div>
+            <div class="mb-3">
+                <label for="trajet">Trajet</label>
+                <select name="buss[trajet]" id="trajet" class="form-control form_control">
+                    {% for trajet in trajets %}
+                        <option value="{{ trajet.id }}"
+                            {% if bus.trajet and trajet.id == bus.trajet.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ trajet.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="mb-3">
                 <label>Etat</label>
-                <input type="text" name="buss[etat]" value="{{ bus.etat }}" class="form-control form_control">
+                <select name="buss[etat]" class="form-control">
+                    <option value="inactif" <option  {% if bus.etat == 'inactif' %} selected  {% endif %}>Inactif</option>
+                    <option value="chargement" <option {% if bus.etat == "chargement" %} selected  {% endif %}>Chargement</option>
+                    <option value="Incident" <option {% if bus.etat == "Incident" %} selected  {% endif %}>Incident</option>
+                     <option value="En route" <option {% if bus.etat == "En route" %} selected  {% endif %}>En Route</option>
+
+
+                </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
                 <button class="Enregistrer mx-4 mt-1">Modifier</button>
             </div>
         </form>
+
+
+      </div>
+       
 
       </div>
 

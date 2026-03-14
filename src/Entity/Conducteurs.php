@@ -33,6 +33,9 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $telephone = null;
 
+    #[ORM\OneToOne(mappedBy: 'conducteurs', cascade: ['persist', 'remove'])]
+    private ?Bus $bus = null;
+
 
 
     public function getId(): ?int
@@ -111,6 +114,28 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function settelephone(int $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getBus(): ?Bus
+    {
+        return $this->bus;
+    }
+
+    public function setBus(?Bus $bus): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($bus === null && $this->bus !== null) {
+            $this->bus->setConducteurs(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($bus !== null && $bus->getConducteurs() !== $this) {
+            $bus->setConducteurs($this);
+        }
+
+        $this->bus = $bus;
 
         return $this;
     }

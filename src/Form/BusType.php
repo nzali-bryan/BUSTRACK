@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Bus;
+use App\Form\EntityRepository;
+use App\Entity\Conducteurs;
 use App\Entity\Trajets;
+use App\Repository\ConducteursRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,6 +34,32 @@ class BusType extends AbstractType
                 'choice_label' => 'nom',
                 'placeholder' => 'Choisir le trajet',
             ])
+            ->add(
+                'conducteurs',EntityType::class,[
+                    'class'=> Conducteurs::class,
+                    'choice_label'=> 'nom',
+                    'placeholder'=> 'choisir le conducteur',
+                ]
+            )
+            ->add(
+                'conducteurs',EntityType::class,[
+                'class'=> Conducteurs::class,
+                'choice_label'=> 'nom',
+                'placeholder'=> 'choisir le conducteur',
+                // 'query_builder' => function (ConducteursRepository $er) {
+                //     return $er->createQueryBuilder('c')
+                       
+                //         ->leftJoin('c.bus', 'b')
+                //         ->where('b.id IS NULL')
+                //         ->orderBy('c.nom', 'ASC')
+                //         ->getQuery()
+                //         ->getResult();
+                //     }
+
+
+                ]
+            )
+
         ;
     }
 

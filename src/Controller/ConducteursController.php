@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Conducteurs;
 use App\Form\ConducteursType;
 use App\Repository\ConducteursRepository;
+use App\Repository\BusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node\Name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ConducteursController extends AbstractController
 {
     #[Route(name: 'app_conducteurs_index', methods: ['GET', 'POST'])]
-    public function index(ConducteursRepository $conducteursRepository,Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
+    public function index(ConducteursRepository $conducteursRepository,BusRepository $busRepository,Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
 
     {
         $conducteur = new Conducteurs();
@@ -38,6 +39,7 @@ final class ConducteursController extends AbstractController
             return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('conducteurs/index.html.twig', [
+            'bus'=> $busRepository->findAll(),
             'conducteurs' => $conducteursRepository->findAll(),
              'form' => $form,
         ]);

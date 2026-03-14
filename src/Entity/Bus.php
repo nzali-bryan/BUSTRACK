@@ -26,6 +26,9 @@ class Bus
     #[ORM\ManyToOne(inversedBy: 'buses')]
     private ?Trajets $trajet = null;
 
+    #[ORM\OneToOne(inversedBy: 'bus', cascade: ['persist', 'remove'])]
+    private ?Conducteurs $conducteurs = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Bus
     public function setTrajet(?Trajets $trajet): static
     {
         $this->trajet = $trajet;
+
+        return $this;
+    }
+
+    public function getConducteurs(): ?Conducteurs
+    {
+        return $this->conducteurs;
+    }
+
+    public function setConducteurs(?Conducteurs $conducteurs): static
+    {
+        $this->conducteurs = $conducteurs;
 
         return $this;
     }

@@ -44,13 +44,13 @@ class PointRepository extends ServiceEntityRepository
     public function createAvailablePointsQueryBuilder(): \Doctrine\ORM\QueryBuilder
     {
         return $this->createQueryBuilder('tri')
-                    ->where('tri.id_trajet IS NULL')
+                    ->where('tri.trajet IS NULL')
                     ->orderBy('tri.nom', 'ASC');
     }
     public function findPointsByTrajetId(int $trajetId): array
 {
     return $this->createQueryBuilder('p') 
-        ->where('p.id_trajet = :trajetId')  
+        ->where('p.trajet = :trajetId')  
         ->setParameter('trajetId', $trajetId)
         ->orderBy('p.nom', 'ASC')    
         ->getQuery()          
