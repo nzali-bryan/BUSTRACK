@@ -17,3 +17,31 @@
   --color-error: #C76D6D;
 
 }
+
+:root {
+  --color-fond-secondaire:#0A1628;
+  --color-btn-primary:#019271;
+   --color-btn-primary-transparence:#01927054;
+  --color-btn-primary-hover:#00C9A7;
+  --color-btn-secondary:#019271;
+  --color-btn-secondary-hover:#019242;
+;
+  /* Couleurs principales */
+  --color-primary: #4A6FA5;   
+  --color-secondary: #6FAF8F;
+
+  /* Couleurs de fond */
+  --color-background: #F5F7FA;  
+  --color-surface: #ffffff;
+
+  --color-bordures:#DDE4EC; 
+  --color-text-primary: #0D1B2A;
+  --color-text-secondary: #5A7184;
+  --color-text-secodaire:#16253b; 
+
+
+  --color-success: #7FB77E;
+  --color-error: #C76D6D;
+  --color-warning:#ffd32a;
+
+}

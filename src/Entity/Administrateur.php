@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: AdministrateurRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NOM', fields: ['Nom'])]
+// #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NOM', fields: ['Nom'])]
 class Administrateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

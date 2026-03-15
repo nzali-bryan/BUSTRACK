@@ -1,0 +1,243 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+ 
+{% block body %}
+ {{ include('style.html.twig') }}
+ <link rel="stylesheet" href="css1/admin/form.css">
+
+
+ <div id="menu" class=" px-3 vh-100 borderDashboard border border-1" style="width: 250px;">
+        
+        <h1 class=" mb-5 text-center" style="color: white;"><span style="color: var(--color-btn-primary-hover);">Bus</span>Track</h1>
+        <ul class="nav flex-column w-100 text-start">
+            <li class="nav-item my-1">
+                <a  class="nav-link   fs-3 colorDashboard" href="{{ path('app_administrateur_index') }}">
+                    <i class="bi bi-house"></i> <span class=" fs-5">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link active  fs-3 colorDashboard" href="#">
+                     <i class="fas fa-bus"></i><span class=" fs-5">Bus</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link   fs-3 colorDashboard" href="{{path('app_conducteurs_index')}}">
+                   <i class="fas fa-user-tie"></i> <span class=" fs-5">Conducteurs</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link fs-3 colorDashboard" href="{{ path('app_trajets_index')}}">
+                   <i class="fas fa-route"></i></i> <span class=" fs-5"> Trajet</span>
+                </a>
+            </li>
+
+            <li class="nav-item my-3">
+                <a class="nav-link fs-3 colorDashboard" href="{{ path('app_point_index') }}">
+                   <i class="bi bi-geo-alt"></i><span class=" fs-6">Point</span>
+                </a>
+            </li>
+            <li class="nav-item my-3">
+                <a id="danger" class="nav-link text-danger fs-3 colorDashboard" href="{{path ('deconnexion')}}">
+                    <i class="bi bi-box-arrow-right"></i> <span class=" fs-5">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+<div class="corps">
+
+    <header>
+        <h1 class=" d-inline">Gestion des bus</h1>
+        <button class="Ajouter d-inline position-absolute end-0 my-2 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
+            Ajouter bus
+        </button>
+        <hr>
+    </header>
+
+    <div class=" table-responsive mx-2 rounded rounded-2 mt-3">
+          <table class="table table-hover table-sm text-center">
+            <thead class=" table-dark fs-5">
+                <tr>
+                
+                    <th>Nom</th>
+                    <th>Capacite</th>
+                    <th>etat</th>
+                    <th>Conducteur</th>
+                    <th>Trajet</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody class=" table-secondary">
+            {% for bus in buss %}
+                <tr class="w-75">
+                    
+                    <td>{{ bus.nom }}</td>
+                    <td>{{ bus.capacite }}</td>
+                    <td>{{bus.etat}}</td>
+                    <td>{{bus.conducteurs.nom ?? 'aucun conducteur'}}</td>
+                   <td>{{bus.trajet.nom}}</td>
+                    <td>
+                        <button class="btn ajouter btn-sm" data-bs-toggle="modal" data-bs-target="#editbus{{ bus.id }}">
+                            <i class="bi bi-pencil"></i>Modifier
+                        </button>
+                        {# <a href="{{ path('app_buss_edit', {'id': bus.id}) }}">Modifier</a> #}
+                        <form class="mt-1" method="post" action="{{ path('app_buss_delete', {'id': bus.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ bus.id) }}">
+                            <button class="btn btn-danger dang btn-sm "><i class="bi bi-trash"></i>Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun bus Enregistrer</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+    </div>
+
+    {# <a href="{{ path('app_buss_new') }}">Nouveau Bus</a> #}
+
+    <div class="modal fade" id="busModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content content-modal">
+
+      <div class="modal-header entete_form">
+        <h5 class="modal-title text-center title-modal"><i class="fas fs-3 fa-bus"></i>Ajouter un bus</h5>
+      </div>
+
+      <div class="modal-body">
+
+        {{ form_start(form) }}
+      {{ form_row(form.nom, {
+        'attr': {'class': 'form-control form_control',
+        'placeholder': 'Entrer le Nom',
+        'type':'text',
+        
+      
+      }}) }}
+       
+        {{ form_row(form.capacite, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': 'Entrer la Capacité'
+            }}) }}
+        {{ form_row(form.etat, {
+            'attr': {'class': 'form-control form_control',
+            'placeholder': 'Etat',
+            }}) }}
+            {{
+                form_row(form.conducteurs,{
+                    'attr' : {'class': 'form-control form_control'}
+                })
+            }}
+
+        {{ form_row(form.trajet, {
+            'attr': {'class': 'form-control form_control',
+            'placeholder': 'Etat',
+        }}) }}
+
+      </div>
+
+      <div class="modal-footer">
+      <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
+        <button class="Enregistrer mx-4 mt-1">Enregistrer</button>
+        {{ form_end(form)  }}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+{% for bus in buss %}
+
+<div class="modal fade" id="editbus{{ bus.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header entete_form">
+        <h5 class="modal-title text-center title-modal"><i class="fas fs-3 fa-bus"></i>Modifier bus</h5>
+      </div>
+
+      <div class="modal-body">
+               <form method="post" action="{{ path('app_buss_edit', {'id': bus.id}) }}">
+
+            <div class="mb-3">
+                <label>Nom</label>
+                <input type="text" name="buss[nom]" value="{{ bus.nom }}" class="form-control form_control">
+            </div>
+            <div class="mb-3">
+                <label><i class="mdi mdi-cards-playing-club-multiple-outline:"></i></label>
+                <input type="number" name="buss[capacite]" value="{{bus.capacite}}" class="form-control form_control" required>
+            </div>
+            <div class="mb-3">
+                <label for="trajet">Trajet</label>
+                <select name="buss[trajet]" id="trajet" class="form-control form_control">
+                    {% for trajet in trajets %}
+                        <option value="{{ trajet.id }}"
+                            {% if bus.trajet and trajet.id == bus.trajet.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ trajet.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Etat</label>
+                <select name="buss[etat]" class="form-control">
+                    <option value="inactif" <option  {% if bus.etat == 'inactif' %} selected  {% endif %}>Inactif</option>
+                    <option value="chargement" <option {% if bus.etat == "chargement" %} selected  {% endif %}>Chargement</option>
+                    <option value="Incident" <option {% if bus.etat == "Incident" %} selected  {% endif %}>Incident</option>
+                     <option value="En route" <option {% if bus.etat == "En route" %} selected  {% endif %}>En Route</option>
+
+
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
+                <button class="Enregistrer mx-4 mt-1">Modifier</button>
+            </div>
+        </form>
+
+
+      </div>
+       
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+
+<script>
+    const links = document.querySelectorAll("#menu .nav-link");
+
+    links.forEach(link => {
+            link.addEventListener("click", function(){
+
+            // enlever active sur tous les liens
+            links.forEach(l => l.classList.remove("active"));
+
+            // ajouter active au lien cliqué
+            this.classList.add("active");
+
+            });
+    });
+</script>
+{% endblock %}

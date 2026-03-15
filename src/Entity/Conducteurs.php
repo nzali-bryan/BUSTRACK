@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ConducteursRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NOM', fields: ['nom'])]
+// #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NOM', fields: ['nom'])]
 class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -32,6 +32,9 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?int $telephone = null;
+
+    #[ORM\OneToOne(mappedBy: 'conducteurs', cascade: ['persist', 'remove'])]
+    private ?Bus $bus = null;
 
 
 
@@ -111,6 +114,28 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
     public function settelephone(int $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getBus(): ?Bus
+    {
+        return $this->bus;
+    }
+
+    public function setBus(?Bus $bus): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($bus === null && $this->bus !== null) {
+            $this->bus->setConducteurs(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($bus !== null && $bus->getConducteurs() !== $this) {
+            $bus->setConducteurs($this);
+        }
+
+        $this->bus = $bus;
 
         return $this;
     }

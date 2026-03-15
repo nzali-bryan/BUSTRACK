@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Point{% endblock %}
+
+{% block body %}
+    <h1>Point</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ point.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ point.nom }}</td>
+            </tr>
+            <tr>
+                <th>Zone</th>
+                <td>{{ point.zone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_point_index') }}">back to list</a>
+
+    <a href="{{ path('app_point_edit', {'id': point.id}) }}">edit</a>
+
+    {{ include('point/_delete_form.html.twig') }}
+{% endblock %}
