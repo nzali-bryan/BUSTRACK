@@ -36,33 +36,33 @@ final class PointController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_point_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $point = new Point();
-        $form = $this->createForm(PointType::class, $point);
-        $form->handleRequest($request);
+    // #[Route('/new', name: 'app_point_new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $point = new Point();
+    //     $form = $this->createForm(PointType::class, $point);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($point);
-            $entityManager->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($point);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->render('point/index.html.twig', [
-            'point1' => $point,
-            'form' => $form,
-        ]);
-    }
+    //     return $this->render('point/index.html.twig', [
+    //         'point1' => $point,
+    //         'form' => $form,
+    //     ]);
+    // }
 
-    #[Route('/{id}', name: 'app_point_show', methods: ['GET'])]
-    public function show(Point $point): Response
-    {
-        return $this->render('point/show.html.twig', [
-            'point' => $point,
-        ]);
-    }
+    // #[Route('/{id}', name: 'app_point_show', methods: ['GET'])]
+    // public function show(Point $point): Response
+    // {
+    //     return $this->render('point/show.html.twig', [
+    //         'point' => $point,
+    //     ]);
+    // }
 
     #[Route('/{id}/edit', name: 'app_point_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Point $point, EntityManagerInterface $entityManager): Response

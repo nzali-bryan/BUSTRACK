@@ -46,17 +46,6 @@ class BusType extends AbstractType
                 'class'=> Conducteurs::class,
                 'choice_label'=> 'nom',
                 'placeholder'=> 'choisir le conducteur',
-                // 'query_builder' => function (ConducteursRepository $er) {
-                //     return $er->createQueryBuilder('c')
-                       
-                //         ->leftJoin('c.bus', 'b')
-                //         ->where('b.id IS NULL')
-                //         ->orderBy('c.nom', 'ASC')
-                //         ->getQuery()
-                //         ->getResult();
-                //     }
-
-
                 ]
             )
 

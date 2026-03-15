@@ -25,8 +25,10 @@ final class TrajetsController extends AbstractController
         $trajets = $trajetsRepository->findAll();
         // $pointsByTrajet = [];
         // foreach ($trajets as $trajet) {
-        //     $pointsByTrajet[$trajet->getId()] = $pointRepository->findPointsByTrajetId($trajet->getId());
+        //     $findByTrajet[$trajet->getId()] = $pointRepository->findPointsByTrajetId($trajet->getId());
+        //     dd($findByTrajet[$trajet->getId()]);
         // }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($trajet);

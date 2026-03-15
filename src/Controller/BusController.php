@@ -41,14 +41,6 @@ final class BusController extends AbstractController
     }
 
 
-    // #[Route('/{id}', name: 'app_buss_show', methods: ['GET'])]
-    // public function show(Bus $bu): Response
-    // {
-    //     return $this->render('bus/show.html.twig', [
-    //         'bus' => $bu,
-    //     ]);
-    // }
-
     #[Route('/{id}/edit', name: 'app_buss_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bus $bu, EntityManagerInterface $entityManager): Response
     {

@@ -75,14 +75,6 @@ final class ConducteursController extends AbstractController
         ]);
     }
 
-    // #[Route('/{id}', name: 'app_conducteurs_show', methods: ['GET'])]
-    // public function show(Conducteurs $conducteur): Response
-    // {
-    //     return $this->render('conducteurs/show.html.twig', [
-    //         'conducteur' => $conducteur,
-    //     ]);
-    // }
-
     #[Route('/{id}/edit', name: 'app_conducteurs_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Conducteurs $conducteur, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
     {
