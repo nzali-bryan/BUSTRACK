@@ -23,6 +23,20 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
+        #[Route(path: 'conducteur/connexion', name: 'connexionConducteur')]
+    public function loginConducteur(AuthenticationUtils $authenticationUtils): Response
+    {
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('target_path');
+        // }
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/loginConducteur.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
 
     #[Route(path: '/deconnexion', name: 'deconnexion')]
     public function logout(): Response

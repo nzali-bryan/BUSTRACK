@@ -31,15 +31,15 @@ class PointRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-   public function findOneBySomeField($value): ?Point
-   {
-       return $this->createQueryBuilder('p')
-           ->andWhere('p.exampleField = :val')
-           ->setParameter('val', $value)
-           ->getQuery()
-           ->getOneOrNullResult()
-       ;
-   }
+//    public function findOneBySomeField($value): ?Point
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 
     public function createAvailablePointsQueryBuilder(): \Doctrine\ORM\QueryBuilder
     {
@@ -47,6 +47,8 @@ class PointRepository extends ServiceEntityRepository
                     ->where('tri.trajet IS NULL')
                     ->orderBy('tri.nom', 'ASC');
     }
+
+
 //     public function findPointsByTrajetId(int $trajetId): array
 // {
 //     return $this->createQueryBuilder('p') 

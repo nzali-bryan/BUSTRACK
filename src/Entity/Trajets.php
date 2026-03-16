@@ -28,7 +28,7 @@ class Trajets
     /**
      * @var Collection<int, Point>
      */
-    #[ORM\OneToMany(targetEntity: Point::class, mappedBy: 'id_trajet')]
+    #[ORM\OneToMany(targetEntity: Point::class, mappedBy: 'trajet')]
     private Collection $id_point;
 
     /**
@@ -89,12 +89,12 @@ class Trajets
     /**
      * @return Collection<int, Point>
      */
-    public function getIdPoint(): Collection
+    public function getPoint(): Collection
     {
         return $this->id_point;
     }
 
-    public function addIdPoint(Point $idPoint): static
+    public function addPoint(Point $idPoint): static
     {
         if (!$this->id_point->contains($idPoint)) {
             $this->id_point->add($idPoint);
@@ -104,7 +104,7 @@ class Trajets
         return $this;
     }
 
-    public function removeIdPoint(Point $idPoint): static
+    public function removePoint(Point $idPoint): static
     {
         if ($this->id_point->removeElement($idPoint)) {
             // set the owning side to null (unless already changed)

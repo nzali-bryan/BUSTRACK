@@ -1,20 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello InterfaceConducteurController!{% endblock %}
+{% block title %}BusTrack{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+   {{ include('style.html.twig') }}
+        <link rel="stylesheet" href="css1/driver/conducteurs">
+<h2>Statut du bus</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>D:/projet perso/symfony/BUSTRACK/src/Controller/InterfaceConducteurController.php</code></li>
-        <li>Your template at <code>D:/projet perso/symfony/BUSTRACK/templates/interface_conducteur/index.html.twig</code></li>
-    </ul>
-</div>
+<p>Bus : {{ bus.nom }}</p>
+
+{{ form_start(form) }}
+
+{{ form_row(form.etat) }}
+
+<button class="btn btn-success">
+Mettre à jour
+</button>
+
+{{ form_end(form) }}
+        <div class="d-flex justify-content-center">
+
+                <main style="width: 400px; " class="corps min-vh-100">
+                    <div class="w-100">
+                        <header class=" entete position-fixed align-items-center d-grid">
+                            <span class=" fs-4 position-absolute start-0 mx-2">BUSTRACK</span>
+                        
+                            <div class="profil rounded-circle border position-absolute end-0 mx-2 d-grid align-items-center" style="width:40px; height:40px;">
+                                <i class="bi bi-person fs-1 ms-1 position-absolute my-1"></i>
+                            </div>
+                        </header>
+                    </div>
+                    
+                    <div class="conteneur">
+                        <p>Utiliser ce panneau pour mettre votre direction à jour et votre statut en temps réel.</p>
+                    </div>
+                <div class="conteneur bg-white rounded rounded-1">
+                    
+                    <h3>Trajet assigné</h3>
+                    <div></div>
+                    <h4>changer la direction</h4>
+                    <div></div>
+                </div>
+                <div class="conteneur1 bg-white rounded rounded-1">
+                    <h3>Statut du Bus</h3>
+                    <select name="" id="">  
+                        <option value="">En route</option>
+                        <option value="">Embarquement </option>
+                        <option value="">point B</option>
+                        <option value="en pause">en pause</option>
+                    </select>
+                </div>
+                </main>
+
+  
+                
+            </div>
+            <script src="js/bootstrap.bundle.min.js"></script>
+
 {% endblock %}

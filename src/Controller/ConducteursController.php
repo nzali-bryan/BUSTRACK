@@ -47,29 +47,7 @@ final class ConducteursController extends AbstractController
 
 
 
-    // #[Route('/new', name: 'app_conducteurs_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
-    // {
-    //     $conducteur = new Conducteurs();
-    //     $form = $this->createForm(ConducteursType::class, $conducteur);
-    //     $form->handleRequest($request);
 
-    //         // if ($editform->isSubmitted() && $editform->isValid()) {
-    //         //     $entityManager->flush();
-
-    //         //     return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
-    //         // }
-
-    //         // // return $this->render('conducteurs/index.html.twig', [
-    //         // //     'conducteurs' => $conducteursRepository->findAll(),
-    //         // //     'form' => $form,
-    //         // //     'formEdit' => $editform,
-    //         // // ]);
-    //     }
-
-
-
-    
 
     #[Route('/{id}/edit', name: 'app_conducteurs_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Conducteurs $conducteur, EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordHasher): Response
@@ -89,11 +67,6 @@ final class ConducteursController extends AbstractController
         $entityManager->flush();
         
         return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
-
-        return $this->render('conducteurs/index.html.twig', [
-            'conducteur1' => $conducteur,
-            'form' => $form,
-        ]);
     }
 
     #[Route('/{id}', name: 'app_conducteurs_delete', methods: ['POST'])]
