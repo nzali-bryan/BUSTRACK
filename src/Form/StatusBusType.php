@@ -26,6 +26,7 @@ class StatusBusType extends AbstractType
                 ],
                 'placeholder' => 'Choisir l’état du bus',
             ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

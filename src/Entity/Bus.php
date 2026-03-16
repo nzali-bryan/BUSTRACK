@@ -29,6 +29,9 @@ class Bus
     #[ORM\OneToOne(inversedBy: 'bus', cascade: ['persist', 'remove'])]
     private ?Conducteurs $conducteurs = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $direction = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Bus
     public function setConducteurs(?Conducteurs $conducteurs): static
     {
         $this->conducteurs = $conducteurs;
+
+        return $this;
+    }
+
+    public function getDirection(): ?string
+    {
+        return $this->direction;
+    }
+
+    public function setDirection(?string $direction): static
+    {
+        $this->direction = $direction;
 
         return $this;
     }

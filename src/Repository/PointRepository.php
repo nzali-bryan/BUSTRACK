@@ -49,6 +49,27 @@ class PointRepository extends ServiceEntityRepository
     }
 
 
+    public function findByTrajetIdASC(int $trajetId): array
+    {
+        return $this->createQueryBuilder('p') 
+            ->andWhere('p.trajet = :trajetId') 
+            ->setParameter('trajetId', $trajetId)
+            ->orderBy('p.nom', 'ASC') 
+            ->setMaxResults(1)     
+            ->getQuery()
+            ->getResult();                  
+    }
+
+        public function findByTrajetIdDESC(int $trajetId): array
+    {
+        return $this->createQueryBuilder('p') 
+            ->andWhere('p.trajet = :trajetId') 
+            ->setParameter('trajetId', $trajetId)
+            ->orderBy('p.nom', 'DESC')    
+            ->setMaxResults(1)    
+            ->getQuery()
+            ->getResult();                  
+    }
 //     public function findPointsByTrajetId(int $trajetId): array
 // {
 //     return $this->createQueryBuilder('p') 

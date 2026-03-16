@@ -25,7 +25,9 @@
   --color-warning:#ffd32a;
 
 }
-
+.cube{
+   
+}
 .entete{
     background-color: var(--color-fond-secondaire);
     color: var(--color-btn-primary-hover);
@@ -34,9 +36,11 @@
 }
 .corps{
     background-color: var(--color-background);
+    box-shadow: 1px 1px 10px rgba(0,0,0);
 }
-.profil{
+#profil{
     border-color: var(--color-btn-primary-hover) !important;
+    border: 1px solid var(--color-btn-primary-hover) !important;
 }
 .conteneur{
     margin-top: 70px !important;
@@ -49,4 +53,13 @@
     width: 90%;
     margin: 3px 5%;
 
+}
+.ajouter{
+    background-color:none !important;
+    color: var(--color-btn-primary-hover) !important;
+    border: 1px solid var(--color-btn-primary-hover) !important;
+}
+.ajouter:hover{
+    background-color:  var(--color-btn-primary-hover) !important;
+    color: var(--color-fond-secondaire) !important;
 }

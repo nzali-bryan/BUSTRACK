@@ -44,6 +44,8 @@ final class BusController extends AbstractController
     #[Route('/{id}/edit', name: 'app_buss_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bus $bu, EntityManagerInterface $entityManager): Response
     {
+
+
         $form = $this->createForm(BusType::class, $bu);
         
         $form->handleRequest($request);
@@ -54,7 +56,7 @@ final class BusController extends AbstractController
         $bu->setEtat($data['etat']);
         $bu->setCapacite($data['capacite']);
        
-        $entityManager->flush();
+         $entityManager->flush();
         return $this->redirectToRoute('app_buss_index', [], Response::HTTP_SEE_OTHER);
     }
 

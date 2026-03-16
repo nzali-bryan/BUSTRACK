@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ConducteursRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,6 +36,9 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'conducteurs', cascade: ['persist', 'remove'])]
     private ?Bus $bus = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $direction = null;
 
 
 
@@ -136,6 +140,18 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->bus = $bus;
+
+        return $this;
+    }
+
+    public function getDirection(): ?string
+    {
+        return $this->direction;
+    }
+
+    public function setDirection(?string $direction): static
+    {
+        $this->direction = $direction;
 
         return $this;
     }
