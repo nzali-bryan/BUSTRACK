@@ -5,6 +5,7 @@ namespace App\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -48,6 +49,7 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        // return $this->redirectToRoute('app_administrateur_index', [], Response::HTTP_SEE_OTHER);
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_administrateur_index'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
@@ -58,3 +60,4 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }
+

@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\AdministrateurRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: AdministrateurRepository::class)]
-// #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NOM', fields: ['Nom'])]
+    #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class Administrateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,6 +19,11 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
 
     #[ORM\Column(length: 180)]
     private ?string $nom = null;
+
+
+    
+    #[ORM\Column(length: 180)]
+    private ?string $username = null;
 
     /**
      * @var list<string> The user roles
@@ -101,5 +107,17 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
     }
 }

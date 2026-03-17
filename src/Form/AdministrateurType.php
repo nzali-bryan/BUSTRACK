@@ -13,8 +13,18 @@ class AdministrateurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Nom')
-            ->add('roles')
+            ->add('nom')
+            ->add('username')
+            ->add('roles',ChoiceType::class, [
+                    'required' => false,
+                    'choices' => [
+                        "Administrateur de l'agence" => 'ROLE_ADMIN',
+                        'Conducteur de bus' => 'ROLE_DRIVER',
+                        'Autres' => 'ROLE_USER',
+                    ],
+        'expanded' => false,
+        'multiple' => true,
+            ])
 
             ->add('password')
         ;

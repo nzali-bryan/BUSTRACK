@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/administrateur')]
 final class AdministrateurController extends AbstractController
 {
-    #[Route(name: 'app_administrateur_index', methods: ['GET'])]
+    #[Route( '/administrateur', name: 'app_administrateur_index', methods: ['GET'])]
     public function index(AdministrateurRepository $administrateurRepository): Response
     {
         return $this->render('administrateur/index.html.twig', [
@@ -22,7 +22,7 @@ final class AdministrateurController extends AbstractController
         ]);
     }
 
-    #[Route('creer', name: 'app_administrateur_new', methods: ['GET', 'POST'])]
+    #[Route('/creer', name: 'app_administrateur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $administrateur = new Administrateur();
@@ -36,7 +36,7 @@ final class AdministrateurController extends AbstractController
             return $this->redirectToRoute('app_administrateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('administrateurcreer.html.twig', [
+        return $this->render('administrateur/new.html.twig', [
             'administrateur' => $administrateur,
             'form' => $form,
         ]);

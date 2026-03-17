@@ -146,5 +146,35 @@ class Trajets
         return $this;
     }
 
+    /**
+     * @return Collection<int, Point>
+     */
+    public function getIdPoint(): Collection
+    {
+        return $this->id_point;
+    }
+
+    public function addIdPoint(Point $idPoint): static
+    {
+        if (!$this->id_point->contains($idPoint)) {
+            $this->id_point->add($idPoint);
+            $idPoint->setTrajet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdPoint(Point $idPoint): static
+    {
+        if ($this->id_point->removeElement($idPoint)) {
+            // set the owning side to null (unless already changed)
+            if ($idPoint->getTrajet() === $this) {
+                $idPoint->setTrajet(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

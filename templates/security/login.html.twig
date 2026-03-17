@@ -1,68 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Log in!{% endblock %}
 
 {% block body %}
-{{ include('style.html.twig') }}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-
-
-
-        <link rel="stylesheet" href="css1/admin/index.css">
-        <link rel="stylesheet" href="css1/admin/root.css">
-       <div class=" d-flex justify-content-center align-items-center min-vw-100 flex-wrap">
-
-        <div class="welcome d-flex justify-content-center gap-0">
-            <div >
-                <h1 class=" text-white text-center mt-5 mt-lg-5"><span style="color: var(--color-btn-primary-hover);">BUS</span>TRACK</h1>
-                <h3 class="espace text-center ">ESPACE ADMINISTRATEUR</h3>
-                <div class="espace1 ms-4">
-                    <p class="text-white pilotez">Pilotez le reseau de transport de Douala</p>
-                    <p class="fs-6" style="color: var(--color-text-secondary);">tableau de bord centralisé pour la gesttion complète des Bus, Trajets et Conducteurs du reseau urbain</p>
-                </div>
-                <div class="statistique espace1">
-                    <div class="row">
-                        <div class="col-4 text-statistique text-center"><span class="fs-1 d-block">43</span>conduxteurs</div>
-                        <div class="col-4 text-statistique text-center"><span class="fs-1 d-block">65</span>Trajets</div>
-                        <div class="col-4 text-statistique text-center"><span class="fs-1 d-block">37</span>Bus</div>
-                    </div>
-                </div>
-
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
             </div>
+        {% endif %}
 
-        </div>
-        
-        <div class="container-fluid1">    
-            <div class="">
-                <div class="">
-                    <div class="conteneur" >
-                        <h1>Bon retour !</h1>
-                        <h4>Connectez-vous pour acceder à votre tableau bord</h4>
-                        <div>
-                            <form  method="post" class="inputbox">
-                                {% if error %}
-                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                {% endif %}
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="username">Username</label>
+        <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+        <label for="password">Password</label>
+        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
-                                {# {% if app.user %}
-                                    <div class="mb-3">
-                                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
-                                    </div>
-                                {% endif %} #}
-                                <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control form_control" placeholder="Nom Administrateur" autocomplete="username" required autofocus>      
-                                <input type="password" name="password" id="inputPassword" class="form-control form_control" autocomplete="current-password" required placeholder="Mot de passe">
-                                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
 
-                                <button type="submit"  class="bouton">Connexion</button>
-                            </form>
-                            
-                        </div>
-                    </div>
-                </div>
+            <div class="checkbox mb-3">
+                <input type="checkbox" name="_remember_me" id="_remember_me">
+                <label for="_remember_me">Remember me</label>
             </div>
-        </div>
-    </div>
+        #}
 
-
-    <script src="../../js/bootstrap.bundle.min.js"></script>
+        <button class="btn btn-lg btn-primary" type="submit">
+            Sign in
+        </button>
+    </form>
 {% endblock %}

@@ -24,16 +24,20 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\AdministrateurAuthenticator
+            #custom_authenticator: App\Security\AdministrateurAuthenticator
             logout:
                 path: deconnexion
                 # where to redirect after logout
-                target: connexion
+                # target: app_any_route
 
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
         
 
                 # by default, the feature is enabled by checking a checkbox in the
