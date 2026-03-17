@@ -10,11 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/administrateur')]
+#[Route('/administrateur', name:'app_administrateur')]
+
 final class AdministrateurController extends AbstractController
 {
-    #[Route( '/administrateur', name: 'app_administrateur_index', methods: ['GET'])]
+
+    #[Route('', name: 'app_administrateur_index')]
+      
     public function index(AdministrateurRepository $administrateurRepository): Response
     {
         return $this->render('administrateur/index.html.twig', [
@@ -23,13 +28,18 @@ final class AdministrateurController extends AbstractController
     }
 
     #[Route('/creer', name: 'app_administrateur_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
         $administrateur = new Administrateur();
         $form = $this->createForm(AdministrateurType::class, $administrateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $hasher->hashPassword(
+                $administrateur,
+                $administrateur->getPassword()
+            );
+            $administrateur->setPassword($hashedPassword);
             $entityManager->persist($administrateur);
             $entityManager->flush();
 
@@ -41,7 +51,7 @@ final class AdministrateurController extends AbstractController
             'form' => $form,
         ]);
     }
-
+ 
     #[Route('/{id}', name: 'app_administrateur_show', methods: ['GET'])]
     public function show(Administrateur $administrateur): Response
     {

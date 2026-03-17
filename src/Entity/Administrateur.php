@@ -29,7 +29,7 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private array $roles = ['ROLE_ADMIN'];
+    private array $roles = ['ROLE_USER'];
 
     /**
      * @var string The hashed password
@@ -71,7 +71,7 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_CONDUCTEUR';
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }

@@ -24,7 +24,7 @@ class Conducteurs implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private array $roles = ['ROLE_CONDUCTEUR'];
+    private array $roles = ['ROLE_DRIVER'];
     /**
      * @var string The hashed password
      */
