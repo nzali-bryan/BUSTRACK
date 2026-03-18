@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AdministrateurRepository;
-use BcMath\Number;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -42,8 +42,10 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
     #[ORM\OneToOne(mappedBy: 'administrateur', cascade: ['persist', 'remove'])]
     private ?Bus $bus = null;
 
-    #[ORM\Column(type: Types::NUMBER, nullable: true, precision:12)]
-    private ?Number $telephone = null;
+    // #[ORM\Column(type: Types::NUMBER, nullable: true, precision:12)]
+    // private ?Number $telephone = null;
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $telephone = null;
 
     public function getId(): ?int
     {
@@ -151,12 +153,12 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
         return $this;
     }
 
-    public function getTelephone(): ?Number
+    public function getTelephone(): ?String
     {
         return $this->telephone;
     }
 
-    public function setTelephone(Number $telephone): static
+    public function setTelephone(String $telephone): static
     {
         $this->telephone = $telephone;
 

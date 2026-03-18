@@ -33,6 +33,19 @@ class AdministrateurRepository extends ServiceEntityRepository implements Passwo
         $this->getEntityManager()->flush();
     }
 
+    // requete pour afficher les users qui ont le role driver 
+    public function findDriver():array
+    {
+        return $this->createQueryBuilder('a')
+        ->where('a.roles LIKE :role')
+        ->orderBy('a.nom','ASC')
+        ->setParameter('role', '%ROLE_DRIVER%' )
+        ->getQuery()
+        ->getResult();
+    }
+
+
+
 //    /**
 //     * @return Administrateur[] Returns an array of Administrateur objects
 //     */

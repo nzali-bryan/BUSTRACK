@@ -88,17 +88,7 @@ class Bus
         return $this;
     }
 
-    // public function getConducteurs(): ?Conducteurs
-    // {
-    //     return $this->conducteurs;
-    // }
 
-    // public function setConducteurs(?Conducteurs $conducteurs): static
-    // {
-    //     $this->conducteurs = $conducteurs;
-
-    //     return $this;
-    // }
 
     public function getDirection(): ?string
     {

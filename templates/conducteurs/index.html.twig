@@ -118,18 +118,29 @@
         
       
       }}) }}
+        {{ form_row(form.username, {
+        'attr': {'class': 'form-control form_control',
+        'placeholder': 'Entrer le Prenom'
+        }}) }}
        
         {{ form_row(form.password, {'attr': {
             'class': 'form-control form_control',
             'placeholder': 'Entrer le mot de passe'
             }}) }}
+        {{ form_row(form.bus, {
+        'attr': {'class': 'form-control form_control',
+        'placeholder': 'Assigner un Bus'
+        
+      
+      }}) }}
         {{ form_row(form.telephone, {
             'attr': {'class': 'form-control form_control',
             'placeholder': 'Numero',
-            'pattern': '[0-9]{9}',
+
             'type':'tel',
             'value': '+237'
             }}) }}
+
 
       </div>
 
@@ -150,7 +161,7 @@
 
 
 
-{% for conducteur in conducteurs %}
+{# {% for conducteur in conducteurs %}
 
 <div class="modal fade" id="editConducteur{{ conducteur.id }}" tabindex="-1">
   <div class="modal-dialog">
@@ -186,9 +197,9 @@
 
     </div>
   </div>
-</div>
+</div> 
 
-{% endfor %}
+{% endfor %}#}
 
 
 <script>

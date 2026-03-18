@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Bus;
 use App\Form\BusType;
+use App\Repository\AdministrateurRepository;
 use App\Repository\BusRepository;
 use App\Repository\TrajetsRepository;
-use App\Repository\ConducteursRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BusController extends AbstractController
 {
     #[Route(name: 'app_buss_index', methods:  ['GET', 'POST'])]
-    public function index(Request $request,BusRepository $busRepository,TrajetsRepository $trajetsRepository, ConducteursRepository $conducteursRepository,EntityManagerInterface $entityManager): Response
+    public function index(Request $request,BusRepository $busRepository,TrajetsRepository $trajetsRepository,AdministrateurRepository $administrateurRepository,EntityManagerInterface $entityManager): Response
     {
         $bu = new Bus();
        
@@ -34,7 +35,7 @@ final class BusController extends AbstractController
         return $this->render('bus/index.html.twig', [
             'trajets'=> $trajetsRepository->findAll(),
             'buss' => $busRepository->findBy([],['nom'=>'ASC']),
-            'conducteurs' => $conducteursRepository->findAll(),
+            'conducteurs' => $administrateurRepository->findDriver(),
             'form' => $form,
            
         ]);

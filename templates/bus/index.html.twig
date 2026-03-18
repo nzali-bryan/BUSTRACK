@@ -82,7 +82,7 @@
                     <td>{{ bus.nom }}</td>
                     <td>{{ bus.capacite }}</td>
                     <td>{{bus.etat}}</td>
-                    <td>{{bus.conducteurs.nom ?? 'aucun conducteur'}}</td>
+                    <td>{{bus.administrateur.nom ?? 'aucun conducteur'}}</td>
                    <td>{{bus.trajet.nom}}</td>
                     <td>
                         <button class="btn ajouter btn-sm" data-bs-toggle="modal" data-bs-target="#editbus{{ bus.id }}">
@@ -134,8 +134,9 @@
             'placeholder': 'Etat',
             }}) }}
             {{
-                form_row(form.conducteurs,{
-                    'attr' : {'class': 'form-control form_control'}
+                form_row(form.administrateur,{
+                    'attr' : {'class': 'form-control form_control'},
+                    'label' : 'Conducteur',
                 })
             }}
 
