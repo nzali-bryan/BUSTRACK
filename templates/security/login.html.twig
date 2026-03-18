@@ -16,9 +16,9 @@
 
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="username">Username</label>
-        <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+        <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control " placeholder="Nom Administrateur" autocomplete="username" required autofocus> 
+        <label for="password">Password</label>     
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Mot de passe">
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
         {#
@@ -35,4 +35,21 @@
             Sign in
         </button>
     </form>
+
+    {# <form  method="post" class="inputbox">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {# {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+            </div>
+        {% endif %} #
+        <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control " placeholder="Nom Administrateur" autocomplete="username" required autofocus>      
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder="Mot de passe">
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+        <button type="submit"  class="bouton">Connexion</button>
+    </form> #}
 {% endblock %}
