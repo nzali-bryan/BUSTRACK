@@ -31,33 +31,19 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
 
     {
         // Par defaut de l'authentificator 
-        // $nom = $request->getPayload()->getString('Nom');
+        $nom = $request->getPayload()->getString('Nom');
 
-        // $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $nom);
-
-        // return new Passport(
-        //     new UserBadge($nom),
-        //     new PasswordCredentials($request->getPayload()->getString('password')),
-        //     [
-        //         new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
-        //         new RememberMeBadge(),
-        //     ]
-        // );
-            // Nom des champs dans ton formulaire HTML
-        $nom = $request->request->get('nom');          // name="nom"
-        $password = $request->request->get('password'); // name="password"
-
-        // Sauvegarde pour pré-remplir en cas d'échec
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $nom);
 
         return new Passport(
             new UserBadge($nom),
-            new PasswordCredentials($password),
+            new PasswordCredentials($request->getPayload()->getString('password')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
                 new RememberMeBadge(),
             ]
         );
+
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -65,17 +51,25 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-             $user = $token->getUser();
-            
-         if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('app_administrateur'));
-        } elseif (in_array('ROLE_CONDUCTEUR', $user->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('conducteur_dashboard'));
+                    if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+            return new RedirectResponse($targetPath);
         }
-  
-        return new RedirectResponse($this->urlGenerator->generate('app_administrateur'));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+
+        // For example:
+        return new RedirectResponse($this->urlGenerator->generate('app_administrateur_index'));
     }
+
+            //  $user = $token->getUser();
+            
+        //  if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        //     return new RedirectResponse($this->urlGenerator->generate('app_administrateur'));
+        // } elseif (in_array('ROLE_CONDUCTEUR', $user->getRoles())) {
+        //     return new RedirectResponse($this->urlGenerator->generate('conducteur_dashboard'));
+        // }
+  
+        // return new RedirectResponse($this->urlGenerator->generate('app_administrateur'));
+        // // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+    
 
     protected function getLoginUrl(Request $request): string
     {
