@@ -9,10 +9,10 @@ security:
             entity:
                 class: App\Entity\Administrateur
                 property: nom
-        conducteurs_provider:
-            entity:
-                class: App\Entity\Conducteurs
-                property: nom
+        # conducteurs_provider:
+        #     entity:
+        #         class: App\Entity\Conducteurs
+        #         property: nom
         # used to reload user from session & other features (e.g. switch_user)
 
     
@@ -24,7 +24,7 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            #custom_authenticator: App\Security\AdministrateurAuthenticator
+            custom_authenticator: App\Security\AdministrateurAuthenticator
             logout:
                 path: deconnexion
                 # where to redirect after logout
@@ -38,7 +38,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-        
+            entry_point: form_login
 
                 # by default, the feature is enabled by checking a checkbox in the
                 # login form, uncomment the following line to always enable it.
@@ -53,7 +53,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/administrateur/creer, roles: ROLE_ADMIN }
+        - { path: ^/administrateur, roles: ROLE_ADMIN }
         - { path: ^/bus, roles: ROLE_ADMIN }
         - { path: ^/conducteurs, roles: ROLE_ADMIN }
         - { path: ^/trajets, roles: ROLE_ADMIN }

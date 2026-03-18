@@ -12,12 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+ 
+#[Route('administrateur', name:'')]
 
-#[Route('/administrateur', name:'app_administrateur')]
 
 final class AdministrateurController extends AbstractController
 {
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('', name: 'app_administrateur_index')]
       
     public function index(AdministrateurRepository $administrateurRepository): Response
