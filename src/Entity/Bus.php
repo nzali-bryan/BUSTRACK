@@ -26,11 +26,14 @@ class Bus
     #[ORM\ManyToOne(inversedBy: 'buses')]
     private ?Trajets $trajet = null;
 
-    #[ORM\OneToOne(inversedBy: 'bus', cascade: ['persist', 'remove'])]
-    private ?Conducteurs $conducteurs = null;
+    // #[ORM\OneToOne(inversedBy: 'bus', cascade: ['persist', 'remove'])]
+    // private ?Conducteurs $conducteurs = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $direction = null;
+
+    #[ORM\OneToOne(inversedBy: 'bus', cascade: ['persist', 'remove'])]
+    private ?Administrateur $administrateur = null;
 
     public function getId(): ?int
     {
@@ -85,17 +88,17 @@ class Bus
         return $this;
     }
 
-    public function getConducteurs(): ?Conducteurs
-    {
-        return $this->conducteurs;
-    }
+    // public function getConducteurs(): ?Conducteurs
+    // {
+    //     return $this->conducteurs;
+    // }
 
-    public function setConducteurs(?Conducteurs $conducteurs): static
-    {
-        $this->conducteurs = $conducteurs;
+    // public function setConducteurs(?Conducteurs $conducteurs): static
+    // {
+    //     $this->conducteurs = $conducteurs;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getDirection(): ?string
     {
@@ -105,6 +108,18 @@ class Bus
     public function setDirection(?string $direction): static
     {
         $this->direction = $direction;
+
+        return $this;
+    }
+
+    public function getAdministrateur(): ?Administrateur
+    {
+        return $this->administrateur;
+    }
+
+    public function setAdministrateur(?Administrateur $administrateur): static
+    {
+        $this->administrateur = $administrateur;
 
         return $this;
     }
