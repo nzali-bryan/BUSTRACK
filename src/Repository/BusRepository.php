@@ -27,20 +27,11 @@ class BusRepository extends ServiceEntityRepository
     public function findZoneBus($zone)
     {
         return $this->createQueryBuilder('b')
-    
-        ->join('b.trajet', 't');
-
-    $sub = $this->getEntityManager()->createQueryBuilder()
-        ->select('1')
-        ->from('App\Entity\Point', 'p')
-        ->where('p.trajet = t')
-        ->andWhere('p.zone = :zone');
-
-    return $qb
-        ->andWhere($qb->expr()->exists($sub->getDQL()))
-        ->setParameter('zone', $zone)
-        ->getQuery()
-        ->getResult();
+            ->join('b.trajet','t')
+            ->where('t.zone= :zone')
+            ->setParameter('zone',$zone)
+            ->getQuery()
+            ->getResult();
 
     }
 //    /**

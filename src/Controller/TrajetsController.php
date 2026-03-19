@@ -68,6 +68,7 @@ final class TrajetsController extends AbstractController
         $trajet->setNom($data['nom']);
         $trajet->setEtat($data['etat']);
         $trajet->setLigne($data['ligne']);
+        $trajet->setZone($data['zone']);
         $entityManager->flush();
         return $this->redirectToRoute('app_trajets_index', [], Response::HTTP_SEE_OTHER);
         

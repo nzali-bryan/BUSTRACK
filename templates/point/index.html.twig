@@ -66,7 +66,7 @@
                 <tr>
 
                     <th>Nom</th>
-                    <th>Zone</th>
+                
                     <th>Trajets</th>
                     <th>actions</th>
                 </tr>
@@ -76,7 +76,7 @@
                 <tr class="w-75">
                   
                     <td>{{ point.nom }}</td>
-                    <td>{{ point.zone }}</td>
+               
                     <td>{{point.trajet.nom ?? 'Aucun Trajet'}}</td>
                     <td>
 
@@ -120,10 +120,10 @@
       
       }}) }}
        
-        {{ form_row(form.zone, {'attr': {
+        {# {{ form_row(form.zone, {'attr': {
             'class': 'form-control form_control',
             'placeholder': 'Entrer la zone'
-            }}) }}
+            }}) }} #}
         {{ form_row(form.description, {
             'attr': {'class': 'form-control form_control',
             'placeholder': 'Ex:Ndokiti coté Brasserie',
@@ -167,10 +167,10 @@
                 <input type="text" name="points[nom]" value="{{ point.nom }}" class="form-control form_control">
             </div>
 
-            <div class="mb-3">
+            {# <div class="mb-3">
                 <label>Zone</label>
                 <input type="text" name="points[zone]" value="{{ point.zone }}" class="form-control form_control">
-            </div>
+            </div> #}
             <div class="mb-3">
                 <label>Description</label>
                 <input type="text" name="points[description]" value="{{ point.description }}" class="form-control form_control">

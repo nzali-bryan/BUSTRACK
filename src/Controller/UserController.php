@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Bus;
 use App\Repository\BusRepository;
+use App\Repository\AdministrateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     #[Route('/interface/passager', name: 'app_user')]
-    public function index(BusRepository $busRepository ,Request $request): Response
+    public function index(BusRepository $busRepository ,Request $request, AdministrateurRepository $administrateurRepository): Response
     {
         $countbus = $busRepository->findBusActifs([
             'en_route',
@@ -23,13 +25,13 @@ final class UserController extends AbstractController
             $Allbus= $busRepository->findZoneBus($zone);
         }else{
             $Allbus= $busRepository->findAll();
-        }
-    
-        
-        
+        }   
         return $this->render('user/index.html.twig', [
            'NombreDeBus'=>$countbus,
            'AllBus'=>$Allbus,
+           'conducteurs' => $administrateurRepository->findDriver(),
+
+
         ]);
     }
 }

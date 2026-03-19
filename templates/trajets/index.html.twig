@@ -66,6 +66,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Nom</th>
+                    <th>Zone</th>
                     <th>pointA</th>
                     <th>PointB</th>
                     <th>Etat</th>
@@ -80,6 +81,7 @@
 
                     <td>{{ trajet.id }}</td>
                     <td>{{ trajet.nom }}</td>
+                    <td>{{ trajet.zone }}</td>
                     <td></td>
                     <td></td>
                     <td>{{ trajet.etat }}</td>
@@ -136,6 +138,10 @@
             'class': 'form-control form_control',
             'placeholder': ''
         }}) }}
+        {{ form_row(form.zone, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
         {{ form_row(form.depart, {'attr': {
             'class': 'form-control form_control',
             'placeholder': ''
@@ -186,6 +192,10 @@
             <div class="mb-3">
                 <label>Ligne</label>
                 <input type="text" name="trajets[ligne]" value="{{trajet.ligne}}" class="form-control form_control" required>
+            </div>
+            <div class="mb-3">
+                <label>Ligne</label>
+                <input type="text" name="trajets[zone]" value="{{trajet.zone}}" class="form-control form_control" required>
             </div>
             <div class="mb-3">
         <label>Etat</label>

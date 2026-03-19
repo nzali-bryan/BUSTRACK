@@ -134,6 +134,13 @@
 .favoris{
     height: 40px;
     width: 40px;
+    background-color: transparent;
+    border: 1px solid var(--color-btn-primary-hover) !important;
+    color: var(--color-btn-primary-hover);
+}
+.favoris.active{
+    background-color: var(--color-btn-primary-hover) !important;
+    color: white !important;
 }
 .etat{
     background-color: #00c9a752;
@@ -146,9 +153,25 @@
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
 }
-/* .listbus,.navigation-filtre{
-    background-color: rgb(240, 239, 239);
-} */
+.detail-bus{
+    cursor: pointer;
+    box-shadow: 1px 1px 3px var(--color-fond-secondaire);
+    margin-top: 10px;
+    height: 80px;
+    width: 90% !important;
+    margin-left: 5%!important;
+    margin-right: 5% !important;
+}
+.detail-bus:hover{
+    box-shadow: 1px 1px 5px var(--color-btn-primary-hover);
+}
+.etat2{
+    width: 125px !important;
+}
+.bi-heart::before{
+    position: relative !important;
+
+}
 :root {
   --color-fond-secondaire:#0A1628;
   --color-btn-primary:#019271;
@@ -173,5 +196,62 @@
 
 
 
+}
+.logo{
+    height: 40px;
+    text-align: center;
+    width: 40px;
+    background-color: var(--color-fond-secondaire);
+    color: var(--color-btn-primary-hover);
+}
+.favoris{
+    height: 40px;
+    width: 40px;
+}
+.etat{
+    background-color: #00c9a752;
+    color: var(--color-btn-primary-hover);
+    border-radius: 20px;
+    text-align: center;
+    border: 1.5px solid var(--color-btn-primary-hover);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+.header-modal{
+
+}
+.btn-croix{
+    background-color: #5a71844d;
+    color: white !important;
+}
+.statut{
+    background-color: var(--color-background);
+    color: var(--color-text-secondary);
+    height: 80px;
+
+}
+.statut1{
+    width: 90% !important;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+}
+.statut3{
+    color: var(--color-fond-secodaire) !important;
+}
+.statut3-point{
+    font-size: 50px !important;
+}
+.Ajoutfavoris{
+    color: white;
+    background-color: var(--color-btn-primary-hover);
+    box-shadow: 1px 1px 4px var(--color-btn-primary-hover);
+    width: 90%;
+    margin: 5px 5%;
+
+}
+.info2{
+    color: var(--color-fond-secondaire) !important;
 }
 

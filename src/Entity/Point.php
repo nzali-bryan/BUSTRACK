@@ -16,8 +16,7 @@ class Point
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $zone = null;
+
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -42,17 +41,7 @@ class Point
         return $this;
     }
 
-    public function getZone(): ?string
-    {
-        return $this->zone;
-    }
 
-    public function setZone(string $zone): static
-    {
-        $this->zone = $zone;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {

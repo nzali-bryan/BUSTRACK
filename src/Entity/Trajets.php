@@ -37,6 +37,9 @@ class Trajets
     #[ORM\OneToMany(targetEntity: Bus::class, mappedBy: 'trajet')]
     private Collection $buses;
 
+    #[ORM\Column(length: 255)]
+    private ?string $zone = null;
+
     public function __construct()
     {
         $this->id_point = new ArrayCollection();
@@ -172,6 +175,18 @@ class Trajets
                 $idPoint->setTrajet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getZone(): ?string
+    {
+        return $this->zone;
+    }
+
+    public function setZone(string $zone): static
+    {
+        $this->zone = $zone;
 
         return $this;
     }

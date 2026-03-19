@@ -20,6 +20,15 @@ class TrajetsType extends AbstractType
          
         $builder
             ->add('nom')
+            ->add('zone' , ChoiceType::class, [
+                'choices' => [
+                    'Douala I' => 'Douala I',
+                    'Douala II' => 'Douala II',
+                    'Douala III' => 'Douala III',
+                    'Douala IV' => 'Douala IV',
+                    'Douala V' => 'Douala V',
+            ],])
+
             ->add('etat' , ChoiceType::class, [
                 'choices' => [
                     'Actif' => 'actif',

@@ -13,7 +13,7 @@ class PointType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('zone')
+        
             ->add('description')
         ;
     }

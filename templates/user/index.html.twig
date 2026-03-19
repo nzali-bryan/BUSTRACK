@@ -18,7 +18,7 @@
     </header>
     <div class="sous-entete position-fixed bg-white w-100 ">
         <nav class="nav color-fresh " id="menu1">
-            <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active ">Bus en temps réel</a>
+            <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh  ">Bus en temps réel</a>
             <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh">Mes favoris</a>
             <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh">Profil</a>
 
@@ -55,11 +55,15 @@
     <div class="listbus">
         {% for bus in AllBus %}
            
-                <div class="row mx-2 my-2 border border-2 rounded rounded-2">
+                <div class="row detail-bus mx-2 my-5 mt-xl-3 mt-sm-2  rounded rounded-2 " type="button" data-bs-toggle="offcanvas" data-bs-target="#sideModal{{ bus.id }}" aria-controls="sideModal" >
                     <div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center"><span class=" position-static ">{{bus.trajet.ligne}}</span> </div>
-                    <div class="col-6"> <p class="m-0 p-0"><b>{{bus.trajet.nom}}</b></p>{{bus.direction}} </div>
-                    <div  class="col-3 text-center "> <p class="m-0 p-0 etat">{{bus.etat}}</p>prochain </div>
-                    <button class="favoris rounded rounded-circle col-1 position-absolute end-0 mx-4 mt-2">f</button>
+                    <div class="col-6 "> <p class="m-3 p-0 " ><b>{{bus.trajet.nom}}</b></p>{{bus.direction}} </div>
+                        <div class="col-2"></div>
+                    <div  class="col-3 text-center etat2   mt-3"> <p class="m-0 p-0 etat">{{bus.etat}}</p>prochain </div>
+                    <div class="col-1" id="favoris">
+                         <button class="favoris rounded rounded-circle position-relative   ms-5 mt-3"><i class="bi bi-heart position-relative me-6"></i></button>
+                    </div>
+                   
                 </div>
 
          
@@ -70,11 +74,105 @@
 
         {% endfor %}
     </div>
+
+    {% for bus in AllBus %}
+
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sideModal{{ bus.id }}" aria-labelledby="sideModalLabel">
+  <div class="offcanvas-header fond header-modal">
+    <div>
+        <span class="color-fresh">{{bus.trajet.ligne}}</span>
+            <h5 id="sideModalLabel" class="text-white">{{bus.trajet.nom}}</h5>
+
+    </div>
+
+    <button type="button" class="btn-close text-reset text-white bg-white rounded rounded-circle btn-croix text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row rounded rounded-2 statut statut1">
+            <h4>Statut Actuel</h4>
+            <span class="fs-4 mb-3 statut3 info2"> {{bus.etat}}</span> 
+            <span class="info2">{{bus.direction}}</span>           
+    </div>
+    <div class="row mt-4  g-2  ">
+            <div class="col-5  rounded rounded-2 statut ms-2">Bus Assigné
+                 <div class="info2">{{bus.nom}}</div>
+            </div>
+            <div class="col-5 rounded rounded-2 statut ms-5">Conducteur 
+                <div class="info2">{{bus.administrateur.nom}}</div>
+            </div>   
+    </div> 
+        <div class="row mt-4  g-2  ">
+            <div class="col-5  rounded rounded-2 statut ms-2">Capacité
+                 <div class="info2">{{bus.capacite}}</div>
+            </div>
+
+                <div class="col-5 rounded rounded-2 statut ms-5"> Prochain arrêt :
+
+                {% set parts = bus.direction|lower|split('vers') %}
+                    <p>
+                        <span class="badge bg-success">
+                            {{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+                        </span>
+                    </p>
+                </div> 
+         
+        </div>
+        <div>
+
+            Point d'embarquement
+            <div class="timeline">
+            {% for point in bus.trajet.point %}
+               
+                <div class="timeline">
+
+                    
+                    <div class="timeline-item d-flex">
+                        <div class="timeline-icon me-3">
+                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width:20px; height:20px;">
+                                <i class="bi bi-check text-white" style="font-size:12px;"></i>
+                            </div>
+                            <div class="timeline-line bg-success"></div>
+                        </div>
+                        <div class="timeline-content">
+                            <h6>{{ point.nom }}</h6>
+                            <small class="text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+            </div>
+            </div>
+            <div class="Ajoutfavoris">
+                    <button type="" class="Ajoutfavoris btn"><i class="bi bi-heart"></i>Ajouter au favoris</button> 
+            </div>
+
+  </div>
+</div>
+
+
+{% endfor %}
 </main>
     <script src="js/bootstrap.bundle.min.js"></script>
 
 <script>
-    const links = document.querySelectorAll("#menu1 .nav-links");
+    {# const links = document.querySelectorAll("#menu1 .nav-links"); #}
+    const links = document.querySelectorAll("#menu1 a");
+
+    links.forEach(link => {
+            link.addEventListener("click", function(){
+
+            // enlever active sur tous les liens
+            links.forEach(l => l.classList.remove("active"));
+
+            // ajouter active au lien cliqué
+            this.classList.add("active");
+
+            });
+    });
+        const links = document.querySelectorAll("#favoris .favoris");
 
     links.forEach(link => {
             link.addEventListener("click", function(){

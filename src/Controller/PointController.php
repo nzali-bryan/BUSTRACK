@@ -72,7 +72,7 @@ final class PointController extends AbstractController
         $data = $request->request->all()['points'];
 
         $point->setNom($data['nom']);
-        $point->setZone($data['zone']);
+       
         $entityManager->flush();
         return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
     }
