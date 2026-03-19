@@ -54,6 +54,7 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
         $user= $token->getUser();
         $roles = $user->getRoles();
         $id= $user->getId();
+      
        
 
         if (in_array('ROLE_ADMIN', $roles)) {

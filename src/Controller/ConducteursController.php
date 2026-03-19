@@ -47,15 +47,20 @@ final class ConducteursController extends AbstractController
 
     // Modif conducteur 
     #[Route('/{id}/edit', name: 'app_conducteurs_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Administrateur $administrateur, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Administrateur $administrateur, EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
     {
         $form = $this->createForm(AjoutModifDriverType::class, $administrateur);
         $form->handleRequest($request);
-        $data = $request->request->all()['trajets'];
+        $data = $request->request->all()['administrateur'];
 
         $administrateur->setNom($data['nom']);
-        $administrateur->setTelephone($data['telephont']);
+        $administrateur->setTelephone($data['telephone']);
         $administrateur->setUsername($data['username']);
+            $hashedPassword = $hasher->hashPassword(
+                $administrateur,
+                $administrateur->getPassword()
+            );
+            $administrateur->setPassword($hashedPassword);
         $entityManager->flush();
         return $this->redirectToRoute('app_trajets_index', [], Response::HTTP_SEE_OTHER);
         

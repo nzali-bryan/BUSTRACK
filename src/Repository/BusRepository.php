@@ -15,7 +15,34 @@ class BusRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Bus::class);
     }
+    public function findBusActifs(array $etat)
+    {
+        return $this->createQueryBuilder('b')
+        ->select('COUNT(b.id)')
+        ->where('b.etat IN (:etat)')
+        ->setParameter('etat', $etat)
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
+    public function findZoneBus($zone)
+    {
+        return $this->createQueryBuilder('b')
+    
+        ->join('b.trajet', 't');
 
+    $sub = $this->getEntityManager()->createQueryBuilder()
+        ->select('1')
+        ->from('App\Entity\Point', 'p')
+        ->where('p.trajet = t')
+        ->andWhere('p.zone = :zone');
+
+    return $qb
+        ->andWhere($qb->expr()->exists($sub->getDQL()))
+        ->setParameter('zone', $zone)
+        ->getQuery()
+        ->getResult();
+
+    }
 //    /**
 //     * @return Bus[] Returns an array of Bus objects
 //     */

@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusTrack{% endblock %}
+
+{% block body %}
+{{ include('style/style.html.twig') }}
+{{ include('style/js.html.twig') }}
+<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
+ <main class=" min-vw-100">
+<header class="entete1 fond row title position-fixed min-vw-100 m-0">
+        <h3 class=" text-white col-3"><span class="color-fresh">Bus</span>Track</h3>
+        <div class=" h-75 my-1 text-start d-grid align-items-center rounded rounded-2 connexion col-4 recherche"> recherche</div>
+        <div class="col-4 text-center position-absolute end-0">
+            <button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1">connexion</button>
+            <button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" >inscription</button>
+        </div>
+        
+    </header>
+    <div class="sous-entete position-fixed bg-white w-100 ">
+        <nav class="nav color-fresh " id="menu1">
+            <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active ">Bus en temps réel</a>
+            <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh">Mes favoris</a>
+            <a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh">Profil</a>
+
+        </nav>
+    </div>
+    <div class="fond corps1 ">
+        <div class="d-grid align-items-center">
+            <div class="fond-vert  rounded rounded-2 text-center">
+                <h6 class=" position-relative mb-"> <span class=" fs-1 "></span> SUIVI EN DIRECT.DOUALA</h6>
+            </div>
+        </div>    
+        <h3 class="fs-1 text-white">Suivez vos bus en <span class="color-fresh">temps réel</span></h3>
+        <p class="color-secondaire">Consulteé l'état de <span class="bus text-second">{{NombreDeBus}} bus actifs</span> sur le réseau de Douala. Filtrez par zone ou par trajet pour trouver votre bus rapidement, sans compte requis</p>
+        <div class="filtres row w-100 position-relative text-center">
+            <a class="col-3  text-center filtre my-1  mx-lg-2 mx-1 text-start text-decoration-none d-grid align-items-center rounded rounded-2 connexion col-4 "> Toutes les Zones</a>
+            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Statut</a>
+            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Trajets</a>
+            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Réinitialiser</a>
+        </div><hr>
+        
+    </div>
+    <div class="navigation-filtre mt-5">
+        <div class="" id="filtre ">
+            <a  utton class=" btn btn-xl btn-filtre active rounded rounded-5 fs-5 border border-2">Tous</a>
+            <a href="{{path('app_user',{zone:'Douala I'})}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2">DOUALA I</a>    
+            <a href="{{path('app_user')}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2 active ">Tous</a>
+            <a href="{{path('app_user',{zone:'Douala I'})}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2 bg-white">DOUALA I</a>
+            <a href="{{path('app_user',{zone:'Douala II'})}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2 bg-white">DOUALA II</a>                       
+            <a href="{{path('app_user',{zone:'Douala III'})}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2 bg-white ">DOUALA III</a>
+            <a href="{{path('app_user',{zone:'Douala IV'})}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2 bg-white">DOUALA IV</a>
+            <a  href="{{path('app_user',{zone:'Douala V'})}}" class=" btn btn-xl btn-filtre rounded rounded-5 fs-6 border border-2 bg-white">DOUALA V</a>        
+        </div>
+    </div>
+    <div class="listbus">
+        {% for bus in AllBus %}
+           
+                <div class="row mx-2 my-2 border border-2 rounded rounded-2">
+                    <div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center"><span class=" position-static ">{{bus.trajet.ligne}}</span> </div>
+                    <div class="col-6"> <p class="m-0 p-0"><b>{{bus.trajet.nom}}</b></p>{{bus.direction}} </div>
+                    <div  class="col-3 text-center "> <p class="m-0 p-0 etat">{{bus.etat}}</p>prochain </div>
+                    <button class="favoris rounded rounded-circle col-1 position-absolute end-0 mx-4 mt-2">f</button>
+                </div>
+
+         
+            {% else %}
+                <div class="row mx-2 my-2 border border-2 rounded rounded-2">
+                    <p class="text-center">Aucun Bus pour le moment</p>
+                </div>
+
+        {% endfor %}
+    </div>
+</main>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const links = document.querySelectorAll("#menu1 .nav-links");
+
+    links.forEach(link => {
+            link.addEventListener("click", function(){
+
+            // enlever active sur tous les liens
+            links.forEach(l => l.classList.remove("active"));
+
+            // ajouter active au lien cliqué
+            this.classList.add("active");
+
+            });
+    });
+        const link = document.querySelectorAll("#filtre .btn-filtre");
+        link.forEach(link => {
+            link.addEventListener("click", function(){
+
+            // enlever active sur tous les liens
+            link.forEach(l => l.classList.remove("active"));
+
+            // ajouter active au lien cliqué
+            this.classList.add("active");
+
+            });
+    });
+</script>
+{% endblock %}
