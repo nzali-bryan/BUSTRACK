@@ -34,6 +34,46 @@ class BusRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+     public function findfilter(?string $zone, $trajet, ?string $statut)
+{
+    $qb = $this->createQueryBuilder('b')
+               ->leftJoin('b.trajet', 't')
+               ->addSelect('t');
+    if ($zone) {
+        $qb->andWhere('t.zone = :zone')
+           ->setParameter('zone', $zone);
+    }
+    if ($trajet) {
+        $qb->andWhere('b.trajet = :trajet')
+           ->setParameter('trajet', $trajet);
+    }
+    if ($statut) {
+        $qb->andWhere('b.etat = :etat')
+           ->setParameter('etat', $statut);
+    }
+    $qb->orderBy('b.nom', 'ASC');
+    return $qb->getQuery()->getResult();
+}
+
+public function searchBus(string $mot)
+{
+    $qb = $this->createQueryBuilder('b')
+               ->leftJoin('b.trajet', 't')
+               ->addSelect('t')
+               ->leftJoin('t.id_point', 'p')
+               ->addSelect('p');
+
+    $qb->where('b.nom LIKE :q')
+       ->orWhere('b.etat LIKE :q')
+       ->orWhere('t.nom LIKE :q')
+       ->orWhere('p.nom LIKE :q')
+       ->setParameter('q', '%'.$mot.'%')
+       ->orderBy('b.nom', 'ASC');
+
+    return $qb->getQuery()->getResult();
+}
+
+
 //    /**
 //     * @return Bus[] Returns an array of Bus objects
 //     */

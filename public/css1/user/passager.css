@@ -155,7 +155,8 @@
 }
 .detail-bus{
     cursor: pointer;
-    box-shadow: 1px 1px 3px var(--color-fond-secondaire);
+    box-shadow: 1px 1px 2px  #0a162869 ;
+
     margin-top: 10px;
     height: 80px;
     width: 90% !important;
@@ -163,7 +164,9 @@
     margin-right: 5% !important;
 }
 .detail-bus:hover{
-    box-shadow: 1px 1px 5px var(--color-btn-primary-hover);
+    box-shadow: 1px 1px 3px var(--color-btn-primary-hover);
+    
+
 }
 .etat2{
     width: 125px !important;
@@ -253,5 +256,11 @@
 }
 .info2{
     color: var(--color-fond-secondaire) !important;
+}
+.navigation-filtre{
+    margin-left: 250px;
+}
+.lien2{
+        background-color: rgba(235, 235, 237, 0.342);
 }
 

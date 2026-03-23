@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Utilisateur{% endblock %}
+
+{% block body %}
+{{ include('style/style.html.twig') }}
+{{ include('style/js.html.twig') }}
+<div class="container mt-5">
+ <button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#busModal">inscription</button>
+    <h1>Créer un Utilisateur</h1>
+
+<div class="modal fade" id="busModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content content-modal">
+
+      {{ form_start(formCreateUser) }}
+
+      <div class="modal-header entete_form">
+        <h5 class="modal-title text-center title-modal">
+            <i class="bi bi-person-add fs-3"></i>Créer un Compte
+        </h5>
+      </div>
+
+      <div class="modal-body">
+
+        {{ form_row(formCreateUser.nom, {
+            'attr': {'class': 'form-control form_control', 'placeholder': 'Entrer le Nom'}
+        }) }}
+
+        {{ form_row(formCreateUser.username, {
+            'attr': {'class': 'form-control form_control', 'placeholder': 'Entrer le Prenom'}
+        }) }}
+
+        {{ form_row(formCreateUser.password, {
+            'attr': {'class': 'form-control form_control', 'placeholder': 'Entrer le mot de passe'}
+        }) }}
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="Annuler" data-bs-dismiss="modal">Annuler</button>
+        <button type="submit" class="Enregistrer">Enregistrer</button>
+      </div>
+
+      {{ form_end(formCreateUser, {'render_rest': false}) }}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
