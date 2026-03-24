@@ -1,57 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Connexion
+{% endblock %}
 
 {% block body %}
-	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
-<div class="modal fade show d-block" tabindex="-1" style="background: rgba(10,22,40,0.8);">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 rounded-4 shadow">
+	<link
+	rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
+	{# <div class="modal fade show d-block" tabindex="-1" style="background: rgba(10,22,40,0.8);">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content border-0 rounded-4 shadow"> #}
 
 
-      <div class="text-center p-4" style="background:#0A1628; border-top-left-radius:15px; border-top-right-radius:15px;">
-        <div class="mb-2">
-          <div class="bg-success d-inline-flex align-items-center justify-content-center rounded-3" style="width:45px;height:45px;">
-            <i class="bi bi-box-arrow-in-right text-white"></i>
-          </div>
-        </div>
-        <h5 class="text-white mb-1">Bon retour !</h5>
-        <small class="text-secondary">Connectez-vous pour accéder à vos favoris.</small>
-      </div>
+	<div class=" content1 mt-5 mt-sm-3 border border-1 rounded rounded-top-5" style="border-color: #0a110a !important;">
+		<div class="text-center p-4  rounded-top-5" style="background:#0A1628; ">
+			<div class="mb-2">
+				<div class="Enregistrement1 d-inline-flex align-items-center justify-content-center rounded-3" style="width:45px;height:45px;">
+					<i class="bi bi-box-arrow-in-right text-white"></i>
+				</div>
+			</div>
+			<h5 class="text-white mb-1">Bon retour !</h5>
+			<small class="text-secondary">Connectez-vous pour accéder à votre interface</small>
+		</div>
 
 
-      <div class="p-4 bg-light">
-            <form method="post" action="{{path('app_login')}}">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+		<div class="p-4 p-sm-5 bg-light">
+			<form method="post" action="{{path('app_login')}}">
+				{% if error %}
+					<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				{% endif %}
 
-            {% if app.user %}
-                <div class="mb-3">
-                    {{ app.user.userIdentifier }} est déjà connecté. <a href="{{ logout_path() }}" class=" text-danger"> deconnexion</a>
-                </div>
-            {% endif %}
-            <label for="username">Nom</label>
-            <input type="text" value="{{ last_username }}" name="Nom" id="inputNom"   class="form-control form_control " placeholder="Entrer Votre Nom" autocomplete="username" required autofocus> 
-            <label for="password">Mot de passe</label>     
-            <input type="password" name="password" id="inputPassword" class="form-control form_control" autocomplete="current-password" required placeholder="Mot De Passe">
-            <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+				{% if app.user %}
+					<div class="mb-3">
+						{{ app.user.userIdentifier }}
+						est déjà connecté.
+						<a href="{{ logout_path() }}" class=" text-danger">
+							deconnexion</a>
+					</div>
+				{% endif %}
+				<div class="mb-3">
+					<label for="username">Nom</label>
+					<input type="text" value="{{ last_username }}" name="Nom" id="inputNom" class="form-control form_control " placeholder="Entrer Votre Nom" autocomplete="username" required autofocus>
+				</div>
+				<div class="mb-3">
+					<label for="password">Mot de passe</label>
+					<input type="password" name="password" id="inputPassword" class="form-control form_control" autocomplete="current-password" required placeholder="Mot De Passe">
+				</div>
+				<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
 
-            <button class="btn Enregistrement Enregistrement1  m-3" type="submit">
-                Connexion
-            </button>
-        </form>
-        <div class="text-center mt-3">
-          <small>Pas de compte ? 
-            <a href="{{path('app_user')}}" class="text-success fw-bold">S'inscrire gratuitement (passagers)</a>
-          </small>
-        </div>
+				<button class="btn Enregistrement Enregistrement1  m-3" type="submit">
+					Connexion
+				</button>
+			</form>
+			<div class="text-center mt-3">
+				<small>Pas de compte ?
+					<a href="{{path('app_user')}}" class="text-success fw-bold">S'inscrire gratuitement (passagers)</a>
+				</small>
+			</div>
 
-      </div>
+		</div>
+	</div>
 
-    </div>
-  </div>
-</div>
+
+	{# </div>
+			</div>
+		</div> #}
 
 {% endblock %}

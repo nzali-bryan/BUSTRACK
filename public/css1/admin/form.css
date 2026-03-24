@@ -152,6 +152,11 @@
     color: rgb(102, 101, 101) !important;
     border: 1px solid #bcbdbe33 !important;
 }
+.content1{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
 
 
 .form_select1 option {
