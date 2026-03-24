@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Administrateur;
 use App\Form\NewUserType;
+use App\Form\ProfilType;
 use App\Repository\TrajetsRepository;
 use  Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -141,13 +142,67 @@ final class UserController extends AbstractController
     }
 
     #[Route('/profil/{id}', name:'app_user_profil')]
-    public function profil(Request $request, $id,AdministrateurRepository $administrateurRepository)
+    public function profil(Request $request, $id,AdministrateurRepository $administrateurRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher)
 
     {
         $infoUser=$administrateurRepository->find($id);
-        
+        $form= $this->createForm(ProfilType::class, $infoUser);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $currentPassword=$form->get('currentPassword')->getData();
+            $newPassword=$form->get('newPassword')->getData();
+
+            if($newPassword){
+                // verifie l'ancien mot de Passe 
+                if(!$hasher->isPasswordValid($infoUser, $currentPassword)){
+                    $this->addFlash('error', 'Mot de Passe incorrect');
+                    return $this->redirectToRoute('app_user_profil');
+                }
+                $hashed=$hasher->hashPassword($infoUser, $newPassword);
+                $infoUser->setPassword($hashed);
+            }
+            $em->flush();
+
+            $this->addFlash('success', 'Profil mis à jour');
+
+            return $this->redirectToRoute('app_user_profil');
+        }
         return $this->render('user/profil.html.twig',[
-            'users'=>$infoUser,
+            'user'=>$infoUser,
+            'form'=>$form->createView(),
+
+        ]);
+    }
+
+        #[Route('/profil/edit', name:'app_user_profil')]
+    public function profiledit(Request $request, $id,AdministrateurRepository $administrateurRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher)
+
+    {
+        $infoUser=$administrateurRepository->find($id);
+        $form= $this->createForm(ProfilType::class, $infoUser);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $currentPassword=$form->get('currentPassword')->getData();
+            $newPassword=$form->get('newPassword')->getData();
+
+            if($newPassword){
+                // verifie l'ancien mot de Passe 
+                if(!$hasher->isPasswordValid($infoUser, $currentPassword)){
+                    $this->addFlash('error', 'Mot de Passe incorrect');
+                    return $this->redirectToRoute('app_user_profil');
+                }
+                $hashed=$hasher->hashPassword($infoUser, $newPassword);
+                $infoUser->setPassword($hashed);
+            }
+            $em->flush();
+
+            $this->addFlash('success', 'Profil mis à jour');
+
+            return $this->redirectToRoute('app_user_profil');
+        }
+        return $this->render('user/profil.html.twig',[
+            'user'=>$infoUser,
+            'form'=>$form->createView(),
 
         ]);
     }

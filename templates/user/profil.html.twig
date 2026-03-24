@@ -8,77 +8,113 @@
 	{{ include('style/js.html.twig') }}
 	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
 	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
-	{% if app.user %}
-		<main class=" min-vw-100">
-			<header class="entete1 fond row title position-fixed min-vw-100 m-0">
-				<h3 class=" text-white col-3">
-					<span class="color-fresh">Bus</span>Track</h3>
+
+	<main class=" min-vw-100">
+		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
+			<h3 class=" text-white col-3">
+				<span class="color-fresh">Bus</span>Track</h3>
 
 
-				<form method="GET" class="col-4 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
-					<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
-					<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-				</form>
+			<form method="GET" class="col-4 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
+				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
+				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
+			</form>
 
 
-				<div class="sous-entete position-fixed bg-white w-100 ">
-					<nav class="nav color-fresh " id="menu1">
-						<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
-						<a href="{{'app_administrateur_index'}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
-						<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
-					</nav>
-					<hr class="mb-0">
-				</div>
-			</header>
+			<div class="sous-entete position-fixed bg-white w-100 ">
+				<nav class="nav color-fresh " id="menu1">
+					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
+					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
+				</nav>
+				<hr class="mb-0">
+			</div>
+		</header>
 
-		</main>
-		{%else%}
-		<main class=" min-vw-100 min-vh-100 body-color">
-			<header class="entete1 fond row title position-fixed min-vw-100 m-0">
-				<h3 class=" text-white col-3">
-					<span class="color-fresh">Bus</span>Track</h3>
+		<div class="corps2">
+			<div class="container rounded rounded-2 border border-1 border-secondary">
 
-
-				<form method="GET" class="col-4 h-75  my-1" action="{{path('app_user')}}">
-					<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
-					<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-				</form>
-
-				<div class="col-4 text-center position-absolute end-0">
-					<button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1" data-bs-toggle="modal" data-bs-target="#Connexion">connexion</button>
-					<button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" data-bs-toggle="modal" data-bs-target="#busModal">inscription</button>
-				</div>
-				<div class="sous-entete position-fixed bg-white w-100 ">
-					<nav class="nav color-fresh " id="menu1">
-						<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
-						<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
-						<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
-					</nav>
-					<hr class="mb-0">
-				</div>
-			</header>
-
-			<div class="corps2 ">
-				<div class="bg-white container d-grid justify-content-center  border border-secondary-subtle text-center rounded rounded-4">
-					<i class="bi bi-person fs-4"></i>
-					<h3>Non Connecté</h3>
-					<span class=" text-secondary my-1">Connectez-vous pour acceder à votre profil</span>
-					<div class="Enregistrement1 d-flex align-items-center justify-content-center rounded-2 my-2 " style="height:50px">
-						<i class="bi bi-box-arrow-in-right text-white"></i>
-						<a class="nav-link w-100 h-100" href="{{path('app_login')}}">Se connecter</a>
+				<div class="entete-info row mb-3">
+					<div class="rounded rounded-2 icone-info   d-inline">
+						<i class="bi bi-person fs-1 icon-info px-1 rounded rounded-2"></i>
+						<span class=" fw-semibold fs-4">Informations personnelles</span>
 					</div>
+					<div class="col-sm-2 col"></div>
+					<hr>
+				</div>
+				<div class="row mb-3">
+					<div class=" col-xs-12 col-sm-4 text-center">
+						<span class=" text-secondary">Nom</span>
+						<br>
+						<span class=" fw-semibold">{{user.nom}}</span>
+					</div>
+					<div class=" col-xs-12 col-sm-4 text-center">
+						<span class=" text-secondary">Username</span>
+						<br>
+						<span class=" fw-semibold">{{user.username}}</span>
+					</div>
+					<div class=" col-xs-12 col-sm-4 text-center">
+						<span class=" text-secondary">Mot de passe</span>
+						<br>
+						<span class=" fw-semibold">*********</span>
+					</div>
+				</div>
+				<div class="row mb-3 deconnect">
+					<a id="danger" class="nav-link text-danger text-center fs-3 colorDashboard" href="{{path ('deconnexion')}}">
+						<i class="bi bi-box-arrow-right"></i>
+						<span class=" fs-5">Déconnexion</span>
+					</a>
+				</div>
 
+			</div>
+		</div>
 
+	</main>
+	<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#busModal">Mettre à jour</button>
+
+	{# {{ form_end(form) }} #}
+		<div class="modal fade" id="busModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content content-modal">
+
+						<div class="modal-header entete_form">
+							<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
+							<h5 class="modal-title text-center title-modal mt-4">
+							Modifier vos informations</h5>
+
+						</div>
+
+						<div class="modal-body">
+						
+							{{ form_start(form) }}
+							{{ form_row(form.nom , {
+								'attr': {'class': 'form-control form_control',
+							}}) }}
+							{{ form_row(form.username, {
+								'attr': {'class': 'form-control form_control',
+							}}) }}
+							{{ form_row(form.currentPassword , {
+								'attr': {'class': 'form-control form_control',
+								'placeholder': 'Mot de Passe'
+							}}) }}
+							{{ form_row(form.newPassword , {
+								'attr': {'class': 'form-control form_control',
+								'placeholder': 'Mot de Passe'
+							}}) }}
+							<button class="Enregistrement mx-4 mt-1" >Modifier</button>
+						</div>
+						{{ form_end(form) }}
+						<div class="modal-footer"></div>
+
+					</div>
 				</div>
 			</div>
 
-		</main>
-		{%endif%}
+		</div>
+	<script src="js/bootstrap.bundle.min.js"></script>
 
-		<script src="js/bootstrap.bundle.min.js"></script>
-
-		<script>
-			{
+	<script>
+		{
 # const links = document.querySelectorAll("#menu1 .nav-links");
 #
 }
@@ -104,9 +140,9 @@ this.classList.add("active");
 
 });
 });
-		</script>
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
 const links = document.querySelectorAll("menu1 .nav-links");
 
 links.forEach(link => {
@@ -118,9 +154,9 @@ this.classList.add("active");
 });
 });
 });
-		</script>
-		<script>
-			document.getElementById('zone').addEventListener('change', function () {
+	</script>
+	<script>
+		document.getElementById('zone').addEventListener('change', function () {
 
 let selectedZone = this.value;
 let trajetSelect = document.getElementById('trajet');
@@ -142,5 +178,5 @@ option.style.display = 'none';
 });
 
 });
-		</script>
-	{% endblock %}
+	</script>
+{% endblock %}

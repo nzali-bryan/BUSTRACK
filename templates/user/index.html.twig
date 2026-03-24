@@ -27,339 +27,329 @@
 				<nav class="nav color-fresh " id="menu1">
 					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh  active">Bus en temps réel</a><hr>
 					<a href="{{path('app_user_favoris_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
-                    {% if app.user %}
-					    <a href="{{ path('app_user_profil', {'id':app.user.id}) }}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
-                    {% else %}
-                        <a href="{{path ('app_user_profil_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
-                    {%endif%}
+					{% if app.user %}
+						<a href="{{ path('app_user_profil', {'id':app.user.id}) }}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
+					{% else %}
+						<a href="{{path ('app_user_profil_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
+						{%endif%}
 
-				</nav>
-				<hr class="mb-0">
-			</div>
-		</header>
-		<div class="fond corps1 ">
-			<div class="fond d-grid align-items-center ">
-				<div class="fond-vert  rounded rounded-2 text-center">
-					<h6 class=" position-relative mb-">
-						<span class=" fs-1 "></span>
-						SUIVI EN DIRECT.DOUALA</h6>
+					</nav>
+					<hr class="mb-0">
 				</div>
-			</div>
-			<h3 class="fs-1 text-white">Suivez vos bus en
-				<span class="color-fresh">temps réel</span>
-			</h3>
-			<p class="color-secondaire">Consulteé l'état de
-				<span class="bus text-second">{{NombreDeBus}}
-					bus actifs</span>
-				sur le réseau de Douala. Filtrez par zone ou par trajet pour trouver votre bus rapidement, sans compte requis</p>
-			<div class="filtres row w-100 position-relative text-center ms-2">
-				<form method="GET" action="{{ path('app_user') }}" class="row g-3">
-					<div class="col-md-2 fond ">
-						<label class=" text-white">Zone</label>
-						<select id="zone" name="zonefilter" class="form-control form_select1">
-							<option value="" fond>Toutes les zones</option>
-							<option value="Douala I" fond>Douala I</option>
-							<option value="Douala II" fond>Douala II</option>
-							<option value="Douala III">Douala III</option>
-							<option value="Douala IV">Douala IV</option>
-							<option value="Douala V">Douala V</option>
-						</select>
+			</header>
+			<div class="fond corps1 ">
+				<div class="fond d-grid align-items-center ">
+					<div class="fond-vert  rounded rounded-2 text-center">
+						<h6 class=" position-relative mb-">
+							<span class=" fs-1 "></span>
+							SUIVI EN DIRECT.DOUALA</h6>
 					</div>
-					<div class="col-md-2">
-						<label class="text-white">Trajet</label>
-						<select id="trajet" name="trajet" class="form-control form_select1">
-
-							<option value="">Tous les trajets</option>
-
-							{% for trajet in trajets %}
-								<option value="{{ trajet.id }}" data-zone="{{ trajet.zone }}">
-
-									{{ trajet.nom }}
-								</option>
-							{% endfor %}
-
-						</select>
-					</div>
-					<div class="col-md-2 ">
-						<label class="text-white">Statut</label>
-						<select name="statut" class="form-control form_select1">
-							<option value="">Tous</option>
-							<option value="En route">En route</option>
-							<option value="Chargement">Chargement</option>
-							<option value="Incident">Incident</option>
-							<option value="Inactif">Inactif</option>
-						</select>
-					</div>
-					<div class="col-md-2 ">
-						<button class="btn filtrer w-100 mt-4">Filtrer</button>
-					</div>
-				</form>
-
-
-				{# <a class="col-3  text-center filtre my-1  mx-lg-2 mx-1 text-start text-decoration-none d-grid align-items-center rounded rounded-2 connexion col-4 "> Toutes les Zones</a>
-								            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Statut</a>
-								            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Trajets</a>
-								            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Réinitialiser</a> #}
-			</div><hr>
-
-		</div>
-		<div class="lien2">
-			<div class="navigation-filtre pt-5">
-				<div id="filtre">
-					<a href="{{ path('app_user') }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 active ">Tous</a>
-					<a href="{{ path('app_user', {zone:'Douala I'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA I</a>
-					<a href="{{ path('app_user', {zone:'Douala II'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA II</a>
-					<a href="{{ path('app_user', {zone:'Douala III'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA III</a>
-					<a href="{{ path('app_user', {zone:'Douala IV'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA IV</a>
-					<a href="{{ path('app_user', {zone:'Douala V'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA V</a>
 				</div>
-
-			</div>
-			<div class="listbus">
-				{% for bus in AllBus %}
-
-					{# <div class="row detail-bus border mx-2 my-5 mt-xl-3 mt-sm-2 bg-white  rounded rounded-2 " type="button" data-bs-toggle="offcanvas" data-bs-target="#sideModal{{ bus.id }}" aria-controls="sideModal" >
-										                        <div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center"><span class=" position-static ">{{bus.trajet.ligne}}</span> </div>
-										                        <div class="col-6 "> <p class="m-3 p-0 " ><b>{{bus.trajet.nom}}</b></p>{{bus.direction}} </div>
-										                            <div class="col-2"></div>
-										                        <div  class="col-3 text-center etat2   mt-4"> <p class="m-0 p-0 etat">{{bus.etat}}</p> </div>
-										                        <div class="col-1" id="favoris">
-										                            <button class="favoris rounded rounded-circle position-relative   ms-5 mt-3"><i class="bi bi-heart position-relative me-6"></i></button>
-										                        </div>
-										                    
-										                    </div>             #}
-
-					<div class="container bus-detail my-2">
-
-
-						<div
-							class="card info-bus1 p-3 shadow-sm">
-
-							<!-- HEADER -->
-							<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-								<div class="d-flex align-items-center">
-									<span class="badge badge-route me-2">
-										<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
-											<span class=" position-static ">{{bus.trajet.ligne}}</span>
-										</div>
-									</span>
-									<div>
-										<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
-										<span class="info2">{{bus.direction}}</span>
-									</div>
-								</div><hr>
-
-								<div>
-									<span class="badge status etat2">●
-										{{bus.etat}}
-									</span>
-									<button class="favoris rounded rounded-circle">
-										<i class="bi bi-heart "></i>
-									</button>
-								</div>
-							</div>
-
-							<!-- INFOS -->
-							<div class="row text-center g-3">
-
-								<div class="col-6 col-md-3 info-box">
-
-									<i class="fas fa-bus fs-4 color-fond "></i>
-									<div>{{bus.nom}}</div>
-									<small class="text-muted">Bus</small>
-								</div>
-
-								<div class="col-6 col-md-3 info-box">
-									<i class="fas fa-user-tie fs-4 color-fond"></i>
-									<div>{{bus.administrateur.nom}}</div>
-									<small class="text-muted">Conducteur</small>
-								</div>
-
-								<div class="col-6 col-md-3 info-box">
-									<i class="bi bi-people fs-4 color-fond"></i>
-									<div>{{bus.capacite}}</div>
-									<small class="text-muted">Places</small>
-								</div>
-
-								<div class="col-6 col-md-3 info-box">
-									<i class="bi bi-geo-alt fs-4 color-fond"></i>
-
-									{% set parts = bus.direction|lower|split('vers') %}
-									<div>
-										<span class="text-black">
-											{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
-										</span>
-									</div>
-									<small class="text-muted">
-										Prochain Arrêts</small>
-
-
-								</div>
-
-							</div>
+				<h3 class="fs-1 text-white">Suivez vos bus en
+					<span class="color-fresh">temps réel</span>
+				</h3>
+				<p class="color-secondaire">Consulteé l'état de
+					<span class="bus text-second">{{NombreDeBus}}
+						bus actifs</span>
+					sur le réseau de Douala. Filtrez par zone ou par trajet pour trouver votre bus rapidement, sans compte requis</p>
+				<div class="filtres row w-100 position-relative text-center ms-2">
+					<form method="GET" action="{{ path('app_user') }}" class="row g-3">
+						<div class="col-md-2 fond ">
+							<label class=" text-white">Zone</label>
+							<select id="zone" name="zonefilter" class="form-control form_select1">
+								<option value="" fond>Toutes les zones</option>
+								<option value="Douala I" fond>Douala I</option>
+								<option value="Douala II" fond>Douala II</option>
+								<option value="Douala III">Douala III</option>
+								<option value="Douala IV">Douala IV</option>
+								<option value="Douala V">Douala V</option>
+							</select>
 						</div>
+						<div class="col-md-2">
+							<label class="text-white">Trajet</label>
+							<select id="trajet" name="trajet" class="form-control form_select1">
 
-					</div>
-				{% else %}
-					<div class="row mx-2 my-2 border border-2 rounded rounded-2">
-						<p class="text-center">Aucun Bus pour le moment</p>
-					</div>
+								<option value="">Tous les trajets</option>
 
-				{% endfor %}
+								{% for trajet in trajets %}
+									<option value="{{ trajet.id }}" data-zone="{{ trajet.zone }}">
+
+										{{ trajet.nom }}
+									</option>
+								{% endfor %}
+
+							</select>
+						</div>
+						<div class="col-md-2 ">
+							<label class="text-white">Statut</label>
+							<select name="statut" class="form-control form_select1">
+								<option value="">Tous</option>
+								<option value="En route">En route</option>
+								<option value="Chargement">Chargement</option>
+								<option value="Incident">Incident</option>
+								<option value="Inactif">Inactif</option>
+							</select>
+						</div>
+						<div class="col-md-2 ">
+							<button class="btn filtrer w-100 mt-4">Filtrer</button>
+						</div>
+					</form>
+
+
+					{# <a class="col-3  text-center filtre my-1  mx-lg-2 mx-1 text-start text-decoration-none d-grid align-items-center rounded rounded-2 connexion col-4 "> Toutes les Zones</a>
+																												            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Statut</a>
+																												            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Trajets</a>
+																												            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Réinitialiser</a> #}
+				</div><hr>
+
 			</div>
-		</div>
-
-		{% for bus in AllBus %}
-
-
-			<div class="offcanvas offcanvas-end" tabindex="-1" id="sideModal{{ bus.id }}" aria-labelledby="sideModalLabel">
-				<div class="offcanvas-header fond header-modal">
-					<div>
-						<span class="color-fresh">{{bus.trajet.ligne}}</span>
-						<h5 id="sideModalLabel" class="text-white">{{bus.trajet.nom}}</h5>
-
+			<div class="lien2">
+				<div class="navigation-filtre pt-5">
+					<div id="filtre">
+						<a href="{{ path('app_user') }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 active ">Tous</a>
+						<a href="{{ path('app_user', {zone:'Douala I'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA I</a>
+						<a href="{{ path('app_user', {zone:'Douala II'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA II</a>
+						<a href="{{ path('app_user', {zone:'Douala III'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA III</a>
+						<a href="{{ path('app_user', {zone:'Douala IV'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA IV</a>
+						<a href="{{ path('app_user', {zone:'Douala V'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA V</a>
 					</div>
 
-					<button type="button" class="btn-close text-reset text-white bg-white rounded rounded-circle btn-croix text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
-				<div class="offcanvas-body">
-					<div class="row rounded rounded-2 statut statut1">
-						<h4>Statut Actuel</h4>
-						<span class="fs-4 mb-3 statut3 info2">
-							{{bus.etat}}</span>
-						<span class="info2">{{bus.direction}}</span>
-					</div>
-					<div class="row mt-4  g-2  ">
-						<div class="col-5  rounded rounded-2 statut ms-2">Bus Assigné
-							<div class="info2">{{bus.nom}}</div>
-						</div>
-						<div class="col-5 rounded rounded-2 statut ms-5">Conducteur
-							<div class="info2">{{bus.administrateur.nom}}</div>
-						</div>
-					</div>
-					<div class="row mt-4  g-2  ">
-						<div class="col-5  rounded rounded-2 statut ms-2">Capacité
-							<div class="info2">{{bus.capacite}}</div>
-						</div>
-
-						<div class="col-5 rounded rounded-2 statut ms-5">
-							Prochain arrêt :
-
-							{% set parts = bus.direction|lower|split('vers') %}
-							<p>
-								<span class="badge bg-success">
-									{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
-								</span>
-							</p>
-						</div>
-
-					</div>
-					<div>
-
-						Point d'embarquement
-						<div class="timeline">
-							{% for point in bus.trajet.point %}
-
-								<div class="timeline">
+				<div class="listbus">
+					{% for bus in AllBus %}
 
 
-									<div class="timeline-item d-flex">
-										<div class="timeline-icon me-3">
-											<div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width:20px; height:20px;">
-												<i class="bi bi-check text-white" style="font-size:12px;"></i>
+						<div class="container bus-detail my-2">
+
+
+							<div
+								class="card info-bus1 p-3 shadow-sm">
+
+								<!-- HEADER -->
+								<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+									<div class="d-flex align-items-center">
+										<span class="badge badge-route me-2">
+											<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
+												<span class=" position-static ">{{bus.trajet.ligne}}</span>
 											</div>
-											<div class="timeline-line bg-success"></div>
+										</span>
+										<div>
+											<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
+											<span class="info2">{{bus.direction}}</span>
 										</div>
-										<div class="timeline-content">
-											<h6>{{ point.nom }}</h6>
-											<small class="text-muted"></small>
-										</div>
+									</div><hr>
+
+									<div>
+										<span class="badge status etat2">●
+											{{bus.etat}}
+										</span>
+										<button class="favoris rounded rounded-circle">
+											<i class="bi bi-heart "></i>
+										</button>
 									</div>
 								</div>
 
+								<!-- INFOS -->
+								<div class="row text-center g-3">
 
-							{% endfor %}
+									<div class="col-6 col-md-3 info-box">
+
+										<i class="fas fa-bus fs-4 color-fond "></i>
+										<div>{{bus.nom}}</div>
+										<small class="text-muted">Bus</small>
+									</div>
+
+									<div class="col-6 col-md-3 info-box">
+										<i class="fas fa-user-tie fs-4 color-fond"></i>
+										<div>{{bus.administrateur.nom}}</div>
+										<small class="text-muted">Conducteur</small>
+									</div>
+
+									<div class="col-6 col-md-3 info-box">
+										<i class="bi bi-people fs-4 color-fond"></i>
+										<div>{{bus.capacite}}</div>
+										<small class="text-muted">Places</small>
+									</div>
+
+									<div class="col-6 col-md-3 info-box">
+										<i class="bi bi-geo-alt fs-4 color-fond"></i>
+
+										{% set parts = bus.direction|lower|split('vers') %}
+										<div>
+											<span class="text-black">
+												{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+											</span>
+										</div>
+										<small class="text-muted">
+											Prochain Arrêts</small>
+
+
+									</div>
+
+								</div>
+							</div>
+
 						</div>
-					</div>
-					<div class="Ajoutfavoris">
-						<button type="" class="Ajoutfavoris btn">
-							<i class="bi bi-heart"></i>Ajouter au favoris</button>
-					</div>
+					{% else %}
+						<div class="row mx-2 my-2 border border-2 rounded rounded-2">
+							<p class="text-center">Aucun Bus pour le moment</p>
+						</div>
 
+					{% endfor %}
 				</div>
 			</div>
 
+			{% for bus in AllBus %}
 
-		{% endfor %}
 
-		<div class="modal fade" id="busModal" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content content-modal">
+				<div class="offcanvas offcanvas-end" tabindex="-1" id="sideModal{{ bus.id }}" aria-labelledby="sideModalLabel">
+					<div class="offcanvas-header fond header-modal">
+						<div>
+							<span class="color-fresh">{{bus.trajet.ligne}}</span>
+							<h5 id="sideModalLabel" class="text-white">{{bus.trajet.nom}}</h5>
 
-					<div class="modal-header entete_form">
-						<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-						<h5 class="modal-title text-center title-modal mt-4">
-							<i class="bi bi-person-add fs-3"></i>Créer un Compte</h5>
+						</div>
+
+						<button type="button" class="btn-close text-reset text-white bg-white rounded rounded-circle btn-croix text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body">
+						<div class="row rounded rounded-2 statut statut1">
+							<h4>Statut Actuel</h4>
+							<span class="fs-4 mb-3 statut3 info2">
+								{{bus.etat}}</span>
+							<span class="info2">{{bus.direction}}</span>
+						</div>
+						<div class="row mt-4  g-2  ">
+							<div class="col-5  rounded rounded-2 statut ms-2">Bus Assigné
+								<div class="info2">{{bus.nom}}</div>
+							</div>
+							<div class="col-5 rounded rounded-2 statut ms-5">Conducteur
+								<div class="info2">{{bus.administrateur.nom}}</div>
+							</div>
+						</div>
+						<div class="row mt-4  g-2  ">
+							<div class="col-5  rounded rounded-2 statut ms-2">Capacité
+								<div class="info2">{{bus.capacite}}</div>
+							</div>
+
+							<div class="col-5 rounded rounded-2 statut ms-5">
+								Prochain arrêt :
+
+								{% set parts = bus.direction|lower|split('vers') %}
+								<p>
+									<span class="badge bg-success">
+										{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+									</span>
+								</p>
+							</div>
+
+						</div>
+						<div>
+
+							Point d'embarquement
+							<div class="timeline">
+								{% for point in bus.trajet.point %}
+
+									<div class="timeline">
+
+
+										<div class="timeline-item d-flex">
+											<div class="timeline-icon me-3">
+												<div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width:20px; height:20px;">
+													<i class="bi bi-check text-white" style="font-size:12px;"></i>
+												</div>
+												<div class="timeline-line bg-success"></div>
+											</div>
+											<div class="timeline-content">
+												<h6>{{ point.nom }}</h6>
+												<small class="text-muted"></small>
+											</div>
+										</div>
+									</div>
+
+
+								{% endfor %}
+							</div>
+						</div>
+						<div class="Ajoutfavoris">
+							<button type="" class="Ajoutfavoris btn">
+								<i class="bi bi-heart"></i>Ajouter au favoris</button>
+						</div>
 
 					</div>
+				</div>
 
-					<div class="modal-body">
 
-						{{ form_start(formCreateUser) }}
-						{{ form_row(formCreateUser.nom, {
+			{% endfor %}
+
+			<div class="modal fade" id="busModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content content-modal">
+
+						<div class="modal-header entete_form">
+							<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
+							<h5 class="modal-title text-center title-modal mt-4">
+								<i class="bi bi-person-add fs-3"></i>Créer un Compte</h5>
+
+						</div>
+
+						<div class="modal-body">
+
+							{{ form_start(formCreateUser) }}
+							{{ form_row(formCreateUser.nom, {
         'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Nom'
         
       
       }}) }}
-						{{ form_row(formCreateUser.username, {
+							{{ form_row(formCreateUser.username, {
         'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Prenom'
         }}) }}
 
-						{{ form_row(formCreateUser.password, {'attr': {
+							{{ form_row(formCreateUser.password, {'attr': {
             'class': 'form-control form_control',
             'placeholder': 'Entrer le mot de passe'
             }}) }}
-						<button class="Enregistrement mx-4 mt-1">Enregistrer</button>
-					</div>
-					{{ form_end(formCreateUser) }}
-					<div class="modal-footer"></div>
-
-				</div>
-			</div>
-		</div>
-
-	</div>
-	<div class="modal fade" id="Connexion" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content content-modal">
-
-				<div class="modal-header entete_form">
-					<div class="text-center p-4" style="background:#0A1628; border-top-left-radius:15px; border-top-right-radius:15px;">
-						<div class="mb-2">
-							<div class="bg-success d-inline-flex align-items-center justify-content-center rounded-3" style="width:45px;height:45px;">
-								<i class="bi bi-box-arrow-in-right text-white"></i>
-							</div>
+							<button class="Enregistrement mx-4 mt-1">Enregistrer</button>
 						</div>
-						<h5 class="text-white mb-1">Bon retour !</h5>
-						<small class="text-secondary">Connectez-vous pour accéder à vos favoris.</small>
+						{{ form_end(formCreateUser) }}
+						<div class="modal-footer"></div>
+
 					</div>
-					{# <button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-										        <h5 class="modal-title text-center title-modal mt-4"><i class="bi bi-person-add fs-3"></i>Créer un Compte</h5> #}
-
 				</div>
-
-				<div class="modal-body"></div>
 			</div>
+
 		</div>
+		<div class="modal fade" id="Connexion" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content content-modal">
 
-	</div>
-</main>
-<script src="js/bootstrap.bundle.min.js"></script>
+					<div class="modal-header entete_form">
+						<div class="text-center p-4" style="background:#0A1628; border-top-left-radius:15px; border-top-right-radius:15px;">
+							<div class="mb-2">
+								<div class="bg-success d-inline-flex align-items-center justify-content-center rounded-3" style="width:45px;height:45px;">
+									<i class="bi bi-box-arrow-in-right text-white"></i>
+								</div>
+							</div>
+							<h5 class="text-white mb-1">Bon retour !</h5>
+							<small class="text-secondary">Connectez-vous pour accéder à vos favoris.</small>
+						</div>
+						{# <button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
+																																		        <h5 class="modal-title text-center title-modal mt-4"><i class="bi bi-person-add fs-3"></i>Créer un Compte</h5> #}
 
-<script>
-	{
+					</div>
+
+					<div class="modal-body"></div>
+				</div>
+			</div>
+
+		</div>
+	</main>
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		{
 # const links = document.querySelectorAll("#menu1 .nav-links");
 #
 }
@@ -385,9 +375,9 @@ this.classList.add("active");
 
 });
 });
-</script>
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
 const links = document.querySelectorAll("menu1 .nav-links");
 
 links.forEach(link => {
@@ -399,9 +389,9 @@ this.classList.add("active");
 });
 });
 });
-</script>
-<script>
-	document.getElementById('zone').addEventListener('change', function () {
+	</script>
+	<script>
+		document.getElementById('zone').addEventListener('change', function () {
 
 let selectedZone = this.value;
 let trajetSelect = document.getElementById('trajet');
@@ -423,4 +413,5 @@ option.style.display = 'none';
 });
 
 });
-</script>{% endblock %}
+	</script>
+{% endblock %}

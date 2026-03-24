@@ -336,4 +336,14 @@
         border-top: 3px !important;
         border-color: #00C9A7 !important;
     }
+.icon-info{
+    background-color: #00c9a731 !important;
+    color: #019242;
 
+}
+
+.deconnect{
+    width: 90% !important;
+    margin-left: 5%;
+    margin-right: 5%;
+}
