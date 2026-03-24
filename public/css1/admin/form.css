@@ -141,8 +141,11 @@
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
 }
-.Enregistrerment:hover{
+.Enregistrement:hover{
     background-color: #00C9A7;
+}
+.Enregistrement1{
+    background-color: var(--color-btn-primary-hover) !important;
 }
 .form_select1 {
     background-color: #0A1628 !important;

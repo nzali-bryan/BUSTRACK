@@ -4,12 +4,16 @@
 .entete1{
     top: 0px !important;
     z-index: 2 !important;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .color-fresh{
     color: var(--color-btn-primary-hover) !important;
 }
 .color-secondaire{
     color: var(--color-text-secondary) !important;
+}
+.color-fond{
+    color: var(--color-fond-secodaire);
 }
 .text-second{
     color: #e2e2e2e8;
@@ -40,6 +44,15 @@
 .inscription{
     background-color: var(--color-btn-primary-hover);
 }
+.filtrer{
+    background-color: var(--color-btn-primary-hover);
+}
+.filtrer:hover{
+    background-color: var(--color-btn-primary);
+}
+.inscription:hover{
+    color: white !important;
+}
 .sous-entete{
     top: 50px;
     z-index: 2 !important;
@@ -68,7 +81,7 @@
 }
 .corps1{
     height: 400px;
-        margin-top: 100px;
+        margin-top: 98px;
 }
 
 .corps1::before {
@@ -138,10 +151,7 @@
     border: 1px solid var(--color-btn-primary-hover) !important;
     color: var(--color-btn-primary-hover);
 }
-.favoris.active{
-    background-color: var(--color-btn-primary-hover) !important;
-    color: white !important;
-}
+
 .etat{
     background-color: #00c9a752;
     color: var(--color-btn-primary-hover);
@@ -169,7 +179,7 @@
 
 }
 .etat2{
-    width: 125px !important;
+    width: 100px !important;
 }
 .bi-heart::before{
     position: relative !important;
@@ -263,4 +273,31 @@
 .lien2{
         background-color: rgba(235, 235, 237, 0.342);
 }
+
+    .info-bus1 {
+      border-radius: 15px;
+      border-top: 4px solid var(--color-btn-primary-hover);
+    }
+    .status {
+      background: #d4edda;
+      color: #155724;
+      font-size: 0.9rem;
+    }
+
+    .info-box {
+      border-right: 1px solid #eee;
+    }
+
+    .info-box:last-child {
+      border-right: none;
+    }
+    .next-stop {
+      background: #e9f7ef;
+      border-radius: 10px;
+    }
+
+    .bus-detail{
+        border-top: 3px !important;
+        border-color: #00C9A7 !important;
+    }
 

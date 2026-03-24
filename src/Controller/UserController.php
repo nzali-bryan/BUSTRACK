@@ -19,7 +19,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserController extends AbstractController
 {
     #[Route('', name: 'app_user')]
-    public function index(BusRepository $busRepository,TrajetsRepository $trajetsRepository ,Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    public function index(BusRepository $busRepository, TrajetsRepository $trajetsRepository, Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
         $countbus = $busRepository->findBusActifs([
             'En Route',
@@ -29,10 +29,10 @@ final class UserController extends AbstractController
 
         ]);
 
-        $zone1= $request->query->get('zone');
-        
+        $zone1 = $request->query->get('zone');
 
-        
+
+
         // creer un utilisateur
         // creer un utilisateur
         // creer un utilisateur
@@ -52,55 +52,56 @@ final class UserController extends AbstractController
 
             return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
         }
-        
+
         // filtre très personnalise 
-            $zone=$request->query->get('zonefilter');
-            $trajet=$request->query->get('trajet');
-            $statut=$request->query->get('statut');
-            $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
-            if ($zone && !in_array($zone, $zonesAutorisees)) {
-                $zone = null;
-            }
-            if ($trajet && !is_numeric($trajet)) {
-                $trajet = null;
-            }
-            $etatsAutorisees=['En route','Chargement','Incident','Inactif'];
-            if ($statut && !in_array($statut, $etatsAutorisees)) {
-                $statut = null;
-            }
-            $busFilter=$busRepository->findfilter($zone,$trajet,$statut);
-            // dd($busFilter);
+        $zone = $request->query->get('zonefilter');
+        $trajet = $request->query->get('trajet');
+        $statut = $request->query->get('statut');
+        $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
+        if ($zone && !in_array($zone, $zonesAutorisees)) {
+            $zone = null;
+        }
+        if ($trajet && !is_numeric($trajet)) {
+            $trajet = null;
+        }
+        $etatsAutorisees = ['En route', 'Chargement', 'Incident', 'Inactif'];
+        if ($statut && !in_array($statut, $etatsAutorisees)) {
+            $statut = null;
+        }
+        $busFilter = $busRepository->findfilter($zone, $trajet, $statut);
+        // dd($busFilter);
 
 
         // filtre très personalisée
 
 
         // filtre par mot 
-            $mot=$request->query->get('mot');
+        $mot = $request->query->get('mot');
         // filtre par mot 
 
 
-        if($mot){
-            $Allbus=$busRepository->searchBus($mot);
-        }elseif($trajet || $statut || $zone){
-            $Allbus=$busRepository->findfilter($zone,$trajet,$statut);
-        }elseif($zone1){
-            $Allbus= $busRepository->findZoneBus($zone1);
-        }else{
-            $Allbus= $busRepository->findAll();
+
+        if ($mot) {
+            $Allbus = $busRepository->searchBus($mot);
+        } elseif ($trajet || $statut || $zone) {
+            $Allbus = $busRepository->findfilter($zone, $trajet, $statut);
+        } elseif ($zone1) {
+            $Allbus = $busRepository->findZoneBus($zone1);
+        } else {
+            $Allbus = $busRepository->findAll();
         }
 
         return $this->render('user/index.html.twig', [
-           'formCreateUser' => $form,
-           'NombreDeBus'=>$countbus,
-           'AllBus'=>$Allbus,
-           'conducteurs' => $administrateurRepository->findDriver(),
-           'trajets'=>$trajetsRepository->findAll(),
+            'formCreateUser' => $form,
+            'NombreDeBus' => $countbus,
+            'AllBus' => $Allbus,
+            'conducteurs' => $administrateurRepository->findDriver(),
+            'trajets' => $trajetsRepository->findAll(),
 
 
         ]);
     }
-        #[Route('/creer', name: 'app_user_new', methods: ['GET', 'POST'])]
+    #[Route('/creer', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
         $administrateur = new Administrateur();
@@ -124,26 +125,25 @@ final class UserController extends AbstractController
             'formCreateUser' => $form,
         ]);
     }
-        #[Route('/filter', name: 'app_user_filter', methods: ['GET', 'POST'])]
-        public function filter(Request $request ,EntityManagerInterface $entityManager,BusRepository $busRepository){
-            $zone=$request->query->get('zonefilter');
-            $trajet=$request->query->get('trajet');
-            $statut=$request->query->get('statut');
-            $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
-            if ($zone && !in_array($zone, $zonesAutorisees)) {
-                $zone = null;
-            }
-            if ($trajet && !is_numeric($trajet)) {
-                $trajet = null;
-            }
-            $etatsAutorisees=['En route','Chargement','Incident','Inactif'];
-            if ($statut && !in_array($statut, $etatsAutorisees)) {
-                $statut = null;
-            }
-            $busFilter=$busRepository->findfilter($zone,$trajet,$statut);
-            dd($busFilter);
-            return $this->render('user/index.html.twig'[
-
-            ]);
+    #[Route('/filter', name: 'app_user_filter', methods: ['GET', 'POST'])]
+    public function filter(Request $request, EntityManagerInterface $entityManager, BusRepository $busRepository)
+    {
+        $zone = $request->query->get('zonefilter');
+        $trajet = $request->query->get('trajet');
+        $statut = $request->query->get('statut');
+        $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
+        if ($zone && !in_array($zone, $zonesAutorisees)) {
+            $zone = null;
         }
+        if ($trajet && !is_numeric($trajet)) {
+            $trajet = null;
+        }
+        $etatsAutorisees = ['En route', 'Chargement', 'Incident', 'Inactif'];
+        if ($statut && !in_array($statut, $etatsAutorisees)) {
+            $statut = null;
+        }
+        $busFilter = $busRepository->findfilter($zone, $trajet, $statut);
+        dd($busFilter);
+        return $this->render('user/index.html.twig'[]);
+    }
 }

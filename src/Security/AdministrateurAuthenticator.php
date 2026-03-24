@@ -22,6 +22,9 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
+ 
+    
+
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
@@ -53,6 +56,7 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
         }
         $user= $token->getUser();
         $roles = $user->getRoles();
+  
         $id= $user->getId();
       
        
@@ -63,6 +67,10 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
 
         if (in_array('ROLE_DRIVER', $roles)) {
             return new RedirectResponse($this->urlGenerator->generate('app_interface_conducteur',['id'=> $id]));
+
+        }
+        if (in_array('ROLE_USER', $roles)) {
+            return new RedirectResponse($this->urlGenerator->generate('app_user',['id'=> $id]));
 
         }
 
