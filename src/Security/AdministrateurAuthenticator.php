@@ -70,7 +70,7 @@ class AdministrateurAuthenticator extends AbstractLoginFormAuthenticator
 
         }
         if (in_array('ROLE_USER', $roles)) {
-            return new RedirectResponse($this->urlGenerator->generate('app_user',['id'=> $id]));
+            return new RedirectResponse($this->urlGenerator->generate('app_user'));
 
         }
 

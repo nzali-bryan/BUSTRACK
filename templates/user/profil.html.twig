@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusTrack
+{% endblock %}
+
+{% block body %}
+	{{ include('style/style.html.twig') }}
+	{{ include('style/js.html.twig') }}
+	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
+	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
+	{% if app.user %}
+		<main class=" min-vw-100">
+			<header class="entete1 fond row title position-fixed min-vw-100 m-0">
+				<h3 class=" text-white col-3">
+					<span class="color-fresh">Bus</span>Track</h3>
+
+
+				<form method="GET" class="col-4 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
+					<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
+					<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
+				</form>
+
+
+				<div class="sous-entete position-fixed bg-white w-100 ">
+					<nav class="nav color-fresh " id="menu1">
+						<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
+						<a href="{{'app_administrateur_index'}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+						<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
+					</nav>
+					<hr class="mb-0">
+				</div>
+			</header>
+
+		</main>
+		{%else%}
+		<main class=" min-vw-100 min-vh-100 body-color">
+			<header class="entete1 fond row title position-fixed min-vw-100 m-0">
+				<h3 class=" text-white col-3">
+					<span class="color-fresh">Bus</span>Track</h3>
+
+
+				<form method="GET" class="col-4 h-75  my-1" action="{{path('app_user')}}">
+					<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
+					<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
+				</form>
+
+				<div class="col-4 text-center position-absolute end-0">
+					<button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1" data-bs-toggle="modal" data-bs-target="#Connexion">connexion</button>
+					<button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" data-bs-toggle="modal" data-bs-target="#busModal">inscription</button>
+				</div>
+				<div class="sous-entete position-fixed bg-white w-100 ">
+					<nav class="nav color-fresh " id="menu1">
+						<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
+						<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+						<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
+					</nav>
+					<hr class="mb-0">
+				</div>
+			</header>
+
+			<div class="corps2 ">
+				<div class="bg-white container d-grid justify-content-center  border border-secondary-subtle text-center rounded rounded-4">
+					<i class="bi bi-person fs-4"></i>
+					<h3>Non Connecté</h3>
+					<span class=" text-secondary my-1">Connectez-vous pour acceder à votre profil</span>
+					<div class="Enregistrement1 d-flex align-items-center justify-content-center rounded-2 my-2 " style="height:50px">
+						<i class="bi bi-box-arrow-in-right text-white"></i>
+						<a class="nav-link w-100 h-100" href="{{path('app_login')}}">Se connecter</a>
+					</div>
+
+
+				</div>
+			</div>
+
+		</main>
+		{%endif%}
+
+		<script src="js/bootstrap.bundle.min.js"></script>
+
+		<script>
+			{
+# const links = document.querySelectorAll("#menu1 .nav-links");
+#
+}
+const links = document.querySelectorAll("#menu1 a");
+
+links.forEach(link => {
+link.addEventListener("click", function () { // enlever active sur tous les liens
+links.forEach(l => l.classList.remove("active"));
+
+// ajouter active au lien cliqué
+this.classList.add("active");
+
+});
+});
+const links = document.querySelectorAll("#favoris .favoris");
+
+links.forEach(link => {
+link.addEventListener("click", function () { // enlever active sur tous les liens
+links.forEach(l => l.classList.remove("active"));
+
+// ajouter active au lien cliqué
+this.classList.add("active");
+
+});
+});
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+const links = document.querySelectorAll("menu1 .nav-links");
+
+links.forEach(link => {
+link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
+links.forEach(l => l.classList.remove("active"));
+
+
+this.classList.add("active");
+});
+});
+});
+		</script>
+		<script>
+			document.getElementById('zone').addEventListener('change', function () {
+
+let selectedZone = this.value;
+let trajetSelect = document.getElementById('trajet');
+let options = trajetSelect.querySelectorAll('option');
+
+options.forEach(option => {
+
+let zone = option.getAttribute('data-zone');
+
+if (option.value === '') {
+option.style.display = 'block';
+}
+if (! selectedZone || zone === selectedZone) {
+option.style.display = 'block';
+} else {
+option.style.display = 'none';
+}
+
+});
+
+});
+		</script>
+	{% endblock %}

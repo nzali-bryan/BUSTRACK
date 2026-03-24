@@ -13,6 +13,7 @@ use App\Entity\Administrateur;
 use App\Form\NewUserType;
 use App\Repository\TrajetsRepository;
 use  Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/interface/passager', name: '')]
@@ -78,9 +79,6 @@ final class UserController extends AbstractController
         // filtre par mot 
         $mot = $request->query->get('mot');
         // filtre par mot 
-
-
-
         if ($mot) {
             $Allbus = $busRepository->searchBus($mot);
         } elseif ($trajet || $statut || $zone) {
@@ -97,10 +95,10 @@ final class UserController extends AbstractController
             'AllBus' => $Allbus,
             'conducteurs' => $administrateurRepository->findDriver(),
             'trajets' => $trajetsRepository->findAll(),
-
-
         ]);
     }
+
+
     #[Route('/creer', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
@@ -125,25 +123,55 @@ final class UserController extends AbstractController
             'formCreateUser' => $form,
         ]);
     }
-    #[Route('/filter', name: 'app_user_filter', methods: ['GET', 'POST'])]
-    public function filter(Request $request, EntityManagerInterface $entityManager, BusRepository $busRepository)
+
+    #[Route('/profil', name: 'app_user_profil_NoConnect')]
+    public function profilNoConnect(Request $request)
     {
-        $zone = $request->query->get('zonefilter');
-        $trajet = $request->query->get('trajet');
-        $statut = $request->query->get('statut');
-        $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
-        if ($zone && !in_array($zone, $zonesAutorisees)) {
-            $zone = null;
-        }
-        if ($trajet && !is_numeric($trajet)) {
-            $trajet = null;
-        }
-        $etatsAutorisees = ['En route', 'Chargement', 'Incident', 'Inactif'];
-        if ($statut && !in_array($statut, $etatsAutorisees)) {
-            $statut = null;
-        }
-        $busFilter = $busRepository->findfilter($zone, $trajet, $statut);
-        dd($busFilter);
-        return $this->render('user/index.html.twig'[]);
+        return $this->render('user/profilNoConnect.html.twig',[
+
+        ]);
     }
+
+    #[Route('/favoris', name: 'app_user_favoris_NoConnect')]
+    public function favorisNoConnect(Request $request)
+    {
+        return $this->render('user/favorisNoConnect.html.twig',[
+
+        ]);
+    }
+
+    #[Route('/profil/{id}', name:'app_user_profil')]
+    public function profil(Request $request, $id,AdministrateurRepository $administrateurRepository)
+
+    {
+        $infoUser=$administrateurRepository->find($id);
+        
+        return $this->render('user/profil.html.twig',[
+            'users'=>$infoUser,
+
+        ]);
+    }
+    // #[Route('/filter', name: 'app_user_filter', methods: ['GET', 'POST'])]
+    // public function filter(Request $request, EntityManagerInterface $entityManager, BusRepository $busRepository)
+    // {
+    //     $zone = $request->query->get('zonefilter');
+    //     $trajet = $request->query->get('trajet');
+    //     $statut = $request->query->get('statut');
+    //     $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
+    //     if ($zone && !in_array($zone, $zonesAutorisees)) {
+    //         $zone = null;
+    //     }
+    //     if ($trajet && !is_numeric($trajet)) {
+    //         $trajet = null;
+    //     }
+    //     $etatsAutorisees = ['En route', 'Chargement', 'Incident', 'Inactif'];
+    //     if ($statut && !in_array($statut, $etatsAutorisees)) {
+    //         $statut = null;
+    //     }
+    //     $busFilter = $busRepository->findfilter($zone, $trajet, $statut);
+    //     dd($busFilter);
+    //     return $this->render('user/index.html.twig'[]);
+    // }
+
+    
 }
