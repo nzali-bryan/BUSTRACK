@@ -74,6 +74,19 @@ public function searchBus(string $mot)
 }
 
 
+public function findBusByUserFavoris(int $userId): array
+{
+    return $this->createQueryBuilder('b')
+        ->join('b.trajet', 't')        // Bus → Trajet
+        ->join('t.favoris', 'f')       // Trajet → Favori
+        ->join('f.administrateur', 'u')          // Favori → User
+        ->andWhere('u.id = :userId')
+        ->setParameter('userId', $userId)
+        ->orderBy('b.id', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+
 //    /**
 //     * @return Bus[] Returns an array of Bus objects
 //     */

@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusTrack
+{% endblock %}
+
+{% block body %}
+	{{ include('style/style.html.twig') }}
+	{{ include('style/js.html.twig') }}
+	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
+	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
+
+	<main class=" min-vw-100">
+		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
+			<h3 class=" text-white col-3">
+				<span class="color-fresh">Bus</span>Track</h3>
+
+
+			<form method="GET" class="col-4 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
+				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
+				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
+			</form>
+
+
+			<div class="sous-entete position-fixed bg-white w-100 ">
+				<nav class="nav color-fresh " id="menu1">
+					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
+					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3  color-fresh active">Mes favoris</a>
+					<a href="{{path('app_user_profil' , {'id':app.user.id})}}" class="nav-links mx-2 mt-1 mt-xxl-3  color-norm">Profil</a>
+				</nav>
+				<hr class="mb-0">
+			</div>
+		</header>
+
+		<div class="corps2">
+				<div class="listbus">
+					{% for bus in AllBus %}
+
+
+						<div class="container bus-detail my-2">
+
+
+							<div
+								class="card info-bus1 p-3 shadow-sm">
+
+								<!-- HEADER -->
+								<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+									<div class="d-flex align-items-center">
+										<span class="badge badge-route me-2">
+											<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
+												<span class=" position-static ">{{bus.trajet.ligne}}</span>
+											</div>
+										</span>
+										<div>
+											<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
+											<span class="info2">{{bus.direction}}</span>
+										</div>
+									</div><hr>
+
+									<div>
+										<span class="badge status etat2">●
+											{{bus.etat}}
+										</span>
+										<button class="favoris rounded rounded-circle">
+											<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
+												<i class="bi bi-heart color-fresh "></i>
+											</a>
+										</button>
+
+									</div>
+								</div>
+
+								<!-- INFOS -->
+								<div class="row text-center g-3">
+
+									<div class="col-6 col-md-3 info-box">
+
+										<i class="fas fa-bus fs-4 color-fond "></i>
+										<div>{{bus.nom}}</div>
+										<small class="text-muted">Bus</small>
+									</div>
+
+									<div class="col-6 col-md-3 info-box">
+										<i class="fas fa-user-tie fs-4 color-fond"></i>
+										<div>{{bus.administrateur.nom}}</div>
+										<small class="text-muted">Conducteur</small>
+									</div>
+
+									<div class="col-6 col-md-3 info-box">
+										<i class="bi bi-people fs-4 color-fond"></i>
+										<div>{{bus.capacite}}</div>
+										<small class="text-muted">Places</small>
+									</div>
+
+									<div class="col-6 col-md-3 info-box">
+										<i class="bi bi-geo-alt fs-4 color-fond"></i>
+
+										{% set parts = bus.direction|lower|split('vers') %}
+										<div>
+											<span class="text-black">
+												{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+											</span>
+										</div>
+										<small class="text-muted">
+											Prochain Arrêts</small>
+
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					{% else %}
+						<div class="row mx-2 my-2 border border-2 rounded rounded-2">
+							<p class="text-center">Aucun Bus pour le moment</p>
+						</div>
+
+					{% endfor %}
+				</div>
+			</div>
+
+						<div class="modal-footer"></div>
+
+
+		</div>
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		{
+# const links = document.querySelectorAll("#menu1 .nav-links");
+#
+}
+const links = document.querySelectorAll("#menu1 a");
+
+links.forEach(link => {
+link.addEventListener("click", function () { // enlever active sur tous les liens
+links.forEach(l => l.classList.remove("active"));
+
+// ajouter active au lien cliqué
+this.classList.add("active");
+
+});
+});
+const links = document.querySelectorAll("#favoris .favoris");
+
+links.forEach(link => {
+link.addEventListener("click", function () { // enlever active sur tous les liens
+links.forEach(l => l.classList.remove("active"));
+
+// ajouter active au lien cliqué
+this.classList.add("active");
+
+});
+});
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+const links = document.querySelectorAll("menu1 .nav-links");
+
+links.forEach(link => {
+link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
+links.forEach(l => l.classList.remove("active"));
+
+
+this.classList.add("active");
+});
+});
+});
+	</script>
+	<script>
+		document.getElementById('zone').addEventListener('change', function () {
+
+let selectedZone = this.value;
+let trajetSelect = document.getElementById('trajet');
+let options = trajetSelect.querySelectorAll('option');
+
+options.forEach(option => {
+
+let zone = option.getAttribute('data-zone');
+
+if (option.value === '') {
+option.style.display = 'block';
+}
+if (! selectedZone || zone === selectedZone) {
+option.style.display = 'block';
+} else {
+option.style.display = 'none';
+}
+
+});
+
+});
+	</script>
+{% endblock %}

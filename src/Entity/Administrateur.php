@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdministrateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,6 +48,17 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
     // private ?Number $telephone = null;
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $telephone = null;
+
+    /**
+     * @var Collection<int, Favoris>
+     */
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'administrateur')]
+    private Collection $favoris;
+
+    public function __construct()
+    {
+        $this->favoris = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -161,6 +174,36 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
     public function setTelephone(String $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setAdministrateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getAdministrateur() === $this) {
+                $favori->setAdministrateur(null);
+            }
+        }
 
         return $this;
     }

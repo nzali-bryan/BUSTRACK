@@ -40,10 +40,17 @@ class Trajets
     #[ORM\Column(length: 255)]
     private ?string $zone = null;
 
+    /**
+     * @var Collection<int, Favoris>
+     */
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'trajets', orphanRemoval: true)]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->id_point = new ArrayCollection();
         $this->buses = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
   
@@ -187,6 +194,36 @@ class Trajets
     public function setZone(string $zone): static
     {
         $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setTrajets($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getTrajets() === $this) {
+                $favori->setTrajets(null);
+            }
+        }
 
         return $this;
     }

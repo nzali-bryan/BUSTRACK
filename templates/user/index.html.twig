@@ -20,13 +20,17 @@
 			</form>
 
 			<div class="col-4 text-center position-absolute end-0">
-				<button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1" data-bs-toggle="modal" data-bs-target="#Connexion">connexion</button>
-				<button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" data-bs-toggle="modal" data-bs-target="#busModal">inscription</button>
+				<button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1"><a href="{{path('app_login')}}" class=" text-decoration-none text-white">Connexion </a></button>
+				<button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" data-bs-toggle="modal" data-bs-target="#busModal">Inscription</button>
 			</div>
 			<div class="sous-entete position-fixed bg-white w-100 ">
 				<nav class="nav color-fresh " id="menu1">
 					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh  active">Bus en temps réel</a><hr>
-					<a href="{{path('app_user_favoris_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+                    {% if app.user %}
+                        <a href="{{path('favoris_list')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+                    {% else %}
+                        <a href="{{path('app_user_favoris_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+                    {%endif%}
 					{% if app.user %}
 						<a href="{{ path('app_user_profil', {'id':app.user.id}) }}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
 					{% else %}
@@ -97,9 +101,9 @@
 
 
 					{# <a class="col-3  text-center filtre my-1  mx-lg-2 mx-1 text-start text-decoration-none d-grid align-items-center rounded rounded-2 connexion col-4 "> Toutes les Zones</a>
-																												            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Statut</a>
-																												            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Trajets</a>
-																												            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Réinitialiser</a> #}
+																																	            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Statut</a>
+																																	            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Trajets</a>
+																																	            <a class="col-3 text-center filtre my-1 mx-lg-2 mx-1 text-start d-grid text-decoration-none align-items-center rounded rounded-2 connexion col-4 "> Réinitialiser</a> #}
 				</div><hr>
 
 			</div>
@@ -144,8 +148,11 @@
 											{{bus.etat}}
 										</span>
 										<button class="favoris rounded rounded-circle">
-											<i class="bi bi-heart "></i>
+											<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
+												<i class="bi bi-heart color-fresh "></i>
+											</a>
 										</button>
+
 									</div>
 								</div>
 
@@ -336,7 +343,7 @@
 							<small class="text-secondary">Connectez-vous pour accéder à vos favoris.</small>
 						</div>
 						{# <button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-																																		        <h5 class="modal-title text-center title-modal mt-4"><i class="bi bi-person-add fs-3"></i>Créer un Compte</h5> #}
+																																								        <h5 class="modal-title text-center title-modal mt-4"><i class="bi bi-person-add fs-3"></i>Créer un Compte</h5> #}
 
 					</div>
 
