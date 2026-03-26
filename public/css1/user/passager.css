@@ -46,7 +46,7 @@
     background: radial-gradient(circle, rgba(1, 146, 113, .1), transparent);
 }
 .haut-favoris{
-    margin-top: 100px;
+    /* margin-top: 100px; */
     background: linear-gradient(135deg, var(--color-fond-secondaire), #0d2a50);
     padding: 22px 24px;
     margin-bottom: 20px;
@@ -361,4 +361,8 @@
     margin-top: 5%;
     margin-bottom: 5%;
     width: 160px;
+}
+/* profil couleur border profil */
+.border-color{
+    border-color: var(--color-btn-primary-hover) !important;
 }

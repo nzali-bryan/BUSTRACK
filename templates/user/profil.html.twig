@@ -24,7 +24,7 @@
 			<div class="sous-entete position-fixed bg-white w-100 ">
 				<nav class="nav color-fresh " id="menu1">
 					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
-					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
+					<a href="{{path('favoris_list')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
 					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
 				</nav>
 				<hr class="mb-0">
@@ -32,91 +32,100 @@
 		</header>
 
 		<div class="corps2">
-			<div class="container rounded rounded-2 border border-1 border-secondary">
-
-				<div class="entete-info row mb-3">
-					<div class="rounded rounded-2 icone-info   d-inline">
-						<i class="bi bi-person fs-1 icon-info px-1 rounded rounded-2"></i>
-						<span class=" fw-semibold fs-4">Informations personnelles</span>
-					</div>
-					<div class="col-sm-2 col position-absolute end-0 me-5 mt-3">
-						<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#busModal">Modifier</button>
-					</div>
-					<hr>
+			<div class="d-flex justify-content-center align-items-center   container rounded rounded-circle">
+				<div class=" haut-favoris rounded-circle border border-color border-3 text-center d-flex justify-content-center" style=" width:100px ; height: 100px;">
+						<span class="color-fresh fs-1 fw-bold"> {{ app.user.nom|first|capitalize }}</span>
+					
 				</div>
-				<div class="row mb-3">
-					<div class=" col-xs-12 col-sm-4 text-center">
-						<span class=" text-secondary">Nom</span>
-						<br>
-						<span class=" fw-semibold">{{user.nom}}</span>
-					</div>
-					<div class=" col-xs-12 col-sm-4 text-center">
-						<span class=" text-secondary">Username</span>
-						<br>
-						<span class=" fw-semibold">{{user.username}}</span>
-					</div>
-					<div class=" col-xs-12 col-sm-4 text-center">
-						<span class=" text-secondary">Mot de passe</span>
-						<br>
-						<span class=" fw-semibold">*********</span>
-					</div>
-				</div>
-				<div class="row mb-3 deconnect">
-					<a id="danger" class="nav-link text-danger text-center fs-3 colorDashboard" href="{{path ('deconnexion')}}">
-						<i class="bi bi-box-arrow-right"></i>
-						<span class=" fs-5">Déconnexion</span>
-					</a>
-				</div>
-
 			</div>
-		</div>
+				<div class="container rounded rounded-2 border border-1 border-secondary">
 
-	</main>
-
-
-	{# {{ form_end(form) }} #}
-	<div class="modal fade" id="busModal" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content content-modal">
-
-				<div class="modal-header entete_form">
-					<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-					<h5 class="modal-title text-center title-modal mt-4">
-						Modifier vos informations</h5>
+					<div class="entete-info row mb-3">
+						<div class="rounded rounded-2 icone-info   d-inline">
+							<i class="bi bi-person fs-1 icon-info px-1 rounded rounded-2"></i>
+							<span class=" fw-semibold fs-4">Informations personnelles</span>
+						</div>
+						<div class="col-sm-2 col position-absolute end-0 me-5 mt-3">
+							<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#busModal">Modifier</button>
+						</div>
+						<hr>
+					</div>
+					<div class="row mb-3">
+						<div class=" col-xs-12 col-sm-4 text-center">
+							<span class=" text-secondary">Nom</span>
+							<br>
+							<span class=" fw-semibold">{{user.nom}}</span>
+						</div>
+						<div class=" col-xs-12 col-sm-4 text-center">
+							<span class=" text-secondary">Username</span>
+							<br>
+							<span class=" fw-semibold">{{user.username}}</span>
+						</div>
+						<div class=" col-xs-12 col-sm-4 text-center">
+							<span class=" text-secondary">Mot de passe</span>
+							<br>
+							<span class=" fw-semibold">*********</span>
+						</div>
+					</div>
+					<div class="row mb-3 deconnect">
+						<a id="danger" class="nav-link text-danger text-center fs-3 colorDashboard" href="{{path ('deconnexion')}}">
+							<i class="bi bi-box-arrow-right"></i>
+							<span class=" fs-5">Déconnexion</span>
+						</a>
+					</div>
 
 				</div>
+			</div>
 
-				<div class="modal-body">
-					{{ form_start(form) }}
+		</main>
 
-					{% if error %}
-						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData) }}</div>
-					{% endif %}
-					{{ form_row(form.nom , {
+
+		{# {{ form_end(form) }} #}
+		<div class="modal fade" id="busModal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content content-modal">
+
+					<div class="modal-header entete_form">
+						<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
+						<h5 class="modal-title text-center title-modal mt-4">
+							Modifier vos informations</h5>
+
+					</div>
+
+					<div class="modal-body">
+						{{ form_start(form) }}
+
+						{% if error %}
+							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData) }}</div>
+						{% endif %}
+						{{ form_row(form.nom , {
 								'attr': {'class': 'form-control form_control',
 							}}) }}
-					{{ form_row(form.username, {
+						{{ form_row(form.username, {
 								'attr': {'class': 'form-control form_control',
 							}}) }}
-					{{ form_row(form.currentPassword , {
+						{{ form_row(form.currentPassword , {
 								'attr': {'class': 'form-control form_control',
 								'placeholder': 'Mot de Passe'
 							}}) }}
-					{{ form_row(form.newPassword , {
+						{{ form_row(form.newPassword , {
 								'attr': {'class': 'form-control form_control',
 								'placeholder': 'Mot de Passe'
 							}}) }}
-					<button class="Enregistrement mx-4 mt-1">Modifier</button>
+						<button class="Enregistrement mx-4 mt-1">Modifier</button>
+					</div>
+					{{ form_end(form) }}
 				</div>
-				{{ form_end(form) }}
+
+				<div class="modal-footer"></div>
+
 			</div>
-
-			<div class="modal-footer"></div>
-
 		</div>
 	</div>
-</div></div><script src="js/bootstrap.bundle.min.js"></script><script>
-{
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+	{
 # const links = document.querySelectorAll("#menu1 .nav-links");
 #
 }
@@ -141,8 +150,10 @@ links.forEach(l => l.classList.remove("active"));
 this.classList.add("active");
 
 });
-});</script><script>
-document.addEventListener("DOMContentLoaded", function () {
+});
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
 const links = document.querySelectorAll("menu1 .nav-links");
 
 links.forEach(link => {
@@ -153,8 +164,10 @@ links.forEach(l => l.classList.remove("active"));
 this.classList.add("active");
 });
 });
-});</script><script>
-document.getElementById('zone').addEventListener('change', function () {
+});
+</script>
+<script>
+	document.getElementById('zone').addEventListener('change', function () {
 
 let selectedZone = this.value;
 let trajetSelect = document.getElementById('trajet');
@@ -175,4 +188,5 @@ option.style.display = 'none';
 
 });
 
-});</script>{% endblock %}
+});
+</script>{% endblock %}
