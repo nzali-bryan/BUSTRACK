@@ -103,6 +103,7 @@ final class FavorisController extends AbstractController
     public function deleteAllFavoris( FavorisRepository $favorisRepository, EntityManagerInterface $em): Response
     {
         $user= $this-> getUser();
+        $id= $this->$user->getId();
  
         if(!$user){
             return $this->redirectToRoute('app_login');
