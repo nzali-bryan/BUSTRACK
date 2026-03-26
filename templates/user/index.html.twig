@@ -8,7 +8,38 @@
 	{{ include('style/js.html.twig') }}
 	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
 	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
-	<main class=" min-vw-100">
+	<main
+		class=" min-vw-100">
+
+
+		{# <p>bonjour tous le monde</p> #}
+		{% for message in app.flashes('success') %}
+			{% if message %}
+				<div class=" row w-100 d-flex justify-content-center align-items-center">	
+					<article class=" message ">
+						<div id="toast-container text-center d-flex justify-content-center">
+							<span class="fs-2">
+								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>{{ message }}
+							</span>
+						</div>
+					</article>
+				</div>
+			{% endif %}
+		{% endfor %}
+		{# si le favoris existe deja #}
+		{% for message in app.flashes('info_favoris') %}
+			{% if message %}
+				<div class=" row w-100 d-flex justify-content-center align-items-center ">	
+					<article class=" message ">
+						<div id="toast-container text-center d-flex justify-content-center">
+							<span class="fs-3">
+								<i class="bi bi-x-circle text-danger  fs-2 fw-bold"></i>{{ message }}
+							</span>
+						</div>
+					</article>
+				</div>
+			{% endif %}
+		{% endfor %}
 		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
 			<h3 class=" text-white col-3">
 				<span class="color-fresh">Bus</span>Track</h3>
@@ -124,8 +155,6 @@
 					</div>
 					<div class="listbus">
 						{% for bus in AllBus %}
-
-
 							<div class="container bus-detail my-2">
 
 
@@ -150,12 +179,11 @@
 											<span class="badge status etat2">●
 												{{bus.etat}}
 											</span>
+										<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
 											<button class="favoris rounded rounded-circle">
-												<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
-													<i class="bi bi-heart color-fresh "></i>
-												</a>
+												<i class="bi bi-heart color-fresh "></i>
 											</button>
-
+										</a>
 										</div>
 									</div>
 
@@ -208,90 +236,7 @@
 						{% endfor %}
 					</div>
 				</div>
-
-				{% for bus in AllBus %}
-
-
-					<div class="offcanvas offcanvas-end" tabindex="-1" id="sideModal{{ bus.id }}" aria-labelledby="sideModalLabel">
-						<div class="offcanvas-header fond header-modal">
-							<div>
-								<span class="color-fresh">{{bus.trajet.ligne}}</span>
-								<h5 id="sideModalLabel" class="text-white">{{bus.trajet.nom}}</h5>
-
-							</div>
-
-							<button type="button" class="btn-close text-reset text-white bg-white rounded rounded-circle btn-croix text-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-						</div>
-						<div class="offcanvas-body">
-							<div class="row rounded rounded-2 statut statut1">
-								<h4>Statut Actuel</h4>
-								<span class="fs-4 mb-3 statut3 info2">
-									{{bus.etat}}</span>
-								<span class="info2">{{bus.direction}}</span>
-							</div>
-							<div class="row mt-4  g-2  ">
-								<div class="col-5  rounded rounded-2 statut ms-2">Bus Assigné
-									<div class="info2">{{bus.nom}}</div>
-								</div>
-								<div class="col-5 rounded rounded-2 statut ms-5">Conducteur
-									<div class="info2">{{bus.administrateur.nom}}</div>
-								</div>
-							</div>
-							<div class="row mt-4  g-2  ">
-								<div class="col-5  rounded rounded-2 statut ms-2">Capacité
-									<div class="info2">{{bus.capacite}}</div>
-								</div>
-
-								<div class="col-5 rounded rounded-2 statut ms-5">
-									Prochain arrêt :
-
-									{% set parts = bus.direction|lower|split('vers') %}
-									<p>
-										<span class="badge bg-success">
-											{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
-										</span>
-									</p>
-								</div>
-
-							</div>
-							<div>
-
-								Point d'embarquement
-								<div class="timeline">
-									{% for point in bus.trajet.point %}
-
-										<div class="timeline">
-
-
-											<div class="timeline-item d-flex">
-												<div class="timeline-icon me-3">
-													<div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width:20px; height:20px;">
-														<i class="bi bi-check text-white" style="font-size:12px;"></i>
-													</div>
-													<div class="timeline-line bg-success"></div>
-												</div>
-												<div class="timeline-content">
-													<h6>{{ point.nom }}</h6>
-													<small class="text-muted"></small>
-												</div>
-											</div>
-										</div>
-
-
-									{% endfor %}
-								</div>
-							</div>
-							<div class="Ajoutfavoris">
-								<button type="" class="Ajoutfavoris btn">
-									<i class="bi bi-heart"></i>Ajouter au favoris</button>
-							</div>
-
-						</div>
-					</div>
-
-
-				{% endfor %}
-
+				{# Créer un compte USER #}
 				<div class="modal fade" id="busModal" tabindex="-1">
 					<div class="modal-dialog">
 						<div class="modal-content content-modal">
@@ -307,7 +252,7 @@
 
 								{{ form_start(formCreateUser) }}
 								{{ form_row(formCreateUser.nom, {
-        'attr': {'class': 'form-control form_control',
+    	'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Nom'
         
       
@@ -327,30 +272,6 @@
 							<div class="modal-footer"></div>
 
 						</div>
-					</div>
-				</div>
-
-			</div>
-			<div class="modal fade" id="Connexion" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content content-modal">
-
-						<div class="modal-header entete_form">
-							<div class="text-center p-4" style="background:#0A1628; border-top-left-radius:15px; border-top-right-radius:15px;">
-								<div class="mb-2">
-									<div class="bg-success d-inline-flex align-items-center justify-content-center rounded-3" style="width:45px;height:45px;">
-										<i class="bi bi-box-arrow-in-right text-white"></i>
-									</div>
-								</div>
-								<h5 class="text-white mb-1">Bon retour !</h5>
-								<small class="text-secondary">Connectez-vous pour accéder à vos favoris.</small>
-							</div>
-							{# <button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-																																																						        <h5 class="modal-title text-center title-modal mt-4"><i class="bi bi-person-add fs-3"></i>Créer un Compte</h5> #}
-
-						</div>
-
-						<div class="modal-body"></div>
 					</div>
 				</div>
 

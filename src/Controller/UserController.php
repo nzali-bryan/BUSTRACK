@@ -163,7 +163,7 @@ final class UserController extends AbstractController
 
             
             if (!$hasher->isPasswordValid($user, $currentPassword)) {
-                $this->addFlash('error', 'Ancien mot de passe incorrect');
+                $this->addFlash('error_password', 'Erreur ancien mot de passe incorrect');
                 return $this->redirectToRoute('app_user_profil');
             }
 
@@ -173,8 +173,8 @@ final class UserController extends AbstractController
         }
 
         $em->flush();
-
-        $this->addFlash('success', 'Profil mis à jour');
+        $this->addFlash('success_edit', 'Profil modifier avec succès');
+        
 
         return $this->redirectToRoute('app_user_profil');
     }

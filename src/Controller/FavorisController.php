@@ -34,8 +34,9 @@ final class FavorisController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_favoris');
         }
-        $favoris = $favorisRepository->findFavoris($user->getId());
-        $bus = $busRepository->findBusByUserFavoris($user->getId());
+        $id= $user->getId();
+        $favoris = $favorisRepository->findFavoris($id);
+        $bus = $busRepository->findBusByUserFavoris($id);
         
          $countfavoris=$favorisRepository->count([
             'administrateur'=>$user,
@@ -52,15 +53,15 @@ final class FavorisController extends AbstractController
 
 
     #[Route('/favori/ajouter/{id}', name: 'favori_ajouter')]
-    #[IsGranted('ROLE_USER')] // uniquement pour les utilisateurs connectés
+    #[IsGranted('ROLE_USER')] 
     public function ajouter(Trajets $trajet, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
-
+        
         // Vérifier si le trajet est déjà favori
         foreach ($user->getFavoris() as $favori) {
             if ($favori->getTrajets() === $trajet) {
-                $this->addFlash('info', 'Ce trajet est déjà dans vos favoris.');
+                $this->addFlash('info_favoris', 'Ce trajet est déjà dans vos favoris.');
                 return $this->redirectToRoute('app_user'); // ou la page actuelle
             }
         }
@@ -72,7 +73,7 @@ final class FavorisController extends AbstractController
         $em->persist($favori);
         $em->flush();
 
-        $this->addFlash('success', 'Trajet ajouté à vos favoris !');
+        $this->addFlash('success', 'Ce trajet ajouté à vos favoris !');
 
         return $this->redirectToRoute('app_user'); // ou page actuelle
     }
@@ -81,7 +82,7 @@ final class FavorisController extends AbstractController
     public function deleteFavoris( int $id,FavorisRepository $favorisRepository, EntityManagerInterface $em): Response
     {
         $user= $this-> getUser();
- 
+        
         if(!$user){
             return $this->redirectToRoute('app_login');
         }
@@ -94,6 +95,7 @@ final class FavorisController extends AbstractController
         ]);
         $em->remove($favoris);
         $em->flush();
+         $this->addFlash('delete_favoris', 'Ce trajet à été supprimé de vos favoris !');
 
         return $this->redirectToRoute('favoris_list');
 
@@ -103,17 +105,21 @@ final class FavorisController extends AbstractController
     public function deleteAllFavoris( FavorisRepository $favorisRepository, EntityManagerInterface $em): Response
     {
         $user= $this-> getUser();
-        $id= $this->$user->getId();
+        $id= $user->getId();
  
         if(!$user){
             return $this->redirectToRoute('app_login');
         }
 
 
-        $Allfavoris = $favorisRepository->findFavoris($user->getId());
+        $Allfavoris = $favorisRepository->findFavoris($id);
+        if(!$Allfavoris){
+            $this->addFlash('Delete_Allfavoris', 'aucun trajet à supprimé !');
+        }
         foreach($Allfavoris as $favoris){
             $em->remove($favoris);
             $em->flush();
+            $this->addFlash('delete_Allfavoris', 'Tous les trajets on été supprimés !');
         }
 
 

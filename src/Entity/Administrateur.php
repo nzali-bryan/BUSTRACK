@@ -87,6 +87,7 @@ class Administrateur implements UserInterface, PasswordAuthenticatedUserInterfac
         return (string) $this->nom;
     }
 
+
     /**
      * @see UserInterface
      */

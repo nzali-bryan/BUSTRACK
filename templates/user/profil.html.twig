@@ -10,6 +10,34 @@
 	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
 
 	<main class=" min-vw-100">
+			{% for message in app.flashes('error_password') %}
+			{% if message %}
+				<div class=" row w-100 d-flex justify-content-center align-items-center">
+					<article class=" message ">
+						<div id="toast-container text-center d-flex justify-content-center">
+							<span class="fs-2">
+								<i class="bi bi-check-circle text-danger fs-2 fw-bold"></i>
+								{{ message }}
+							</span>
+						</div>
+					</article><hr>
+				</div>
+			{% endif %}
+		{% endfor %}
+					{% for message in app.flashes('success_edit') %}
+			{% if message %}
+				<div class=" row w-100 d-flex justify-content-center align-items-center">
+					<article class=" message ">
+						<div id="toast-container text-center d-flex justify-content-center">
+							<span class="fs-2">
+								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
+								{{ message }}
+							</span>
+						</div>
+					</article><hr>
+				</div>
+			{% endif %}
+		{% endfor %}
 		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
 			<h3 class=" text-white col-3">
 				<span class="color-fresh">Bus</span>Track</h3>
@@ -80,7 +108,7 @@
 		</main>
 
 
-		{# {{ form_end(form) }} #}
+{# formulaire de modification d'information #}
 		<div class="modal fade" id="busModal" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content content-modal">
