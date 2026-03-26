@@ -86,6 +86,7 @@
     top: 50px;
     z-index: 2 !important;
     height: 50px;
+
 }
 .nav-links{
     text-decoration: none;
@@ -346,4 +347,18 @@
     width: 90% !important;
     margin-left: 5%;
     margin-right: 5%;
+}
+
+.color-delete{
+    color: red !important;
+    border: 1px solid red !important;
+}
+.nombre-favoris{
+    background-color: #00c9a748;
+    border: 0.7px solid var(--color-btn-primary-hover);
+    color: #00C9A7;
+    height: 70%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 160px;
 }

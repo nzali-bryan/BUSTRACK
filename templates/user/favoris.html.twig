@@ -15,7 +15,7 @@
 				<span class="color-fresh">Bus</span>Track</h3>
 
 
-			<form method="GET" class="col-4 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
+			<form method="GET" class="col-4 col-sm-6 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
 				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
 				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
 			</form>
@@ -32,97 +32,122 @@
 		</header>
 
 		<div class="corps2">
-				<div class="listbus">
-					{% for bus in AllBus %}
+			<div class=" haut-favoris container rounded rounded-4">
+				<div class="row">
+					<div class=" col-sm-8 col-xl-9">
+						<h3 class="text-white">❤️Mes trajets favoris
+						</h3>
+						<span class="text-secondary">Vos lignes préférées avec toutes leurs informations directement ici
+						</span>
+					</div>
+					<div class="col-sm-3 ms-3 col-xl-2">
+						<div class="rounded rounded-3 text-center nombre-favoris  fw-bold">
+							<p class="fs-1 m-0">{{countfavoris}}
+							</p>
+							<small class=" text-secondary fs-6 fw-normal">Lignes Favoris</small>
+
+						</div>
+						<button class="btn btn-danger dang btn-xxl rounded-2">
+							<a href="{{path('favoris_delete_All')}}" class=" text-decoration-none text-danger w-100">
+								<i class="bi bi-trash" style="color:red;"></i>
+								Tous Supprimer</a>
+						</button>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="listbus">
+				{% for bus in AllBus %}
 
 
-						<div class="container bus-detail my-2">
+					<div class="container bus-detail my-2">
 
 
-							<div
-								class="card info-bus1 p-3 shadow-sm">
+						<div
+							class="card info-bus1 p-3 shadow-sm">
 
-								<!-- HEADER -->
-								<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-									<div class="d-flex align-items-center">
-										<span class="badge badge-route me-2">
-											<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
-												<span class=" position-static ">{{bus.trajet.ligne}}</span>
-											</div>
-										</span>
-										<div>
-											<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
-											<span class="info2">{{bus.direction}}</span>
+							<!-- HEADER -->
+							<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+								<div class="d-flex align-items-center">
+									<span class="badge badge-route me-2">
+										<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
+											<span class=" position-static ">{{bus.trajet.ligne}}</span>
 										</div>
-									</div><hr>
-
+									</span>
 									<div>
-										<span class="badge status etat2">●
-											{{bus.etat}}
-										</span>
-										<button class="favoris rounded rounded-circle">
-											<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
-												<i class="bi bi-heart color-fresh "></i>
-											</a>
-										</button>
-
+										<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
+										<span class="info2">{{bus.direction}}</span>
 									</div>
-								</div>
+								</div><hr>
 
-								<!-- INFOS -->
-								<div class="row text-center g-3">
-
-									<div class="col-6 col-md-3 info-box">
-
-										<i class="fas fa-bus fs-4 color-fond "></i>
-										<div>{{bus.nom}}</div>
-										<small class="text-muted">Bus</small>
-									</div>
-
-									<div class="col-6 col-md-3 info-box">
-										<i class="fas fa-user-tie fs-4 color-fond"></i>
-										<div>{{bus.administrateur.nom}}</div>
-										<small class="text-muted">Conducteur</small>
-									</div>
-
-									<div class="col-6 col-md-3 info-box">
-										<i class="bi bi-people fs-4 color-fond"></i>
-										<div>{{bus.capacite}}</div>
-										<small class="text-muted">Places</small>
-									</div>
-
-									<div class="col-6 col-md-3 info-box">
-										<i class="bi bi-geo-alt fs-4 color-fond"></i>
-
-										{% set parts = bus.direction|lower|split('vers') %}
-										<div>
-											<span class="text-black">
-												{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
-											</span>
-										</div>
-										<small class="text-muted">
-											Prochain Arrêts</small>
-
-
-									</div>
+								<div>
+									<span class="badge status etat2">●
+										{{bus.etat}}
+									</span>
+									<button class="favoris text-danger rounded rounded-circle color-delete">
+										<a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}" class="text-danger ">
+											<i class=" bi bi-trash  "></i>
+										</a>
+									</button>
 
 								</div>
 							</div>
 
-						</div>
-					{% else %}
-						<div class="row mx-2 my-2 border border-2 rounded rounded-2">
-							<p class="text-center">Aucun Bus pour le moment</p>
+							<!-- INFOS -->
+							<div class="row text-center g-3">
+
+								<div class="col-6 col-md-3 info-box">
+
+									<i class="fas fa-bus fs-4 color-fond "></i>
+									<div>{{bus.nom}}</div>
+									<small class="text-muted">Bus</small>
+								</div>
+
+								<div class="col-6 col-md-3 info-box">
+									<i class="fas fa-user-tie fs-4 color-fond"></i>
+									<div>{{bus.administrateur.nom}}</div>
+									<small class="text-muted">Conducteur</small>
+								</div>
+
+								<div class="col-6 col-md-3 info-box">
+									<i class="bi bi-people fs-4 color-fond"></i>
+									<div>{{bus.capacite}}</div>
+									<small class="text-muted">Places</small>
+								</div>
+
+								<div class="col-6 col-md-3 info-box">
+									<i class="bi bi-geo-alt fs-4 color-fond"></i>
+
+									{% set parts = bus.direction|lower|split('vers') %}
+									<div>
+										<span class="text-black">
+											{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+										</span>
+									</div>
+									<small class="text-muted">
+										Prochain Arrêts</small>
+
+
+								</div>
+
+							</div>
 						</div>
 
-					{% endfor %}
-				</div>
+					</div>
+				{% else %}
+					<div class="row mx-2 my-2 border border-2 rounded rounded-2">
+						<p class="text-center">Aucun Favoris pour le moment</p>
+					</div>
+
+				{% endfor %}
 			</div>
-
-						<div class="modal-footer"></div>
-
-
 		</div>
+
+		<div class="modal-footer"></div>
+
+
+	</div>
 	<script src="js/bootstrap.bundle.min.js"></script>
 
 	<script>

@@ -14,7 +14,7 @@
 				<span class="color-fresh">Bus</span>Track</h3>
 
 
-			<form method="GET" class="col-4 h-75  my-1" action="{{path('app_user')}}">
+			<form method="GET" class="col-4 col-sm-6 h-75  my-1" action="{{path('app_user')}}">
 				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
 				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
 			</form>
@@ -34,9 +34,11 @@
 		</header>
 
 		<div class="haut-favoris container rounded rounded-4">
-		<h3 class="text-white">❤️Mes trajets favoris </h3>
-			<span class="text-secondary">Vos lignes préférées avec toutes leurs informations directement ici </span>
-		
+			<h3 class="text-white">❤️Mes trajets favoris
+			</h3>
+			<span class="text-secondary">Vos lignes préférées avec toutes leurs informations directement ici
+			</span>
+
 		</div>
 
 		<div class="corps2 corps3 ">
@@ -45,7 +47,10 @@
 				<h3>Non Connecté</h3>
 				<span class=" text-secondary my-1">Connectez-vous pour acceder à vos favoris</span>
 				<div class="Enregistrement1 d-flex align-items-center justify-content-center rounded-2 my-2 " style="height:50px">
-					<a class="nav-link w-100 text-center mx-1 fs-3" href="{{path('app_login')}}"><i class="bi bi-box-arrow-in-right text-black fs-1"></i><span class="pb-5 ms-2">Se Connecter</span></a>
+					<a class="nav-link w-100 text-center mx-1 fs-3" href="{{path('app_login')}}">
+						<i class="bi bi-box-arrow-in-right text-black fs-1"></i>
+						<span class="pb-5 ms-2">Se Connecter</span>
+					</a>
 				</div>
 
 

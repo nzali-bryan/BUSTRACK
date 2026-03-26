@@ -15,9 +15,10 @@ use App\Form\ProfilType;
 use App\Repository\TrajetsRepository;
 use  Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-#[Route('/interface/passager', name: '')]
+#[Route('/', name: '')]
 final class UserController extends AbstractController
 {
     #[Route('', name: 'app_user')]
@@ -137,74 +138,58 @@ final class UserController extends AbstractController
         return $this->render('user/favorisNoConnect.html.twig', []);
     }
 
-    #[Route('/profil/{id}', name: 'app_user_profil', methods: ['GET', 'POST'])]
-    public function profil(Request $request, $id, AdministrateurRepository $administrateurRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher)
+    #[Route('/Profil/', name: 'app_user_profil', methods: ['GET', 'POST'])]
+    public function profil(Request $request,AuthenticationUtils $authenticationUtils,  AdministrateurRepository $administrateurRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher)
 
-    {
-        $infoUser = $administrateurRepository->find($id);
-        // $form= $this->createForm(ProfilType::class, $infoUser);
-        // $form->handleRequest($request);
-        if ($request->isMethod('POST')) {
+    {  
+    
+    $user = $this->getUser();
 
-            // pour le token
-            if (!$this->isCsrfTokenValid('update_profil', $request->request->get('_token'))) {
-                throw $this->createAccessDeniedException('Token invalide');
+    if (!$user) {
+        return $this->redirectToRoute('app_login');
+    }
+
+    $form = $this->createForm(ProfilType::class, $user);
+    $form->handleRequest($request);
+    $error = $authenticationUtils->getLastAuthenticationError();
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $currentPassword = $form->get('currentPassword')->getData();
+        $newPassword = $form->get('newPassword')->getData();
+
+        
+        if ($newPassword) {
+
+            
+            if (!$hasher->isPasswordValid($user, $currentPassword)) {
+                $this->addFlash('error', 'Ancien mot de passe incorrect');
+                return $this->redirectToRoute('app_user_profil');
             }
 
-            $nom = $request->request->get('nom');
-            $username = $request->request->get('username');
-            $currentPassword = $request->request->get('currentPassword');
-            $newPassword = $request->request->get('newPassword');
-
-            // stoc les données 
-                $infoUser->setNom($nom);
-                $infoUser->setUsername($username);
-
-            // $currentPassword=$form->get('currentPassword')->getData();
-            // $newPassword=$form->get('newPassword')->getData();
-
-            if ($newPassword) {
-                // verifie l'ancien mot de Passe 
-                if (!$hasher->isPasswordValid($infoUser, $currentPassword)) {
-                    $this->addFlash('error', 'Mot de Passe incorrect');
-                    return $this->redirectToRoute('app_user_profil');
-                }
-                $hashed = $hasher->hashPassword($infoUser, $newPassword);
-                $infoUser->setPassword($hashed);
-            }
-            $em->flush();
-
-            $this->addFlash('success', 'Profil mis à jour');
-
-            return $this->redirectToRoute('app_user_profil');
+          
+            $hashed = $hasher->hashPassword($user, $newPassword);
+            $user->setPassword($hashed);
         }
-        return $this->render('user/profil.html.twig', [
-            'user' => $infoUser,
-        ]);
+
+        $em->flush();
+
+        $this->addFlash('success', 'Profil mis à jour');
+
+        return $this->redirectToRoute('app_user_profil');
+    }
+
+    return $this->render('user/profil.html.twig', [
+        'form' => $form->createView(),
+        'user'=>$user,
+        'error'=>$error,
+    ]);
+        
+       
     }
 
 
-    // #[Route('/filter', name: 'app_user_filter', methods: ['GET', 'POST'])]
-    // public function filter(Request $request, EntityManagerInterface $entityManager, BusRepository $busRepository)
-    // {
-    //     $zone = $request->query->get('zonefilter');
-    //     $trajet = $request->query->get('trajet');
-    //     $statut = $request->query->get('statut');
-    //     $zonesAutorisees = ['Douala I', 'Douala II', 'Douala III', 'Douala IV', 'Douala V'];
-    //     if ($zone && !in_array($zone, $zonesAutorisees)) {
-    //         $zone = null;
-    //     }
-    //     if ($trajet && !is_numeric($trajet)) {
-    //         $trajet = null;
-    //     }
-    //     $etatsAutorisees = ['En route', 'Chargement', 'Incident', 'Inactif'];
-    //     if ($statut && !in_array($statut, $etatsAutorisees)) {
-    //         $statut = null;
-    //     }
-    //     $busFilter = $busRepository->findfilter($zone, $trajet, $statut);
-    //     dd($busFilter);
-    //     return $this->render('user/index.html.twig'[]);
-    // }
+
 
 
 }
