@@ -117,3 +117,7 @@
     background-color:  var(--color-btn-primary-hover) !important;
     color: var(--color-fond-secondaire) !important;
 }
+
+.responsiveNav{
+    height: 90% !important;
+}
