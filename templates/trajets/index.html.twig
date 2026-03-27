@@ -82,8 +82,9 @@
                     <td>{{ trajet.id }}</td>
                     <td>{{ trajet.nom }}</td>
                     <td>{{ trajet.zone }}</td>
-                    <td></td>
-                    <td></td>
+                    {% for point in trajet.point%}
+                        <td>{{point.nom}}</td>
+                    {%endfor%}
                     <td>{{ trajet.etat }}</td>
                     
                     <td>

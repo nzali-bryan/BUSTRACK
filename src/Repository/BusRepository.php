@@ -24,6 +24,13 @@ class BusRepository extends ServiceEntityRepository
         ->getQuery()
         ->getSingleScalarResult();
     }
+    public function findAllBusNotNull()
+    {
+        return $this->createQueryBuilder('b')
+        ->where('b.administrateur IS NOT NULL')
+        ->getQuery()
+        ->getResult();
+    }
     public function findZoneBus($zone)
     {
         return $this->createQueryBuilder('b')

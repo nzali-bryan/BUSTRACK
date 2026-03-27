@@ -23,6 +23,7 @@ class AjoutModifDriverType extends AbstractType
                 'class' => Bus::class,
                 'choice_label' => 'nom',
                 'placeholder'=> 'choisir son Bus',
+                'required' => false,
                 'query_builder' => function ($repo) {
                     return $repo->createQueryBuilder('b')
                         ->where('b.administrateur IS NULL'); // bus libres

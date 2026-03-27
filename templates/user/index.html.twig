@@ -15,11 +15,12 @@
 		{# <p>bonjour tous le monde</p> #}
 		{% for message in app.flashes('success') %}
 			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">	
+				<div class=" row w-100 d-flex justify-content-center align-items-center">
 					<article class=" message ">
 						<div id="toast-container text-center d-flex justify-content-center">
 							<span class="fs-2">
-								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>{{ message }}
+								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
+								{{ message }}
 							</span>
 						</div>
 					</article>
@@ -29,11 +30,12 @@
 		{# si le favoris existe deja #}
 		{% for message in app.flashes('info_favoris') %}
 			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center ">	
+				<div class=" row w-100 d-flex justify-content-center align-items-center ">
 					<article class=" message ">
 						<div id="toast-container text-center d-flex justify-content-center">
 							<span class="fs-3">
-								<i class="bi bi-x-circle text-danger  fs-2 fw-bold"></i>{{ message }}
+								<i class="bi bi-x-circle text-danger  fs-2 fw-bold"></i>
+								{{ message }}
 							</span>
 						</div>
 					</article>
@@ -170,117 +172,128 @@
 												</div>
 											</span>
 											<div>
-												<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
-												<span class="info2">{{bus.direction}}</span>
-											</div>
-										</div><hr>
+												<h5 class="mb-0 w-100">{{bus.trajet.nom|capitalize}}</h5>
+												{% if bus.etat == 'Inactif' %}
+													<span>Indisponible</span>
+												{% else %}
+													<span class="info2">{{bus.direction}}</span>
+													{%endif%}
+												</div>
+											</div><hr>
 
-										<div>
-											<span class="badge status etat2">●
-												{{bus.etat}}
-											</span>
-										<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
-											<button class="favoris rounded rounded-circle">
-												<i class="bi bi-heart color-fresh "></i>
-											</button>
-										</a>
-										</div>
-									</div>
-
-									<!-- INFOS -->
-									<div class="row text-center g-3">
-
-										<div class="col-6 col-md-3 info-box">
-
-											<i class="fas fa-bus fs-4 color-fond "></i>
-											<div>{{bus.nom}}</div>
-											<small class="text-muted">Bus</small>
-										</div>
-
-										<div class="col-6 col-md-3 info-box">
-											<i class="fas fa-user-tie fs-4 color-fond"></i>
-											<div>{{bus.administrateur.nom}}</div>
-											<small class="text-muted">Conducteur</small>
-										</div>
-
-										<div class="col-6 col-md-3 info-box">
-											<i class="bi bi-people fs-4 color-fond"></i>
-											<div>{{bus.capacite}}</div>
-											<small class="text-muted">Places</small>
-										</div>
-
-										<div class="col-6 col-md-3 info-box">
-											<i class="bi bi-geo-alt fs-4 color-fond"></i>
-
-											{% set parts = bus.direction|lower|split('vers') %}
 											<div>
-												<span class="text-black">
-													{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+												<span class="badge status etat2">●
+													{{bus.etat}}
 												</span>
+												<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
+													<button class="favoris rounded rounded-circle">
+														<i class="bi bi-heart color-fresh "></i>
+													</button>
+												</a>
 											</div>
-											<small class="text-muted">
-												Prochain Arrêts</small>
+										</div>
+
+										<!-- INFOS -->
+										<div class="row text-center g-3">
+
+											<div class="col-6 col-md-3 info-box">
+
+												<i class="fas fa-bus fs-4 color-fond "></i>
+												<div>{{bus.nom|capitalize}}</div>
+												<small class="text-muted">Bus</small>
+											</div>
+
+											<div class="col-6 col-md-3 info-box">
+												<i class="fas fa-user-tie fs-4 color-fond"></i>
+												<div>{{bus.administrateur.nom|capitalize}}</div>
+												<small class="text-muted">Conducteur</small>
+											</div>
+
+											<div class="col-6 col-md-3 info-box">
+												<i class="bi bi-people fs-4 color-fond"></i>
+												<div>{{bus.capacite}}</div>
+												<small class="text-muted">Places</small>
+											</div>
+
+											<div class="col-6 col-md-3 info-box">
+												<i class="bi bi-geo-alt fs-4 color-fond"></i>
+
+												{% if bus.etat == 'Inactif' %}
+													<div>
+														<span>En Attente</span>
+													</div>
+												{% else %}
+													{% set parts = bus.direction|lower|split('vers') %}
+													<div>
+														<span class="text-black">
+															{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
+														</span>
+													</div>
+												{%endif%}
+												<small class="text-muted">
+													Prochain Arrêts
+												</small>
 
 
+												</div>
+
+											</div>
 										</div>
 
 									</div>
-								</div>
+								{% else %}
+									<div class="row mx-2 my-2 border border-2 rounded rounded-2">
+										<p class="text-center">Aucun Bus pour le moment</p>
+									</div>
 
+								{% endfor %}
 							</div>
-						{% else %}
-							<div class="row mx-2 my-2 border border-2 rounded rounded-2">
-								<p class="text-center">Aucun Bus pour le moment</p>
-							</div>
+						</div>
+						{# Créer un compte USER #}
+						<div class="modal fade" id="busModal" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content content-modal">
 
-						{% endfor %}
-					</div>
-				</div>
-				{# Créer un compte USER #}
-				<div class="modal fade" id="busModal" tabindex="-1">
-					<div class="modal-dialog">
-						<div class="modal-content content-modal">
+									<div class="modal-header entete_form">
+										<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
+										<h5 class="modal-title text-center title-modal mt-4">
+											<i class="bi bi-person-add fs-3"></i>Créer un Compte</h5>
 
-							<div class="modal-header entete_form">
-								<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-								<h5 class="modal-title text-center title-modal mt-4">
-									<i class="bi bi-person-add fs-3"></i>Créer un Compte</h5>
+									</div>
 
-							</div>
+									<div class="modal-body">
 
-							<div class="modal-body">
-
-								{{ form_start(formCreateUser) }}
-								{{ form_row(formCreateUser.nom, {
+										{{ form_start(formCreateUser) }}
+										{{ form_row(formCreateUser.nom, {
     	'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Nom'
         
       
       }}) }}
-								{{ form_row(formCreateUser.username, {
+										{{ form_row(formCreateUser.username, {
         'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Prenom'
         }}) }}
 
-								{{ form_row(formCreateUser.password, {'attr': {
+										{{ form_row(formCreateUser.password, {'attr': {
             'class': 'form-control form_control',
             'placeholder': 'Entrer le mot de passe'
             }}) }}
-								<button class="Enregistrement mx-4 mt-1">Enregistrer</button>
+										<button class="Enregistrement mx-4 mt-1">Enregistrer</button>
+									</div>
+									{{ form_end(formCreateUser) }}
+									<div class="modal-footer"></div>
+
+								</div>
 							</div>
-							{{ form_end(formCreateUser) }}
-							<div class="modal-footer"></div>
-
 						</div>
+
 					</div>
-				</div>
+				</main>
+				<script src="js/bootstrap.bundle.min.js"></script>
 
-			</div>
-		</main>
-		<script src="js/bootstrap.bundle.min.js"></script>
-
-		<script>
-			{
+				<script>
+					{
 # const links = document.querySelectorAll("#menu1 .nav-links");
 #
 }
@@ -306,9 +319,9 @@ this.classList.add("active");
 
 });
 });
-		</script>
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
+				</script>
+				<script>
+					document.addEventListener("DOMContentLoaded", function () {
 const links = document.querySelectorAll("menu1 .nav-links");
 
 links.forEach(link => {
@@ -320,9 +333,9 @@ this.classList.add("active");
 });
 });
 });
-		</script>
-		<script>
-			document.getElementById('zone').addEventListener('change', function () {
+				</script>
+				<script>
+					document.getElementById('zone').addEventListener('change', function () {
 
 let selectedZone = this.value;
 let trajetSelect = document.getElementById('trajet');
@@ -344,5 +357,5 @@ option.style.display = 'none';
 });
 
 });
-		</script>
-	{% endblock %}
+				</script>
+			{% endblock %}

@@ -32,18 +32,21 @@ final class BusController extends AbstractController
 
             return $this->redirectToRoute('app_buss_index', [], Response::HTTP_SEE_OTHER);
         }
+        $driverNotBus=$administrateurRepository->findDriverNotBus();
+        dump($driverNotBus);
         return $this->render('bus/index.html.twig', [
             'trajets'=> $trajetsRepository->findAll(),
             'buss' => $busRepository->findBy([],['nom'=>'ASC']),
             'conducteurs' => $administrateurRepository->findDriver(),
             'form' => $form,
+            'DriverNotBus'=>$driverNotBus,
            
         ]);
     }
 
 
     #[Route('/{id}/edit', name: 'app_buss_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Bus $bu, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Bus $bu, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager): Response
     {
 
 
@@ -56,7 +59,10 @@ final class BusController extends AbstractController
         $bu->setNom($data['nom']);
         $bu->setEtat($data['etat']);
         $bu->setCapacite($data['capacite']);
-       
+        dd($bu->setAdministrateur($data['conducteur']));
+        
+        dd($bu);
+         $entityManager->persist($bu);
          $entityManager->flush();
         return $this->redirectToRoute('app_buss_index', [], Response::HTTP_SEE_OTHER);
     }

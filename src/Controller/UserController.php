@@ -52,6 +52,7 @@ final class UserController extends AbstractController
             $administrateur->setPassword($hashedPassword);
             $entityManager->persist($administrateur);
             $entityManager->flush();
+            $this->addFlash('success_user', 'Utilisateur enregistré');
 
             return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
         }
@@ -88,9 +89,10 @@ final class UserController extends AbstractController
         } elseif ($zone1) {
             $Allbus = $busRepository->findZoneBus($zone1);
         } else {
-            $Allbus = $busRepository->findAll();
+            $Allbus = $busRepository->findAllBusNotNull();
         }
 
+        dump($Allbus);
         return $this->render('user/index.html.twig', [
             'formCreateUser' => $form,
             'NombreDeBus' => $countbus,

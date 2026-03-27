@@ -12,9 +12,167 @@
     <link rel="stylesheet" href="{{asset('css1/driver/root.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
 
+    <body class=" bg-secondary-subtle ">
+
+    <main class="corps4 fs-5">
+        <div class="container-90 fond3 text-white border-top-color-fresh   rounded-2 ">
+            <div class=" row ">
+                <div class="container-90 row g-1 ">
+                    <div class=" col-6 col-sm-3 p-0 d-grid justify-content-center text-center">
+                        <div class=" color-fresh color-fresh-transparent icon-bus px-5 px-sm-4 py-sm-3 mb-sm-1 py-4 rounded-2">
+                            <p><i class="bi bi-bus-front  color-fresh fs-3"></i></p>
+                            {{bus.nom}}
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-3 text-center d-grid align-items-center justify-content-center">
+                        <small class="">Trajet</small>
+                        <p class="fs-6 text-center color-fresh">{{trajet.nom}}</p>
+                        
+                    </div>
+                    <div class="col-6 col-sm-3  d-grid align-items-center justify-content-center">
+                        <small>Capacite</small>
+                        <p class="text-center color-fresh">{{bus.capacite}}</p>
+                        
+                    </div>
+                    <div class="col-6 col-sm-3  d-grid align-items-center justify-content-center">
+                        <small>Statut</small>
+                        <p class="text-center color-fresh">{{bus.etat}}</p>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class=" g-2 row mise-a-jour">
+                <div class="col-12 col-xl-6 mb-4 mt-2 mt-sm-4 ">
+                    <div class=" container-90 h-300 rounded-2 color-gris   form-background-transparent">
+                        <p class=" ms-1 container-90">STATUT DU BUS</p>
+                        <div class="container-90 mt-4">
+                            <div class="d-flex gap-3 flex-wrap row">
+
+                                <label class="option w-100">
+                                    <input type="radio" name="etat" value="En route">
+                                    <div class="box">En route</div>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="etat" value="Chargement">
+                                    <div class="box">Chargement</div>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="etat" value="Inactif">
+                                    <div class="box">Inactif</div>
+                                </label>
+                                <label class="option">
+                                    <input type="radio" name="etat" value="Incident">
+                                    <div class="box">Incident</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6 mb-4 mt-2 mt-sm-4 ">
+                        <div class=" container-90 h-300 rounded-2 color-gris   form-background-transparent">
+                            <p class=" ms-1 container-90">DIRECTION</p>
+                            <div class="container-90 mt-4">
+                                <div class="d-flex gap-3 flex-wrap row">
+
+                                    <label class="option w-100">
+                                        <input type="radio" name="direction" value="Point B vers point A">
+                                        <div class="box"> <p>Aller</p><small  id="text-second">Point A vers Point B</small> </div>
+                                    </label>
+                                    <label class="option">
+                                        <input type="radio" name="direction" value="Point A vers Point B">
+                                        <div class="box"><p>Retour</p> <small id="text-second">Point B vers Point A</small></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+
+    </main>
+    <header class="fond3 row title position-fixed top-0 min-vw-100 m-0">
+        <div class=" col-3 mt-2">
+            <a href="" class=" text-decoration-none">
+                <h3 class=" text-white col-3"><span class="color-fresh">Bus</span>Track</h3>
+            </a>
+
+        </div>
+
+        <div class="col-5 col-sm-4 col-lg-3  text-center position-absolute mb-sm-2 end-0 ">
+            <a href="" class="text-decoration-none fs-3 color-fresh ">
+                <i class=" bi bi-person-circle color-fresh fs-1"></i> Profil
+            </a>
+        </div>
+
+    </header>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        const radios = document.querySelectorAll('input[name="etat"]');
+
+        radios.forEach(radio => {
+
+            radio.addEventListener('change', function () {
+
+                // 1. reset tout
+                document.querySelectorAll('.box').forEach(box => {
+                    box.classList.remove(
+                        'color-fresh1', 'bg-trans-color-fresh', 'text-white',
+                        'color-red', 'bg-trans-red', 'text-white',
+                        'color-orange', 'bg-trans-orange', 'text-white',
+                        'color-route', 'bg-trans-route', 'text-white',
+                    );
+                });
+
+                // 2. récupérer la box
+                const box = this.nextElementSibling;
+
+                // 3. appliquer style outline
+                switch (this.value) {
+
+                    case "En route":
+                        box.classList.add('color-route', 'bg-trans-route', 'text-white'); // vert
+                        break;
+
+                    case "Incident":
+                        box.classList.add('color-red', 'bg-trans-red', 'text-white'); // rouge
+                        break;
+
+                    case "Inactif":
+                        box.classList.add('color-orange', 'bg-trans-orange', 'text-white'); // jaune
+                        break;
+
+                    case "Chargement":
+                        box.classList.add('color-fresh1', 'bg-trans-color-fresh', 'text-white'); // bleu
+                        break;
+                }
+
+            });
+
+        });
+        
+    </script>
+    <script>
+const directions = document.querySelectorAll('input[name="direction"]');
+
+directions.forEach(input => {
+
+    input.addEventListener('change', function () {
+
+        // reset toutes les box
+        document.querySelectorAll('input[name="direction"]').forEach(i => {
+            i.nextElementSibling.classList.remove('color-fresh', 'bg-trans-color-fresh', 'text-white');
+        });
+
+        // appliquer style sur le sélectionné
+        const box = this.nextElementSibling;
+        box.classList.add('color-fresh', 'bg-trans-color-fresh', 'text-white');
+
+    });
+
+});
+</script>
 
 
-        <div class="cube d-flex justify-content-center">
+
+        {# <div class="cube d-flex justify-content-center">
 
                 <main style="width: 400px; " class="corps min-vh-100">
                     <div class="w-100">
@@ -87,7 +245,7 @@
 
   
                 
-            </div>
+            </div> #}
             <script src="js/bootstrap.bundle.min.js"></script>
 
 {% endblock %}

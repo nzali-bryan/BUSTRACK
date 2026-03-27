@@ -105,7 +105,7 @@
     </div>
 
     {# <a href="{{ path('app_buss_new') }}">Nouveau Bus</a> #}
-
+{# ajouter un bus #}
     <div class="modal fade" id="busModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content content-modal">
@@ -208,6 +208,14 @@
                      <option value="En route" <option {% if bus.etat == "En route" %} selected  {% endif %}>En Route</option>
 
 
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Conducteur</label>
+                <select name="buss[conducteur]" class="form-control">
+                    {% for driver in DriverNotBus%}
+                        <option value="{{driver.nom}}">{{driver.nom}}</option>
+                    {%endfor%}
                 </select>
             </div>
             <div class="modal-footer">

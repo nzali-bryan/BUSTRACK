@@ -43,6 +43,18 @@ class AdministrateurRepository extends ServiceEntityRepository implements Passwo
         ->getQuery()
         ->getResult();
     }
+    public function findDriverNotBus():array
+    {
+        return $this->createQueryBuilder('a')
+        ->leftJoin('a.bus' , 'b')
+        ->Where('b.nom IS NULL')
+        ->andWhere('a.roles LIKE :role')
+        ->setParameter('role', '%ROLE_DRIVER%' )
+        ->orderBy('a.nom','ASC')
+        
+        ->getQuery()
+        ->getResult();
+    }
 
 
 

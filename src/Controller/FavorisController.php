@@ -117,6 +117,7 @@ final class FavorisController extends AbstractController
             $this->addFlash('Delete_Allfavoris', 'aucun trajet à supprimé !');
         }
         foreach($Allfavoris as $favoris){
+
             $em->remove($favoris);
             $em->flush();
             $this->addFlash('delete_Allfavoris', 'Tous les trajets on été supprimés !');
