@@ -12,15 +12,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\BusType;
 use App\Repository\AdministrateurRepository;
+use App\Form\ProfilType;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class ConducteurInterfaceController extends AbstractController
 {
-    #[Route('/interface/conducteur/{id}', name: 'app_interface_conducteur')]
-    public function index(Request $request,$id, AdministrateurRepository $administrateurRepository, EntityManagerInterface $em,PointRepository $pointRepository): Response
+    #[IsGranted ('ROLE_DRIVER')]
+    #[Route('/interface/conducteur/', name: 'app_interface_conducteur')]
+    public function index(Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $em,PointRepository $pointRepository): Response
     {
+    $user=$this->getUser();
+
+    $id= $user->getId();
     $UserDriver= $administrateurRepository->find($id);
     $bus=$UserDriver->getBus();
     $trajet=$bus->getTrajet();
@@ -67,13 +74,68 @@ public function updateDirection($id,Request $request, Bus $bus, EntityManagerInt
 
     // Récupère la direction choisie
     $direction = $request->request->get('direction');
-    if ($direction) {
+    $statut=$request->get('statut');
+
+    if ($direction ) {
         $bus->setDirection($direction); // direction est juste une string ici
         $entityManager->flush();
+    }
+    if($statut){
+        $bus->setEtat($statut); 
+        $entityManager->Flush();
     }
 return $this->redirectToRoute('app_interface_conducteur', [
     'id' => $bus->getAdministrateur()->getId()
 ]);
 }
+
+#[IsGranted('ROLE_DRIVER')]
+#[Route ( '/profil' , name: 'app_conducteur_profil')]
+public function profil(Request $request, EntityManagerInterface $em,AuthenticationUtils $authenticationUtils, AdministrateurRepository $administrateurRepository, UserPasswordHasherInterface $hasher):Response
+{
+    $user= $this->getUser();
+    if (!$user) {
+        return $this->redirectToRoute('app_login');
+    }
+
+    $form = $this->createForm(ProfilType::class, $user);
+    $form->handleRequest($request);
+    $error = $authenticationUtils->getLastAuthenticationError();
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $currentPassword = $form->get('currentPassword')->getData();
+        $newPassword = $form->get('newPassword')->getData();
+
+        
+        if ($newPassword) {
+
+            
+            if (!$hasher->isPasswordValid($user, $currentPassword)) {
+                $this->addFlash('error_password', 'Erreur ancien mot de passe incorrect');
+                return $this->redirectToRoute('app_conducteur_profil');
+            }
+
+          
+            $hashed = $hasher->hashPassword($user, $newPassword);
+            $user->setPassword($hashed);
+        }
+
+        $em->flush();
+        $this->addFlash('success_edit', 'Profil modifier avec succès');
+        
+
+        return $this->redirectToRoute('app_conducteur_profil');
+    }
+    return $this->render('interface_conducteur/profil.html.twig' , [
+        'user'=>$user,
+        'form' => $form->createView(),
+        'error'=>$error,
+    ]);
+
+}
+
+
+
 }
 

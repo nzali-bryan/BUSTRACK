@@ -1,0 +1,218 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BusTrack
+{% endblock %}
+
+{% block body %}
+	{{ include('style/style.html.twig') }}
+	{{ include('style/js.html.twig') }}
+	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
+	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
+    	<link rel="stylesheet" href="{{asset('css1/driver/conducteurs.css')}}">
+
+	<main class=" min-vw-100">
+			{% for message in app.flashes('error_password') %}
+			{% if message %}
+				<div class=" row w-100 d-flex justify-content-center align-items-center">
+					<article class=" message ">
+						<div id="toast-container text-center d-flex justify-content-center">
+							<span class="fs-2">
+								<i class="bi bi-check-circle text-danger fs-2 fw-bold"></i>
+								{{ message }}
+							</span>
+						</div>
+					</article><hr>
+				</div>
+			{% endif %}
+		{% endfor %}
+					{% for message in app.flashes('success_edit') %}
+			{% if message %}
+				<div class=" row w-100 d-flex justify-content-center align-items-center">
+					<article class=" message ">
+						<div id="toast-container text-center d-flex justify-content-center">
+							<span class="fs-2">
+								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
+								{{ message }}
+							</span>
+						</div>
+					</article><hr>
+				</div>
+			{% endif %}
+		{% endfor %}
+			<header class="fond3 row title position-fixed top-0 min-vw-100 m-0">
+				<div class=" col-3 mt-2">
+					<a href="{{path('app_interface_conducteur')}}" class=" text-decoration-none">
+						<h3 class=" text-white col-3">
+							<span class="color-fresh">Bus</span>Track</h3>
+					</a>
+
+				</div>
+
+				<div class="col-5 col-sm-4 col-lg-3  text-center position-absolute mb-sm-2 end-0 ">
+					<a href="{{path('app_conducteur_profil')}}" class="text-decoration-none fs-3 color-fresh ">
+						<i class=" bi bi-person-circle color-fresh fs-1"></i>
+						Profil
+					</a>
+				</div>
+
+			</header>
+	
+		<div class="corps2">
+			<div class="d-flex justify-content-center align-items-center   container rounded rounded-circle">
+				<div class=" haut-favoris rounded-circle border border-color border-3 text-center d-flex justify-content-center" style=" width:100px ; height: 100px;">
+						<span class="color-fresh fs-1 fw-bold"> {{ app.user.nom|first|capitalize }}</span>
+					
+				</div>
+			</div>
+				<div class="container rounded rounded-2 border border-1 border-secondary">
+
+					<div class="entete-info row mb-3">
+						<div class="rounded rounded-2 icone-info   d-inline">
+							<i class="bi bi-person fs-1 icon-info px-1 rounded rounded-2"></i>
+							<span class=" fw-semibold fs-4">Informations personnelles</span>
+						</div>
+						<div class="col-sm-2 col position-absolute end-0 me-5 mt-3">
+							<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#busModal">Modifier</button>
+						</div>
+						<hr>
+					</div>
+					<div class="row mb-3">
+						<div class=" col-xs-12 col-sm-4 text-center">
+							<span class=" text-secondary">Nom</span>
+							<br>
+							<span class=" fw-semibold">{{user.nom|capitalize}}</span>
+						</div>
+						<div class=" col-xs-12 col-sm-4 text-center">
+							<span class=" text-secondary">Username</span>
+							<br>
+							<span class=" fw-semibold">{{user.username|capitalize}}</span>
+						</div>
+						<div class=" col-xs-12 col-sm-4 text-center">
+							<span class=" text-secondary">Mot de passe</span>
+							<br>
+							<span class=" fw-semibold">********</span>
+						</div>
+					</div>
+					<div class="row mb-3 deconnect">
+						<a id="danger" class="nav-link text-danger text-center fs-3 colorDashboard" href="{{path ('deconnexion')}}">
+							<i class="bi bi-box-arrow-right"></i>
+							<span class=" fs-5">Déconnexion</span>
+						</a>
+					</div>
+
+				</div>
+			</div>
+
+		</main>
+
+
+{# formulaire de modification d'information #}
+		<div class="modal fade" id="busModal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content content-modal">
+
+					<div class="modal-header entete_form">
+						<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
+						<h5 class="modal-title text-center title-modal mt-4">
+							Modifier vos informations</h5>
+
+					</div>
+
+					<div class="modal-body">
+						{{ form_start(form) }}
+
+						{% if error %}
+							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData) }}</div>
+						{% endif %}
+						{{ form_row(form.nom , {
+								'attr': {'class': 'form-control form_control',
+							}}) }}
+						{{ form_row(form.username, {
+								'attr': {'class': 'form-control form_control',
+							}}) }}
+						{{ form_row(form.currentPassword , {
+								'attr': {'class': 'form-control form_control',
+								'placeholder': 'Mot de Passe'
+							}}) }}
+						{{ form_row(form.newPassword , {
+								'attr': {'class': 'form-control form_control',
+								'placeholder': 'Mot de Passe'
+							}}) }}
+						<button class="Enregistrement mx-4 mt-1">Modifier</button>
+					</div>
+					{{ form_end(form) }}
+				</div>
+
+				<div class="modal-footer"></div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+	{
+# const links = document.querySelectorAll("#menu1 .nav-links");
+#
+}
+const links = document.querySelectorAll("#menu1 a");
+
+links.forEach(link => {
+link.addEventListener("click", function () { // enlever active sur tous les liens
+links.forEach(l => l.classList.remove("active"));
+
+// ajouter active au lien cliqué
+this.classList.add("active");
+
+});
+});
+const links = document.querySelectorAll("#favoris .favoris");
+
+links.forEach(link => {
+link.addEventListener("click", function () { // enlever active sur tous les liens
+links.forEach(l => l.classList.remove("active"));
+
+// ajouter active au lien cliqué
+this.classList.add("active");
+
+});
+});
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+const links = document.querySelectorAll("menu1 .nav-links");
+
+links.forEach(link => {
+link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
+links.forEach(l => l.classList.remove("active"));
+
+
+this.classList.add("active");
+});
+});
+});
+</script>
+<script>
+	document.getElementById('zone').addEventListener('change', function () {
+
+let selectedZone = this.value;
+let trajetSelect = document.getElementById('trajet');
+let options = trajetSelect.querySelectorAll('option');
+
+options.forEach(option => {
+
+let zone = option.getAttribute('data-zone');
+
+if (option.value === '') {
+option.style.display = 'block';
+}
+if (! selectedZone || zone === selectedZone) {
+option.style.display = 'block';
+} else {
+option.style.display = 'none';
+}
+
+});
+
+});
+</script>{% endblock %}
