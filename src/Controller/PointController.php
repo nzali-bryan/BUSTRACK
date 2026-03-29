@@ -19,20 +19,31 @@ final class PointController extends AbstractController
     public function index(Request $request,PointRepository $pointRepository,TrajetsRepository $trajetsRepository, EntityManagerInterface $entityManager): Response
     {
 
-        $point = new Point();
-        $form = $this->createForm(PointType::class, $point);
-        $form->handleRequest($request);
+        // $point = new Point();
+        // $form = $this->createForm(PointType::class, $point);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $entityManager->persist($point);
+        //     $entityManager->flush();
+
+        //     return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
+
+        $point = new Point();
+        $formPoint = $this->createForm(PointType::class, $point);
+        $formPoint->handleRequest($request);
+
+        if ($formPoint->isSubmitted() && $formPoint->isValid()) {
             $entityManager->persist($point);
             $entityManager->flush();
-
+            $this->addFlash('admin_create_point', 'Point ajouter avec succès');
             return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
         }
+        
         return $this->render('point/index.html.twig', [
             'trajet'=>$trajetsRepository->findAll(),
             'points' => $pointRepository->findBy([],['nom'=>'ASC']),
-            'form' => $form,
+            'form' => $formPoint,
         ]);
     }
 

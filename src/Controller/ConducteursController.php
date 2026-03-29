@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ConducteursController extends AbstractController
 {
-    #[Route('/conducteurs', name: 'app_conducteurs_index')]
+    #[Route('/conducteurs', name: 'app_conducteurs_index' )]
     public function index(Request $request,AdministrateurRepository $administrateurRepository,EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
 
     {

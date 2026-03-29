@@ -124,17 +124,21 @@
             'class': 'form-control form_control',
             'placeholder': 'Entrer la zone'
             }}) }} #}
+               <button type="submit">Envoyer</button>
         {{ form_row(form.description, {
             'attr': {'class': 'form-control form_control',
             'placeholder': 'Ex:Ndokiti coté Brasserie',
         }}) }}
-
+  
       </div>
 
       <div class="modal-footer">
       <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
-        <button class="Enregistrer mx-4 mt-1">Enregistrer</button>
-        {{ form_end(form) }}
+        <button type="submit" class="Enregistrer mx-4 mt-1">Enregistrer</button>
+        <form action="{{path('app_point_index')}}" method="post">
+           
+        </form>
+      {{ form_end(form) }}
       </div>
 
     </div>

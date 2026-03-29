@@ -18,8 +18,7 @@ class PointRepository extends ServiceEntityRepository
 
 //    /**
 //     * @return Point[] Returns an array of Point objects
-//     */
-//    public function findByExampleField($value): array
+//     *//    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

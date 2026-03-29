@@ -93,7 +93,7 @@
 						{# <a href="{{ path('app_conducteurs_edit', {'id': conducteur.id}) }}">Modifier</a> #}
 						<form class="mt-1" method="post" action="{{ path('app_conducteurs_delete', {'id': conducteur.id}) }}" onsubmit="return confirm('cet action supprimera ce conducteur?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ conducteur.id) }}">
-							<button class="btn btn-danger dang btn-sm ">
+							<button type="submit" class="btn btn-danger dang btn-sm ">
 								<i class="bi bi-trash"></i>Supprimer</button>
 						</form>
 					</td>
@@ -117,10 +117,10 @@
 				<h5 class="modal-title text-center title-modal">
 					<i class="bi bi-person-add fs-3"></i>Ajouter un Conducteur</h5>
 			</div>
-
+			{{ form_start(form) }}
 			<div class="modal-body">
 
-				{{ form_start(form) }}
+				
 				{{ form_row(form.nom, {
         'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Nom'
@@ -155,10 +155,10 @@
 
 			<div class="modal-footer">
 				<button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
-				<button class="Enregistrer mx-4 mt-1">Enregistrer</button>
-				{{ form_end(form) }}
+				<button type="submit" class="Enregistrer mx-4 mt-1">Enregistrer</button>
+					{{ form_end(form) }}
 			</div>
-
+		
 		</div>
 	</div>
 </div></div>{% for conducteur in conducteurs %}
@@ -194,7 +194,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
-						<button class="Enregistrer mx-4 mt-1">Modifier</button>
+						<button type="submit" class="Enregistrer mx-4 mt-1">Modifier</button>
 					</div>
 				</form>
 
