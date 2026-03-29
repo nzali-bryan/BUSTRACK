@@ -93,6 +93,9 @@ final class UserController extends AbstractController
         }
 
         dump($Allbus);
+        // return $this->render('user/profilNoConnect.html.twig',[
+        //     'formCreateUser' => $form,
+        // ]);
         return $this->render('user/index.html.twig', [
             'formCreateUser' => $form,
             'NombreDeBus' => $countbus,
@@ -128,16 +131,19 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profil', name: 'app_user_profil_NoConnect')]
+    #[Route('/Profil', name: 'app_user_profil_NoConnect')]
     public function profilNoConnect(Request $request)
     {
         return $this->render('user/profilNoConnect.html.twig', []);
     }
 
     #[Route('/favoris', name: 'app_user_favoris_NoConnect')]
-    public function favorisNoConnect(Request $request)
+    public function favorisNoConnect(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher)
     {
-        return $this->render('user/favorisNoConnect.html.twig', []);
+
+        return $this->render('user/favorisNoConnect.html.twig', [
+
+        ]);
     }
 
     #[Route('/Profil/', name: 'app_user_profil', methods: ['GET', 'POST'])]

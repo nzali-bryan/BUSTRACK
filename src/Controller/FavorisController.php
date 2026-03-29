@@ -5,11 +5,17 @@ namespace App\Controller;
 use App\Entity\Favori;
 use App\Entity\Favoris;
 use App\Entity\Trajets;
+use App\Entity\Administrateur;
+use App\Form\NewUserType;
+use App\Repository\AdministrateurRepository;
 use App\Repository\BusRepository;
 use App\Repository\FavorisRepository;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -17,10 +23,26 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class FavorisController extends AbstractController
 {
     #[Route('/favori', name: 'app_favoris')]
-    public function index(): Response
+    public function index(Request $request,AuthenticationUtils $authenticationUtils,  AdministrateurRepository $administrateurRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher): Response
     {
+        // $administrateur = new Administrateur();
+        // $form = $this->createForm(NewUserType::class, $administrateur);
+        // $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $hashedPassword = $hasher->hashPassword(
+        //         $administrateur,
+        //         $administrateur->getPassword()
+        //     );
+        //     $administrateur->setPassword($hashedPassword);
+        //     $em->persist($administrateur);
+        //     $em->flush();
+
+        //     return $this->redirectToRoute('app_favoris', [], Response::HTTP_SEE_OTHER);
+        // }
         return $this->render('user/favorisNoConnect.html.twig', [
-         
+            // 'form' => $form,
+            // 'formCreateUser' => $form,
         ]);
     }
     #[Route('/favoris', name: 'favoris_list')]
@@ -50,7 +72,7 @@ final class FavorisController extends AbstractController
         
     }
 
-
+    
 
     #[Route('/favori/ajouter/{id}', name: 'favori_ajouter')]
     #[IsGranted('ROLE_USER')] 

@@ -1,6 +1,11 @@
 .corps{
     margin-left: 250px;
 }
+.corps-5{
+    background-color: #eff5fd;
+    margin-left: 250px;
+    width: 100vw !important;
+}
 .colorDashboard{
     color: var(--color-text-secondary) !important;
 }
@@ -81,13 +86,13 @@
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
     background-color: var(--color-surface);
-    color: var(--color-text-secondary);
+    color: var(--color-btn-primary-hover);
 }
 
 .action:hover{
-    border: 1.3px solid var(--color-primary) !important;
+    border: 1.3px solid var(--color-btn-primary-hover) !important;
     transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 15px rgba(39, 59, 55, 0.2);
     -webkit-transform: translateY(-3px);
     -moz-transform: translateY(-3px);
     -ms-transform: translateY(-3px);
@@ -106,7 +111,7 @@
     border: 1.3px solid #dcdddf !important;
 }
 .colorIcon{
-    color: var(--color-primary);
+    color: var(--color-btn-primary-hover);
 }
 .ajouter{
     background-color:none !important;

@@ -14,15 +14,10 @@
 				<span class="color-fresh">Bus</span>Track</h3>
 
 
-			<form method="GET" class="col-4 col-sm-6 h-75  my-1" action="{{path('app_user')}}">
+			<form method="GET" class="col-4 col-sm-6 h-75 position-absolute end-0  my-1" action="{{path('app_user')}}">
 				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Rechercher">
 				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
 			</form>
-
-			<div class="col-4 text-center position-absolute end-0">
-				<button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1" data-bs-toggle="modal" data-bs-target="#Connexion">connexion</button>
-				<button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" data-bs-toggle="modal" data-bs-target="#busModal">inscription</button>
-			</div>
 			<div class="sous-entete position-fixed bg-white w-100 ">
 				<nav class="nav color-fresh " id="menu1">
 					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
@@ -56,6 +51,7 @@
 
 			</div>
 		</div>
+		
 
 	</main>
 	<script src="js/bootstrap.bundle.min.js"></script>

@@ -32,16 +32,29 @@
 							<p class="fs-6 text-center color-fresh">{{trajet.nom}}</p>
 
 						</div>
-						<div class="col-6 col-sm-3  d-grid align-items-center justify-content-center">
-							<small>Capacite</small>
-							<p class="text-center color-fresh">{{bus.capacite}}</p>
+						<div class="col-6 col-sm-3 text-center  d-grid align-items-center justify-content-center">
+							<small>Direction</small>
+							<p class="text-center color-fresh">
+								{% for pointA in pointASC %}
+								{% for pointB in pointDESC %}
+								{# {{bus.direction}} #}
+								{% if bus.direction == pointA.nom ~' vers '~ pointB.nom %}
+									Aller
+								{%else%}
+									Retour
+								{%endif%}
+						
+							{% endfor %}
+							{% endfor %}</p>
 
 						</div>
-						<div class="col-6 col-sm-3  d-grid align-items-center justify-content-center">
+						<div class="col-6 col-sm-3 text-center  d-grid align-items-center justify-content-center">
 							<small>Statut</small>
-							<p class="text-center color-fresh 
+							<p class="text-center 
                                 {% if bus.etat == 'Incident' %}
-
+									color-red  px-3 rounded-3
+								{%else%}
+									color-fresh 
                                 {%endif%}
                             ">{{bus.etat}}</p>
 
