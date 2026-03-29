@@ -37,7 +37,21 @@
 			</div>
 		{% endif %}
 	{% endfor %}
-		{% for message in app.flashes('admin_create_point') %}
+	{% for message in app.flashes('admin_create_point') %}
+		{% if message %}
+			<div class=" row w-100 d-flex justify-content-center align-items-center">
+				<article class=" message ">
+					<div id="toast-container text-center d-flex justify-content-center">
+						<span class="fs-2">
+							<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
+							{{ message }}
+						</span>
+					</div>
+				</article>
+			</div>
+		{% endif %}
+	{% endfor %}
+	{% for message in app.flashes('admin_create_trajet') %}
 		{% if message %}
 			<div class=" row w-100 d-flex justify-content-center align-items-center">
 				<article class=" message ">
@@ -107,14 +121,23 @@
 
 <div class="corps-5">
 	<header class="w-100">
-		<h1 class=" d-inline text-black ">Vue d'ensemble du système
-		</h1>
-		<button class="Ajouter d-inline position-absolute end-0 my-2 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
-			Ajouter bus
+		<span>
+			
+				<h3 class=" d-inline text-black ">Tableau de bord</h3><br><small>Vue d'ensemble du systeme</small>		
+		</span>
+		<button class="Ajouter d-inline position-absolute end-0 top-0 my-2 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
+			A
 		</button>
 		<hr>
 	</header>
 	<div class="corps-7">
+
+		{# Mot de bienvenu #}
+
+		<div cla>
+			
+		</div>
+
 		<div id="animate" class="container-fluid Dashboard ">
 			<h3 style="color: var(--color-text-primary);">Actions rapides</h3>
 			<div class="mt-3  row gap-3 gap-4">
@@ -122,7 +145,7 @@
 					<div class="col rounded action text-center d-grid align-items-center " data-bs-toggle="modal" data-bs-target="#conducteurModal">
 						<i class="fas fa-user-tie fs-1 colorIcon"></i>Ajouter un Conducteur
 					</div>
-					<div class="col rounded action text-center d-grid align-items-center">
+					<div class="col rounded action text-center d-grid align-items-center" data-bs-toggle="modal" data-bs-target="#trajetModal">
 						<i class="fas fa-route fs-1 colorIcon"></i>
 						Ajouter un Trajet
 					</div>
@@ -268,51 +291,109 @@
 			</div>
 		</div>
 
+		{# formulaire d'ajout du trajet #}
+		<div class="modal fade" id="trajetModal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content content-modal">
+
+					<div class="modal-header entete_form">
+						<h5 class="modal-title text-center title-modal">
+							<i class="fas fa-route fs-3"></i>Ajouter un trajet</h5>
+					</div>
+
+					<div class="modal-body">
+
+						{{ form_start(formTrajet) }}
+						{{ form_row(formTrajet.nom, {
+            'attr': {'class': 'form-control form_control',
+            'placeholder': 'Entrer le Nom'
+        
+        }}) }}
+						{{ form_row(formTrajet.ligne,
+             {'attr':
+                {
+                    'type': 'text',
+                    'class': 'form-control form_control',
+                    'placeholder': 'ligne12',
+                }             
+             }        
+        )}}
+
+						{{ form_row(formTrajet.etat, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
+						{{ form_row(formTrajet.zone, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
+						{{ form_row(formTrajet.depart, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
+						{{ form_row(formTrajet.arrivee, {'attr': {
+            'class': 'form-control form_control',
+            'placeholder': ''
+        }}) }}
+
+					</div>
+
+
+					<div class="modal-footer">
+						<button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
+						<button class="Enregistrer mx-4 mt-1">Enregistrer</button>
+						{{ form_end(formTrajet) }}
+					</div>
+
+				</div>
+			</div>
+		</div>
+
 		<!-- Contenu -->
 		{# <div class="corps">
-							<div id="animate" class="container-fluid Dashboard ">
-								<h3 style="color: var(--color-text-primary);">Actions rapides</h3>
-								<div class="mt-3  row gap-3 gap-4">
-									<div class=" mx-2 pe-4 row gap-3 gap-4">
-										<div class="col rounded action text-center d-grid align-items-center">
-											<i class="fas fa-user-tie fs-1 colorIcon"></i>Ajouter un Conducteur
-										</div>
-										<div class="col rounded action text-center d-grid align-items-center">
-											<i class="fas fa-route fs-1 colorIcon"></i>
-											Ajouter un Trajet
-										</div>
-										<div class="col  rounded action text-center d-grid align-items-center">
-											<i class="fas fa-map-marker-alt fs-1 colorIcon"></i>Ajouter un Point
-										</div>
-						
-									</div>
-									<div class="mt-3 pe-4 row  mx-2 gap-3 gap-4">
-										<div class="col rounded action text-center d-grid align-items-center">
-											<i class="fas fa-bus fs-1 colorIcon"></i>Ajouter un Bus</div>
-									</div>
-									<section>
-										<H3>Statistiques</H3>
-										<div class=" mx-2 pe-4 row gap-3 gap-4">
-											<div class="col rounded action text-center actionStat d-grid align-items-center">
-												<i class="fas fa-bus fs-1 colorIcon">50</i>
-												Bus Enregistrés
+									<div id="animate" class="container-fluid Dashboard ">
+										<h3 style="color: var(--color-text-primary);">Actions rapides</h3>
+										<div class="mt-3  row gap-3 gap-4">
+											<div class=" mx-2 pe-4 row gap-3 gap-4">
+												<div class="col rounded action text-center d-grid align-items-center">
+													<i class="fas fa-user-tie fs-1 colorIcon"></i>Ajouter un Conducteur
+												</div>
+												<div class="col rounded action text-center d-grid align-items-center">
+													<i class="fas fa-route fs-1 colorIcon"></i>
+													Ajouter un Trajet
+												</div>
+												<div class="col  rounded action text-center d-grid align-items-center">
+													<i class="fas fa-map-marker-alt fs-1 colorIcon"></i>Ajouter un Point
+												</div>
+								
 											</div>
-											<div class="col rounded action text-center actionStat d-grid align-items-center">
-												<i class="fas fa-user-tie fs-1 colorIcon">49</i>Conducteurs Actifs
+											<div class="mt-3 pe-4 row  mx-2 gap-3 gap-4">
+												<div class="col rounded action text-center d-grid align-items-center">
+													<i class="fas fa-bus fs-1 colorIcon"></i>Ajouter un Bus</div>
 											</div>
-											<div class="col  rounded action actionStat text-center d-grid align-items-center">
-												<i class="fas fa-map-marker-alt fs-1 colorIcon">134</i>Nombre de trajets
+											<section>
+												<H3>Statistiques</H3>
+												<div class=" mx-2 pe-4 row gap-3 gap-4">
+													<div class="col rounded action text-center actionStat d-grid align-items-center">
+														<i class="fas fa-bus fs-1 colorIcon">50</i>
+														Bus Enregistrés
+													</div>
+													<div class="col rounded action text-center actionStat d-grid align-items-center">
+														<i class="fas fa-user-tie fs-1 colorIcon">49</i>Conducteurs Actifs
+													</div>
+													<div class="col  rounded action actionStat text-center d-grid align-items-center">
+														<i class="fas fa-map-marker-alt fs-1 colorIcon">134</i>Nombre de trajets
+													</div>
+												</section>
+								
+								
 											</div>
-										</section>
-						
-						
+								
+								
+										</div>
 									</div>
-						
-						
-								</div>
-							</div>
-						
-						</div> #}
+								
+								</div> #}
 		<script src="../../js/bootstrap.bundle.min.js"></script>
 		<script>
 

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Administrateur;
 use App\Entity\Bus;
 use App\Entity\Point;
+use App\Entity\Trajets;
+use App\Form\TrajetsType;
 use App\Form\PointType;
 use App\Form\BusType;
 use App\Repository\BusRepository;
@@ -12,6 +14,7 @@ use App\Form\AdministrateurType;
 use App\Form\AjoutModifDriverType;
 use App\Repository\AdministrateurRepository;
 use App\Repository\PointRepository;
+use App\Repository\TrajetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,7 +96,7 @@ final class AdministrateurController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('', name: 'app_administrateur_index')]
-       public function index(Request $request,BusRepository $busRepository,PointRepository $pointRepository,EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
+       public function index(Request $request,BusRepository $busRepository,PointRepository $pointRepository,TrajetsRepository $trajetsRepository,EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
     {
 
     // ajouter administrateur
@@ -139,10 +142,37 @@ final class AdministrateurController extends AbstractController
             $entityManager->flush();
             $this->addFlash('admin_create_point', 'Point ajouter avec succès');
         }
+
+
+    // ajouter un trajet
+
+        $trajet = new Trajets();
+        $formTrajet = $this->createForm(TrajetsType::class, $trajet);
+        $formTrajet->handleRequest($request);
+        $trajets = $trajetsRepository->findAll();
+
+
+        if ($formTrajet->isSubmitted() && $formTrajet->isValid()) {
+            $entityManager->persist($trajet);
+            $entityManager->flush();
+            // 2️⃣ Récupérer les points sélectionnés
+            $depart = $formTrajet->get('depart')->getData();
+            $arrivee = $formTrajet->get('arrivee')->getData();
+
+            // 3️⃣ Mettre le trajet dans les points
+            $depart->setTrajet($trajet);
+            $arrivee->setTrajet($trajet);
+
+            $entityManager->persist($depart);
+            $entityManager->persist($arrivee);
+            $entityManager->flush();
+            $this->addFlash('admin_create_trajet', 'Trajet créé avec succès !');
+        }
         return $this->render('administrateur/index.html.twig', [
             'form' => $form,
             'formDriver' => $formDriver,
             'formPoint'=>$formPoint,
+            'formTrajet'=>$formTrajet,
 
            
         ]);
