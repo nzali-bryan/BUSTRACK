@@ -15,6 +15,14 @@ class TrajetsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Trajets::class);
     }
+    
+    public function CountTrajets()
+    {
+        return $this->createQueryBuilder('t')
+        ->select('COUNT(t.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
 
 //    /**
 //     * @return Trajets[] Returns an array of Trajets objects

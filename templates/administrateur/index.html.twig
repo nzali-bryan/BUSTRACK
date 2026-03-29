@@ -123,10 +123,12 @@
 	<header class="w-100">
 		<span>
 			
-				<h3 class=" d-inline text-black ">Tableau de bord</h3><br><small>Vue d'ensemble du systeme</small>		
+				<h3 class=" d-inline text-black ">Tableau de bord</h3><br><small class=" text-secondary-emphasis">Vue d'ensemble du systeme</small>		
 		</span>
-		<button class="Ajouter d-inline position-absolute end-0 top-0 my-2 mx-1 btn-sm" data-bs-toggle="modal" data-bs-target="#busModal">
-			A
+		<button class="Ajouter d-inline position-absolute end-0 top-0 my-2 mx-1 btn-sm">
+			{{ "now"|date("d/m/Y H:i") }}     {# 29/03/2026 14:35 #}
+			{# {{ "now"|date("H:i") }}           14:35 #}
+			{# {{ "now"|date("l") }}             dimanche #}
 		</button>
 		<hr>
 	</header>
@@ -134,9 +136,21 @@
 
 		{# Mot de bienvenu #}
 
-		<div cla>
-			
+		<div class="container-90 rounded-3  bg-fond text-secondary p-3 border-top-color">
+			<div class="row">
+				<div class="col-12 col-xl-7">
+					<h1>Bonjour,</h1>
+					<h3 class="text-fond">{{user.nom}}</h3>
+					<p>Bienvenue sur votre centre de pilotage, gagner la confiance de vos usagers en les fournissant des données en temps réel  sur votre reseau de transport. En ce moment vous supervisez <span class="colorIcon">{{nombreBus}} bus actifs, </span><span class="colorIcon">{{nombreTrajets}} Trajets</span> et <span class="colorIcon">{{nombreDrivers}} conducteurs.</span></p>	
+					<div class="bg-before"></div>
+				</div>
+				<div class="col-12  col-xl-5">
+					<img class=" rounded-2 container-90 " src="{{asset('img/floote.jpg')}}" alt="" width="300px" height="300px">
+				</div>
+
+			</div>
 		</div>
+
 
 		<div id="animate" class="container-fluid Dashboard ">
 			<h3 style="color: var(--color-text-primary);">Actions rapides</h3>

@@ -18,7 +18,12 @@
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
 }
-
+.bg-fond{
+    background-color: var(--color-fond-secondaire) !important;
+}
+.text-fond{
+    color: var(--color-btn-primary-hover);
+}
 #menu{
     position: fixed;
     z-index: 5;
@@ -125,4 +130,26 @@
 
 .responsiveNav{
     height: 90% !important;
+}
+.container-90{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.container-90-right{
+    width: 90%;
+    margin-right: 5%;
+}
+.bg-before {
+    position: relative;
+    top: -250px;
+    left: -40px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 201, 167, .1), transparent 70%);
+    pointer-events: none;
+}
+.border-top-color{
+    border-top: 4px solid var(--color-btn-primary-hover) !important;
 }

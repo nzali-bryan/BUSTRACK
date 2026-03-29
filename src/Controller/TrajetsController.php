@@ -78,6 +78,12 @@ final class TrajetsController extends AbstractController
     public function delete(Request $request, Trajets $trajet, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$trajet->getId(), $request->getPayload()->getString('_token'))) {
+            foreach($trajet->getBuses() as $bus){
+                $bus->setTrajet(null);
+            }
+            foreach($trajet->getBuses() as $point){
+                $point->setPoint(null);
+            }
             $entityManager->remove($trajet);
             $entityManager->flush();
         }

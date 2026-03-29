@@ -70,6 +70,14 @@ class PointRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();                  
     }
+
+    public function CountPoints()
+    {
+        return $this->createQueryBuilder('p')
+        ->select('COUNT(p.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
 //     public function findPointsByTrajetId(int $trajetId): array
 // {
 //     return $this->createQueryBuilder('p') 

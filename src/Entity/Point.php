@@ -22,6 +22,7 @@ class Point
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_point')]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?Trajets $trajet = null;
 
     public function getId(): ?int

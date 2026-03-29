@@ -55,6 +55,15 @@ class AdministrateurRepository extends ServiceEntityRepository implements Passwo
         ->getQuery()
         ->getResult();
     }
+    public function CountDrivers()
+    {
+        return $this->createQueryBuilder('a')
+        ->select('COUNT(a.id)')
+        ->Where('a.roles like :role')
+        ->setParameter('role','%ROLE_DRIVER%')
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
 
 
 

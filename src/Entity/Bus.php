@@ -24,6 +24,7 @@ class Bus
     private ?string $etat = null;
 
     #[ORM\ManyToOne(inversedBy: 'buses')]
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
     private ?Trajets $trajet = null;
 
     // #[ORM\OneToOne(inversedBy: 'bus', cascade: ['persist', 'remove'])]

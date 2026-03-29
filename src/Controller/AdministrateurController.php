@@ -96,7 +96,7 @@ final class AdministrateurController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('', name: 'app_administrateur_index')]
-       public function index(Request $request,BusRepository $busRepository,PointRepository $pointRepository,TrajetsRepository $trajetsRepository,EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
+       public function index(Request $request,AdministrateurRepository $administrateurRepository,BusRepository $busRepository,PointRepository $pointRepository,TrajetsRepository $trajetsRepository,EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
     {
 
     // ajouter administrateur
@@ -168,11 +168,28 @@ final class AdministrateurController extends AbstractController
             $entityManager->flush();
             $this->addFlash('admin_create_trajet', 'Trajet créé avec succès !');
         }
+
+        // nombre de Trajets 
+        $nombreTrajets=$trajetsRepository->CountTrajets();
+        $nombrePoints=$pointRepository->CountPoints();
+        $nombreDrivers=$administrateurRepository->CountDrivers();
+        $nombreBus=$busRepository->CountBus();
+
+        // dump($nombreBus);
+        // Nom de l'utilisateur connecter
+
+        $user= $this->getUser();
+        
+
         return $this->render('administrateur/index.html.twig', [
             'form' => $form,
             'formDriver' => $formDriver,
             'formPoint'=>$formPoint,
             'formTrajet'=>$formTrajet,
+            'nombreTrajets'=>$nombreTrajets,
+            'nombreBus'=>$nombreBus,
+            'nombreDrivers'=>$nombreDrivers,
+            'user'=>$user,
 
            
         ]);

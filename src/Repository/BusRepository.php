@@ -24,6 +24,15 @@ class BusRepository extends ServiceEntityRepository
         ->getQuery()
         ->getSingleScalarResult();
     }
+        public function CountBus()
+    {
+        return $this->createQueryBuilder('b')
+        ->select('COUNT(b.id)')
+        ->where('b.etat IN (:etat)')
+        ->setParameter('etat', ['Incident','Chargement','En route'])
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
     public function findAllBusNotNull()
     {
         return $this->createQueryBuilder('b')
