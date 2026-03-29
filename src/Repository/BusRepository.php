@@ -37,6 +37,7 @@ class BusRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
         ->where('b.administrateur IS NOT NULL')
+        ->andwhere('b.trajet IS NOT NULL')
         ->getQuery()
         ->getResult();
     }

@@ -46,7 +46,7 @@ final class BusController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'app_buss_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Bus $bu, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Bus $bu,TrajetsRepository $trajetRepository, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager): Response
     {
 
 
@@ -55,13 +55,17 @@ final class BusController extends AbstractController
         $form->handleRequest($request);
         $data = $request->request->all()['buss'];
         
-
+        $admin=$data['conducteur'];
+        $administrateur=$administrateurRepository->find($admin);
+        $trajet=$data['trajet'];
+        $trajetRecovery=$trajetRepository->find($trajet);
         $bu->setNom($data['nom']);
         $bu->setEtat($data['etat']);
         $bu->setCapacite($data['capacite']);
-        dd($bu->setAdministrateur($data['conducteur']));
-        
-        dd($bu);
+        $bu->setTrajet($trajetRecovery);
+
+        $bu->setAdministrateur($administrateur);
+
          $entityManager->persist($bu);
          $entityManager->flush();
         return $this->redirectToRoute('app_buss_index', [], Response::HTTP_SEE_OTHER);

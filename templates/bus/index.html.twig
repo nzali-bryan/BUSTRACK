@@ -200,16 +200,20 @@
 					<div class="mb-3">
 						<label>Etat</label>
 						<select name="buss[etat]" class="form-control">
-							<optionInactif</option value="inactif" <option {% if bus.etat == 'inactif' %} selected {% endif %}>>
-								<optionChargement</option value="chargement" <option {% if bus.etat == "chargement" %} selected {% endif %}>>
-									<optionIncident</option value="Incident" <option {% if bus.etat == "Incident" %} selected {% endif %}>>
-										<optionEnConducteur</label value="En route" <option {% if bus.etat == "En route" %} selected {% endif %}> route</option> </select> </div> <div class="mb-3"> <label>>
-											<select name="buss[conducteur]" class="form-control">
-												{% for driver in DriverNotBus%}
-													<option value="{{driver.nom}}">{{driver.nom}}</option>
-													{%endfor%}
-												</select>
-											</div>
+                            <option value="Inactif" <option {% if bus.etat == 'inactif' %} selected {% endif %}> Inactif</option>
+                            <option value="Chargement" <option {% if bus.etat == "chargement" %} selected {% endif %}> Chargement</option>
+                            <option value="Incident" <option {% if bus.etat == "Incident" %} selected {% endif %}> Incident</option>
+                            <option value="En route" <option {% if bus.etat == "En route" %} selected {% endif %}> route</option>
+                        </select> 
+                    </div>          
+                    <div class="mb-3">
+                        <label for="">Conducteur</label>
+                        <select name="buss[conducteur]" class="form-control form_control">
+                            {% for driver in DriverNotBus%}
+                                <option value="{{driver.id}}">{{driver.nom}}</option>
+                                {%endfor%}
+                        </select>
+                    </div>
 											<div class="modal-footer">
 												<button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
 												<button class="Enregistrer mx-4 mt-1">Modifier</button>

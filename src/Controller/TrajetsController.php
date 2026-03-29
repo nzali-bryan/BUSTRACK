@@ -80,9 +80,10 @@ final class TrajetsController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$trajet->getId(), $request->getPayload()->getString('_token'))) {
             foreach($trajet->getBuses() as $bus){
                 $bus->setTrajet(null);
+                $bus->setDirection(null);
             }
-            foreach($trajet->getBuses() as $point){
-                $point->setPoint(null);
+            foreach($trajet->getPoint() as $point){
+                $point->setTrajet(null);
             }
             $entityManager->remove($trajet);
             $entityManager->flush();

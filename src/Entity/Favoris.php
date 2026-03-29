@@ -17,10 +17,11 @@ class Favoris
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false , onDelete: "CASCADE")]
     private ?Trajets $trajets = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
+    #[ORM\JoinColumn(nullable: false , onDelete: "CASCADE")]
     private ?Administrateur $administrateur = null;
 
 
