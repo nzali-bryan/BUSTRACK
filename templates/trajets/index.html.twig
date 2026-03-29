@@ -200,8 +200,14 @@
 								<input type="text" name="trajets[ligne]" value="{{trajet.ligne}}" class="form-control form_control" required>
 							</div>
 							<div class="mb-3">
-								<label>Ligne</label>
-								<input type="text" name="trajets[zone]" value="{{trajet.zone}}" class="form-control form_control" required>
+								<label>Zone</label>
+									<select name="trajets[zone]" id="" class="form-control form_control" required >
+										<option value="DOUALA I" {% if trajet.zone=='DOUALA I' %} selected {%endif%}>DOUALA I</option>
+										<option value="DOUALA II" {% if trajet.zone=='DOUALA II' %} selected {%endif%}>DOUALA II</option>
+										<option value="DOUALA III" {% if trajet.zone=='DOUALA III' %} selected {%endif%}>DOUALA III</option>
+										<option value="DOUALA IV" {% if trajet.zone=='DOUALA IV' %} selected {%endif%}>DOUALA IV</option>
+										<option value="DOUALA V" {% if trajet.zone=='DOUALA V' %} selected {%endif%}>DOUALA V</option>
+									</select>
 							</div>
 							<div class="mb-3">
 								<label>Etat</label>

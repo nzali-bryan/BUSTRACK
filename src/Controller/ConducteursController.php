@@ -51,7 +51,7 @@ final class ConducteursController extends AbstractController
     {
         $form = $this->createForm(AjoutModifDriverType::class, $administrateur);
         $form->handleRequest($request);
-        $data = $request->request->all()['administrateur'];
+        $data = $request->request->all()['conducteurs'];
 
         $administrateur->setNom($data['nom']);
         $administrateur->setTelephone($data['telephone']);
@@ -62,7 +62,7 @@ final class ConducteursController extends AbstractController
             );
             $administrateur->setPassword($hashedPassword);
         $entityManager->flush();
-        return $this->redirectToRoute('app_trajets_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_conducteurs_index', [], Response::HTTP_SEE_OTHER);
         
     }
 
