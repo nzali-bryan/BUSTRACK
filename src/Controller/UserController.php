@@ -77,13 +77,13 @@ final class UserController extends AbstractController
 
 
         // filtre très personalisée
-
-
+        
         // filtre par mot 
         $mot = $request->query->get('mot');
         // filtre par mot 
         if ($mot) {
             $Allbus = $busRepository->searchBus($mot);
+            dump($Allbus);
         } elseif ($trajet || $statut || $zone) {
             $Allbus = $busRepository->findfilter($zone, $trajet, $statut);
         } elseif ($zone1) {
@@ -92,7 +92,7 @@ final class UserController extends AbstractController
             $Allbus = $busRepository->findAllBusNotNull();
         }
 
-        dump($Allbus);
+        // dump($Allbus);
         // return $this->render('user/profilNoConnect.html.twig',[
         //     'formCreateUser' => $form,
         // ]);

@@ -84,6 +84,8 @@ public function searchBus(string $mot)
        ->orWhere('b.etat LIKE :q')
        ->orWhere('t.nom LIKE :q')
        ->orWhere('p.nom LIKE :q')
+        ->andwhere('b.administrateur IS NOT NULL')
+        ->andwhere('b.trajet IS NOT NULL')
        ->setParameter('q', '%'.$mot.'%')
        ->orderBy('b.nom', 'ASC');
 
