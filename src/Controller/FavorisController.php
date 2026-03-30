@@ -95,7 +95,7 @@ final class FavorisController extends AbstractController
         $em->persist($favori);
         $em->flush();
 
-        $this->addFlash('success', 'Ce trajet ajouté à vos favoris !');
+        $this->addFlash('success', 'Trajet ajouté à vos favoris !');
 
         return $this->redirectToRoute('app_user'); // ou page actuelle
     }

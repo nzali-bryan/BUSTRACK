@@ -25,7 +25,7 @@
 				</div>
 			{% endif %}
 		{% endfor %}
-					{% for message in app.flashes('success_edit') %}
+		{% for message in app.flashes('success_edit') %}
 			{% if message %}
 				<div class=" row w-100 d-flex justify-content-center align-items-center">
 					<article class=" message ">
@@ -51,7 +51,6 @@
 				<div class="col-5 col-sm-4 col-lg-3  text-center position-absolute mb-sm-2 end-0 ">
 					<a href="{{path('app_conducteur_profil')}}" class="text-decoration-none fs-3 color-fresh ">
 						<i class=" bi bi-person-circle color-fresh fs-1"></i>
-						Profil
 					</a>
 				</div>
 

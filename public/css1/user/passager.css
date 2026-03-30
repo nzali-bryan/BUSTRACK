@@ -46,7 +46,7 @@
     background: radial-gradient(circle, rgba(1, 146, 113, .1), transparent);
 }
 .haut-favoris{
-    margin-top: 100px;
+    margin-top: 10px;
     background: linear-gradient(135deg, var(--color-fond-secondaire), #0d2a50);
     padding: 22px 24px;
     margin-bottom: 20px;
