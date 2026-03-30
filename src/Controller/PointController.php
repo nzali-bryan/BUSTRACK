@@ -36,14 +36,16 @@ final class PointController extends AbstractController
         if ($formPoint->isSubmitted() && $formPoint->isValid()) {
             $entityManager->persist($point);
             $entityManager->flush();
+            dump($point);
             $this->addFlash('admin_create_point', 'Point ajouter avec succès');
             return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
         }
         
+        
         return $this->render('point/index.html.twig', [
             'trajet'=>$trajetsRepository->findAll(),
             'points' => $pointRepository->findBy([],['nom'=>'ASC']),
-            'form' => $formPoint,
+            'form' => $formPoint->createView(),
         ]);
     }
 

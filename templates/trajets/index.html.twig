@@ -123,46 +123,45 @@
 	<div class="modal fade" id="busModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content content-modal">
-
+				{{ form_start(form) }}
 				<div class="modal-header entete_form">
 					<h5 class="modal-title text-center title-modal">
 						<i class="fas fa-route fs-3"></i>Ajouter un trajet</h5>
 				</div>
 
 				<div class="modal-body">
-
-					{{ form_start(form) }}
 					{{ form_row(form.nom, {
-            'attr': {'class': 'form-control form_control',
-            'placeholder': 'Entrer le Nom'
-        
-        }}) }}
+						'attr': {'class': 'form-control form_control',
+						'placeholder': 'Entrer le Nom'
+					
+					}}) }}
 					{{ form_row(form.ligne,
-             {'attr':
-                {
-                    'type': 'text',
-                    'class': 'form-control form_control',
-                    'placeholder': 'ligne12',
-                }             
-             }        
-        )}}
+						{'attr':
+							{
+								'type': 'text',
+								'class': 'form-control form_control',
+								'placeholder': 'ligne12',
+							}             
+						}        
+					)}}
 
 					{{ form_row(form.etat, {'attr': {
-            'class': 'form-control form_control',
-            'placeholder': ''
-        }}) }}
-					{{ form_row(form.zone, {'attr': {
-            'class': 'form-control form_control',
-            'placeholder': ''
-        }}) }}
+						'class': 'form-control form_control',
+						'placeholder': ''
+					}}) }}
+								{{ form_row(form.zone, {'attr': {
+						'class': 'form-control form_control',
+						'placeholder': ''
+					}}) }}
 					{{ form_row(form.depart, {'attr': {
-            'class': 'form-control form_control',
-            'placeholder': ''
-        }}) }}
+						'class': 'form-control form_control',
+						'placeholder': ''
+					}}) }}
 					{{ form_row(form.arrivee, {'attr': {
-            'class': 'form-control form_control',
-            'placeholder': ''
-        }}) }}
+						'class': 'form-control form_control',
+						'placeholder': ''
+					}}) }}
+					{{ form_widget(form._token) }}
 
 				</div>
 
@@ -170,9 +169,9 @@
 				<div class="modal-footer">
 					<button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
 					<button class="Enregistrer mx-4 mt-1">Enregistrer</button>
-					{{ form_end(form) }}
+					
 				</div>
-
+				{{ form_end(form) }}
 			</div>
 		</div>
 	</div>

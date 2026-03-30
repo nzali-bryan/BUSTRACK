@@ -105,42 +105,33 @@
     <div class="modal fade" id="busModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content content-modal">
-
+       {{ form_start(form) }}
       <div class="modal-header entete_form">
         <h5 class="modal-title text-center title-modal"><i class="bi bi-person-add fs-3"></i>Ajouter un point</h5>
       </div>
 
       <div class="modal-body">
 
-        {{ form_start(form) }}
+ 
       {{ form_row(form.nom, {
         'attr': {'class': 'form-control form_control',
         'placeholder': 'Entrer le Nom'
         
       
       }}) }}
-       
-        {# {{ form_row(form.zone, {'attr': {
-            'class': 'form-control form_control',
-            'placeholder': 'Entrer la zone'
-            }}) }} #}
-               <button type="submit">Envoyer</button>
         {{ form_row(form.description, {
             'attr': {'class': 'form-control form_control',
             'placeholder': 'Ex:Ndokiti coté Brasserie',
         }}) }}
-  
+      {{ form_widget(form._token) }}
       </div>
 
       <div class="modal-footer">
       <button type="button" class="Annuler position-absolute start-0 mx-4 mt-2" data-bs-dismiss="modal">Annuler</button>
         <button type="submit" class="Enregistrer mx-4 mt-1">Enregistrer</button>
-        <form action="{{path('app_point_index')}}" method="post">
-           
-        </form>
-      {{ form_end(form) }}
+     
       </div>
-
+ {{ form_end(form) }}
     </div>
   </div>
 </div>
