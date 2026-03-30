@@ -66,7 +66,7 @@
 						<div class="col-12 col-xl-6 mb-4 mt-2 mt-sm-4 ">
 							<div class=" container-90 h-300 rounded-2 color-gris   form-background-transparent">
 								<p class=" ms-1 container-90">STATUT DU BUS</p>
-								<div class="container-90 mt-4">
+								<div class="container-90 mt-4 fs-6">
 									<div class="d-flex gap-3 flex-wrap row">
 
 										<label class="option w-100">
@@ -92,7 +92,7 @@
 						<div class="col-12 col-xl-6 mb-4 mt-2 mt-sm-4 ">
 							<div class=" container-90 h-300 rounded-2 color-gris   form-background-transparent">
 								<p class=" ms-1 container-90">DIRECTION</p>
-								<div class="container-90 mt-4">
+								<div class="container-90 mt-4 fs-6">
 									<div class="d-flex gap-3 flex-wrap row">
 										{% for pointA in pointASC %}
 											{% for pointB in pointDESC %}
@@ -106,7 +106,7 @@
 															{{ pointB.nom }}</small>
 													</div>
 												</label>
-												<label class="option">
+												<label class="option mt-5">
 													<input type="radio" name="direction" value="{{ pointB.nom }} vers {{ pointA.nom }}">
 													<div class="box1">
 														<p>Retour</p>
@@ -142,7 +142,7 @@
 				<div class="col-5 col-sm-4 col-lg-3  text-center position-absolute mb-sm-2 end-0 ">
 					<a href="{{path('app_conducteur_profil')}}" class="text-decoration-none fs-3 color-fresh ">
 						<i class=" bi bi-person-circle color-fresh fs-1"></i>
-						Profil
+						
 					</a>
 				</div>
 

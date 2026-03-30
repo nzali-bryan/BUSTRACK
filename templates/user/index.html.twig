@@ -74,10 +74,10 @@
 						<a href="{{path('app_user_favoris_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
 						{%endif%}
 						{% if app.user %}
-							<a href="{{ path('app_user_profil', {'id':app.user.id}) }}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
+							<a href="{{ path('app_user_profil') }}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
 						{% else %}
 							<a href="{{path ('app_user_profil_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
-							{%endif%}
+						{%endif%}
 
 						</nav>
 						<hr class="mb-0">

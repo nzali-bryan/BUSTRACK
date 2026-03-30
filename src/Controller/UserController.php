@@ -146,7 +146,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/Profil/', name: 'app_user_profil', methods: ['GET', 'POST'])]
+    #[Route('/profilUser', name: 'app_user_profil', methods: ['GET', 'POST'])]
     public function profil(Request $request,AuthenticationUtils $authenticationUtils,  AdministrateurRepository $administrateurRepository, EntityManagerInterface $em, UserPasswordHasherInterface $hasher)
 
     {  

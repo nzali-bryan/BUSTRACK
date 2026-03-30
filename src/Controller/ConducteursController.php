@@ -13,9 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('conducteurs', name:'')]
 final class ConducteursController extends AbstractController
 {
-    #[Route('/conducteurs', name: 'app_conducteurs_index' )]
+    #[Route('', name: 'app_conducteurs_index' )]
     public function index(Request $request,AdministrateurRepository $administrateurRepository,EntityManagerInterface $entityManager,UserPasswordHasherInterface $hasher): Response
 
     {
