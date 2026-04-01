@@ -12,8 +12,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Administrateur;
 use App\Form\NewUserType;
 use App\Form\ProfilType;
+use App\Repository\FavorisRepository;
 use App\Repository\TrajetsRepository;
 use  Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,7 +24,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserController extends AbstractController
 {
     #[Route('', name: 'app_user')]
-    public function index(BusRepository $busRepository, TrajetsRepository $trajetsRepository, Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    public function index(BusRepository $busRepository,FavorisRepository $favorisRepository, TrajetsRepository $trajetsRepository, Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
         $countbus = $busRepository->findBusActifs([
             'En Route',
@@ -96,15 +98,28 @@ final class UserController extends AbstractController
         // return $this->render('user/profilNoConnect.html.twig',[
         //     'formCreateUser' => $form,
         // ]);
+        // 
+
+
+        // gerer l'affichage des favoris
+        $user= $this->getUser();
+        $id= $user->getId();
+        $favoris = $favorisRepository->findFavoris($id);
+        $favorisId = array_map(fn($f) => $f->getTrajets()->getId(), $favoris);
+
+        //  dd($favoris);
         return $this->render('user/index.html.twig', [
+
             'formCreateUser' => $form,
             'NombreDeBus' => $countbus,
             'AllBus' => $Allbus,
             'conducteurs' => $administrateurRepository->findDriver(),
             'trajets' => $trajetsRepository->findAll(),
+            'favoris'=>$favorisId,
         ]);
     }
 
+    
 
     #[Route('/creer', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
@@ -196,6 +211,20 @@ final class UserController extends AbstractController
        
     }
 
+    #[Route('delete/{id}', name:'favoris_delete')]
+    public function delete(Request $request,Int $id, EntityManagerInterface $em,FavorisRepository $favorisRepository):Response
+    {
+        $user=$this->getUser();
+            $favoris=$favorisRepository->findOneBy([
+            'administrateur'=>$user,
+            'trajets'=>$id
+        ]);
+        $em->remove($favoris);
+        $em->flush();
+         $this->addFlash('favoris_delete', 'Ce trajet à été supprimé de vos favoris !');
+
+        return $this->redirectToRoute('app_user');
+    }
 
 
 

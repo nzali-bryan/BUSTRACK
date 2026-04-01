@@ -191,6 +191,10 @@
     border: 1px solid var(--color-btn-primary-hover) !important;
     color: var(--color-btn-primary-hover);
 }
+.favoris-delete{
+    background-color: #00C9A7;
+    
+}
 
 .etat{
     background-color: #00c9a752;
