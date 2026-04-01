@@ -54,6 +54,9 @@
     overflow: hidden;
 
 }
+.haut-1{
+    margin-top: 100px !important;
+}
 .connexion{
     background-color: #24292e7c;
     border-radius: 10px;
