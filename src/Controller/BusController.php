@@ -10,6 +10,7 @@ use App\Repository\TrajetsRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -80,5 +81,21 @@ final class BusController extends AbstractController
         }
 
         return $this->redirectToRoute('app_buss_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/api/trajets', name: 'app_buss_api', methods: ['POST','GET'])]
+    public function api(Request $request,TrajetsRepository $trajetsRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = [];
+        $trajets=$trajetsRepository->findAll();
+
+        foreach ($trajets as $trajet) {
+            $data[] = [
+                'id' => $trajet->getId(),
+                'nom' => $trajet->getNom(),
+                // 'bus' => $busList
+            ];
+        }
+
+        return $this->json($data);
     }
 }

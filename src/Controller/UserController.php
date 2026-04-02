@@ -103,10 +103,14 @@ final class UserController extends AbstractController
 
         // gerer l'affichage des favoris
         $user= $this->getUser();
-        $id= $user->getId();
-        $favoris = $favorisRepository->findFavoris($id);
-        $favorisId = array_map(fn($f) => $f->getTrajets()->getId(), $favoris);
-
+        if($user){
+             $id= $user->getId();
+            $favoris = $favorisRepository->findFavoris($id);
+            $favorisId = array_map(fn($f) => $f->getTrajets()->getId(), $favoris);
+        }else{
+            $favorisId=null;
+        }
+        
         //  dd($favoris);
         return $this->render('user/index.html.twig', [
 

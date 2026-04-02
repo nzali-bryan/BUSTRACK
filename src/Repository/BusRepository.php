@@ -46,6 +46,8 @@ class BusRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->join('b.trajet', 't')
             ->where('t.zone= :zone')
+            ->andwhere('b.administrateur IS NOT NULL')
+            ->andwhere('b.trajet IS NOT NULL')
             ->setParameter('zone', $zone)
             ->getQuery()
             ->getResult();

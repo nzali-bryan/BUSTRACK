@@ -1,383 +1,774 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BusTrack
-{% endblock %}
+{% block title %}BusTrack — Suivi en temps réel{% endblock %}
 
 {% block body %}
-	{{ include('style/style.html.twig') }}
-	{{ include('style/js.html.twig') }}
-	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
-	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
-	<main
-		class=" min-vw-100">
+{{ include('style/style.html.twig') }}
+{{ include('style/js.html.twig') }}
 
+<style>
+:root {
+  --cf: #0A1628;
+  --cp: #019271;
+  --cph: #00C9A7;
+  --col: #4A6FA5;
+  --cbg: #F5F7FA;
+  --csf: #ffffff;
+  --cbo: #DDE4EC;
+  --ct1: #0D1B2A;
+  --ct2: #5A7184;
+  --ct3: #9ab0c4;
+  --cok: #7FB77E;
+  --cer: #C76D6D;
+  --tr: .22s cubic-bezier(.4,0,.2,1);
+}
 
-		{# <p>bonjour tous le monde</p> #}
-		{% for message in app.flashes('success') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2">
-								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article>
-				</div>
-			{% endif %}
-		{% endfor %}
-		{# si le favoris existe deja #}
-		{% for message in app.flashes('info_favoris') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center ">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-3">
-								<i class="bi bi-x-circle text-danger  fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article>
-				</div>
-			{% endif %}
-		{% endfor %}
-				{% for message in app.flashes('favoris_delete') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2">
-								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article><hr>
-				</div>
-			{% endif %}
-			{%endfor%}
-		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
-			<h3 class=" text-white col-3">
-				<span class="color-fresh">Bus</span>Track</h3>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; background: var(--cbg); color: var(--ct1); }
 
-			{% if app.user %}
-				<form method="GET" class="col-4 col-sm-6 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
-					<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Trajets,Point et Bus">
-					<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-				</form>
-				{%else%}
-				<form method="GET" class="col-4 col-sm-6 h-75  my-1" action="{{path('app_user')}}">
-					<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Trajets,Point et Bus">
-					<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-				</form>
+/* ══ HEADER ══ */
+.bt-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: var(--cf);
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 20px rgba(0,0,0,.22);
+  border-top: 3px solid var(--cph);
+}
+.bt-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.bt-logo-ic {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--cp), var(--cph));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: .9rem;
+  box-shadow: 0 3px 10px rgba(0,201,167,.4);
+}
+.bt-logo-tx { font-size: 1.1rem; font-weight: 800; color: #fff; }
+.bt-logo-tx span { color: var(--cph); }
 
-				<div class="col-4 text-center position-absolute end-0">
-					<button class="connexion btn btn-sm rounded rounded-1 border border-1 mt-1">
-						<a href="{{path('app_login')}}" class=" text-decoration-none text-white">Connexion
-						</a>
-					</button>
-					<button class="inscription btn btn-sm rounded rounded-1 border border-1 mx-2 mx-sm-0 mt-1" data-bs-toggle="modal" data-bs-target="#busModal">Inscription</button>
-				</div>
-			{% endif %}
-			<div class="sous-entete position-fixed bg-white w-100 p-0">
-				<nav class="nav color-fresh " id="menu1">
-					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh  active">Bus en temps réel</a><hr>
-					{% if app.user %}
-						<a href="{{path('favoris_list')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
-					{% else %}
-						<a href="{{path('app_user_favoris_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
-						{%endif%}
-						{% if app.user %}
-							<a href="{{ path('app_user_profil') }}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
-						{% else %}
-							<a href="{{path ('app_user_profil_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Profil</a>
-						{%endif%}
+.bt-search-form {
+  display: flex; align-items: center; gap: 0;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 30px; overflow: hidden;
+  max-width: 340px; flex: 1; margin: 0 20px;
+}
+.bt-search-form input {
+  flex: 1; padding: 8px 14px;
+  background: transparent; border: none;
+  color: #fff; font-size: .84rem; font-family: inherit; outline: none;
+}
+.bt-search-form input::placeholder { color: rgba(255,255,255,.32); }
+.bt-search-form button {
+  padding: 8px 16px; background: var(--cph); border: none;
+  color: var(--cf); font-size: .82rem; font-weight: 700;
+  cursor: pointer; transition: background var(--tr); font-family: inherit;
+}
+.bt-search-form button:hover { background: #00ddb8; }
 
-						</nav>
-						<hr class="mb-0">
-					</div>
-				</header>
-				<div class="fond corps1 ">
-					<div class="fond d-grid align-items-center ">
-						<div class="fond-vert  rounded rounded-2 text-center">
-							<h6 class=" position-relative mb-">
-								<span class=" fs-1 "></span>
-								SUIVI EN DIRECT.DOUALA</h6>
-						</div>
-					</div>
-					<h3 class="fs-1 text-white">Suivez vos bus en
-						<span class="color-fresh">temps réel</span>
-					</h3>
-					<p class="color-secondaire">Consulteé l'état de
-						<span class="bus text-second">{{NombreDeBus}}
-							bus actifs</span>
-						sur le réseau de Douala. Filtrez par zone ou par trajet pour trouver votre bus rapidement, sans compte requis</p>
-					<div class="filtres row w-100 position-relative text-center ms-2">
-						<form method="GET" action="{{ path('app_user') }}" class="row g-3">
-							<div class="col-md-2 fond ">
-								<label class=" text-white">Zone</label>
-								<select id="zone" name="zonefilter" class="form-control form_select1">
-									<option value="" fond>Toutes les zones</option>
-									<option value="Douala I" fond>Douala I</option>
-									<option value="Douala II" fond>Douala II</option>
-									<option value="Douala III">Douala III</option>
-									<option value="Douala IV">Douala IV</option>
-									<option value="Douala V">Douala V</option>
-								</select>
-							</div>
-							<div class="col-md-2">
-								<label class="text-white">Trajet</label>
-								<select id="trajet" name="trajet" class="form-control form_select1">
+.bt-header-actions { display: flex; align-items: center; gap: 8px; }
+.bt-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 30px;
+  font-size: .82rem; font-weight: 600;
+  border: none; cursor: pointer; transition: var(--tr);
+  font-family: inherit; text-decoration: none;
+}
+.bt-btn-outline {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.75);
+}
+.bt-btn-outline:hover { background: rgba(255,255,255,.15); color: #fff; }
+.bt-btn-primary {
+  background: var(--cph); color: var(--cf);
+  box-shadow: 0 3px 12px rgba(0,201,167,.35);
+}
+.bt-btn-primary:hover { background: #00ddb8; transform: translateY(-1px); }
 
-									<option value="">Tous les trajets</option>
+/* ══ SOUS-HEADER ══ */
+.bt-nav-bar {
+  position: fixed; top: 60px; left: 0; right: 0; z-index: 150;
+  background: var(--csf);
+  border-bottom: 1px solid var(--cbo);
+  height: 48px;
+  display: flex; align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 1px 10px rgba(13,27,42,.06);
+}
+.bt-nav-links { display: flex; align-items: center; gap: 4px; }
+.bt-nav-link {
+  text-decoration: none;
+  font-size: .85rem; font-weight: 600;
+  color: var(--ct2);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: var(--tr);
+  position: relative;
+}
+.bt-nav-link::after {
+  content: ''; position: absolute;
+  bottom: -1px; left: 14px; right: 14px;
+  height: 2.5px; border-radius: 2px 2px 0 0;
+  background: var(--cph); transform: scaleX(0);
+  transition: transform var(--tr);
+}
+.bt-nav-link:hover { color: var(--cph); background: rgba(0,201,167,.06); }
+.bt-nav-link.active { color: var(--cph); background: rgba(0,201,167,.08); }
+.bt-nav-link.active::after { transform: scaleX(1); }
 
-									{% for trajet in trajets %}
-										<option value="{{ trajet.id }}" data-zone="{{ trajet.zone }}">
+/* ══ FLASH MESSAGES ══ */
+.flash-wrap {
+  position: fixed; top: 72px; left: 50%; transform: translateX(-50%);
+  z-index: 500; width: 90%; max-width: 520px;
+}
+.flash-msg {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 18px; border-radius: 12px;
+  background: #fff; border-left: 4px solid var(--cph);
+  box-shadow: 0 8px 28px rgba(13,27,42,.15);
+  font-size: .87rem; font-weight: 500; color: var(--ct1);
+  margin-bottom: 8px;
+  animation: flashSlide .4s ease forwards, flashFade .5s ease forwards 4s;
+}
+.flash-msg.info { border-left-color: var(--cer); }
+.flash-msg.delete { border-left-color: var(--cph); }
+.flash-icon { font-size: 1.1rem; flex-shrink: 0; }
+@keyframes flashSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes flashFade  { to { opacity: 0; transform: translateY(-10px); } }
 
-											{{ trajet.nom }}
-										</option>
-									{% endfor %}
+/* ══ HERO SECTION ══ */
+.bt-hero {
+  margin-top: 108px;
+  background: var(--cf);
+  padding: 44px 24px 36px;
+  position: relative; overflow: hidden;
+}
+.bt-hero::before {
+  content: ''; position: absolute; top: -80px; right: -40px;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,201,167,.12), transparent 70%);
+  pointer-events: none;
+}
+.bt-hero::after {
+  content: ''; position: absolute; bottom: -50px; left: -20px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,111,165,.1), transparent 70%);
+  pointer-events: none;
+}
+.bt-hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
 
-								</select>
-							</div>
-							<div class="col-md-2 ">
-								<label class="text-white">Statut</label>
-								<select name="statut" class="form-control form_select1">
-									<option value="">Tous</option>
-									<option value="En route">En route</option>
-									<option value="Chargement">Chargement</option>
-									<option value="Incident">Incident</option>
-									<option value="Inactif">Inactif</option>
-								</select>
-							</div>
-							<div class="col-md-2 ">
-								<button class="btn filtrer w-100 mt-4">Filtrer</button>
-							</div>
-						</form>
-					</div><hr>
+.bt-live-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,201,167,.1);
+  border: 1px solid rgba(0,201,167,.22);
+  padding: 5px 14px; border-radius: 30px;
+  font-size: .71rem; font-weight: 700;
+  color: var(--cph); letter-spacing: .06em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.bt-live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--cph);
+  animation: livePulse 2s infinite;
+}
+@keyframes livePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,201,167,.5); }
+  70% { box-shadow: 0 0 0 7px rgba(0,201,167,0); }
+}
 
-				</div>
-				<div class="lien2">
-					<div class="navigation-filtr container d-grid justify-content-center align-items-center pt-5">
-						<div id="filtre">
-							<a href="{{ path('app_user') }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 active ">Tous</a>
-							<a href="{{ path('app_user', {zone:'Douala I'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA I</a>
-							<a href="{{ path('app_user', {zone:'Douala II'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA II</a>
-							<a href="{{ path('app_user', {zone:'Douala III'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA III</a>
-							<a href="{{ path('app_user', {zone:'Douala IV'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA IV</a>
-							<a href="{{ path('app_user', {zone:'Douala V'}) }}" class="btn btn-xl btn-filtre rounded-5 fs-6 border border-1 bg-white">DOUALA V</a>
-						</div>
+.bt-hero h1 {
+  font-size: clamp(1.65rem, 4vw, 2.6rem);
+  font-weight: 900; color: #fff;
+  letter-spacing: -.035em; line-height: 1.08;
+  margin-bottom: 10px;
+}
+.bt-hero h1 span { color: var(--cph); }
+.bt-hero-sub {
+  color: rgba(255,255,255,.4);
+  font-size: .9rem; line-height: 1.65;
+  max-width: 520px; margin-bottom: 26px;
+}
+.bt-hero-sub strong { color: rgba(255,255,255,.72); font-weight: 600; }
 
-					</div>
-					<div class="listbus">
-						{% for bus in AllBus %}
-							<div class="container bus-detail my-2">
+/* filtres hero */
+.bt-filters {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+}
+.bt-filter-group { display: flex; flex-direction: column; gap: 4px; }
+.bt-filter-group label {
+  font-size: .71rem; font-weight: 700; color: rgba(255,255,255,.38);
+  text-transform: uppercase; letter-spacing: .07em;
+}
+.bt-select {
+  appearance: none;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px;
+  padding: 9px 32px 9px 14px;
+  color: rgba(255,255,255,.8); font-family: inherit; font-size: .84rem;
+  outline: none; cursor: pointer; transition: var(--tr);
+  min-width: 160px;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='18' viewBox='0 0 20 20' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5H5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.bt-select:focus { border-color: var(--cph); box-shadow: 0 0 0 3px rgba(0,201,167,.14); background-color: rgba(255,255,255,.12); }
+.bt-select option { background: #0d1f3c; color: #fff; }
+.bt-filter-btn {
+  padding: 10px 22px; border-radius: 10px; border: none;
+  background: var(--cph); color: var(--cf);
+  font-family: inherit; font-size: .84rem; font-weight: 700;
+  cursor: pointer; transition: var(--tr);
+  box-shadow: 0 4px 14px rgba(0,201,167,.32);
+}
+.bt-filter-btn:hover { background: #00ddb8; transform: translateY(-1px); }
 
+/* ══ ZONE PILLS ══ */
+.bt-zone-bar {
+  background: var(--cbg);
+  padding: 18px 24px 10px;
+  border-bottom: 1px solid var(--cbo);
+}
+.bt-zone-inner { max-width: 1100px; margin: 0 auto; }
+.bt-zone-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.bt-zone-pill {
+  text-decoration: none;
+  display: inline-flex; align-items: center;
+  padding: 7px 18px; border-radius: 30px;
+  font-size: .81rem; font-weight: 600;
+  color: var(--ct2);
+  border: 1.5px solid var(--cbo);
+  background: var(--csf);
+  transition: var(--tr);
+}
+.bt-zone-pill:hover { border-color: var(--cph); color: var(--cph); background: rgba(0,201,167,.04); }
+.bt-zone-pill.active {
+  background: var(--cph); border-color: var(--cph);
+  color: var(--cf); font-weight: 700;
+  box-shadow: 0 3px 12px rgba(0,201,167,.3);
+}
 
-								<div
-									class="card info-bus1 p-3 shadow-sm">
+/* ══ BUS LIST WRAPPER ══ */
+.bt-main { max-width: 1100px; margin: 0 auto; padding: 24px 24px 48px; }
 
-									<!-- HEADER -->
-									<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-										<div class="d-flex align-items-center">
-											<span class="badge badge-route me-2">
-												<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
-													<span class=" position-static ">{{bus.trajet.ligne}}</span>
-												</div>
-											</span>
-											<div>
-												<h5 class="mb-0 w-100">{{bus.trajet.nom|capitalize}}</h5>
-												{% if bus.etat == 'Inactif' %}
-													<span>Indisponible</span>
-												{% else %}
-													<span class="info2">{{bus.direction}}</span>
-													{%endif%}
-												</div>
-											</div><hr>
+/* résultat count */
+.bt-result-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+}
+.bt-result-title { font-size: .95rem; font-weight: 700; color: var(--ct1); }
+.bt-result-sub { font-size: .76rem; color: var(--ct3); margin-top: 2px; }
 
-											<div>
-												<span class="badge status etat2">●
-													{{bus.etat}}
-												</span>
-												{% if bus.trajet.id in favoris %}
-													<a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}" class="">
-														<button class="favoris rounded rounded-circle">
-															<i class="bi bi-heart color-fresh favoris-delete"></i>
-														</button>
-													</a>
-												{%else%}
-													<a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}" class="">
-														<button class="favoris rounded rounded-circle">
-															<i class="bi bi-heart color-fresh "></i>
-														</button>
-													</a>
-												{%endif%}
-											</div>
-										</div>
+/* ══ BUS CARD ══ */
+.bt-bus-card {
+  background: var(--csf);
+  border-radius: 16px;
+  border: 1.5px solid var(--cbo);
+  border-top: 4px solid var(--cph);
+  box-shadow: 0 2px 12px rgba(13,27,42,.07);
+  margin-bottom: 14px;
+  transition: border-color var(--tr), box-shadow var(--tr), transform var(--tr);
+  overflow: hidden;
+}
+.bt-bus-card:hover {
+  border-color: rgba(0,201,167,.35);
+  border-top-color: var(--cph);
+  box-shadow: 0 8px 28px rgba(0,201,167,.1);
+  transform: translateY(-2px);
+}
 
-										<!-- INFOS -->
-										<div class="row text-center g-3">
+.bt-card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--cbo);
+  flex-wrap: wrap; gap: 10px;
+}
+.bt-card-left { display: flex; align-items: center; gap: 13px; }
+.bt-line-badge {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: var(--cf);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; font-weight: 800; color: var(--cph);
+  flex-shrink: 0;
+}
+.bt-card-name { font-size: .96rem; font-weight: 700; color: var(--ct1); margin-bottom: 3px; }
+.bt-card-dir {
+  font-size: .78rem; color: var(--ct2);
+  display: flex; align-items: center; gap: 4px;
+}
+.bt-card-dir i { font-size: .7rem; color: var(--cph); }
 
-											<div class="col-6 col-md-3 info-box">
+.bt-card-right { display: flex; align-items: center; gap: 10px; }
+.bt-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 20px;
+  font-size: .74rem; font-weight: 700;
+}
+.bt-status-er { background: rgba(127,183,126,.12); border: 1px solid rgba(127,183,126,.25); color: #3d8a3c; }
+.bt-status-ch { background: rgba(79,195,247,.1); border: 1px solid rgba(79,195,247,.2); color: #0077aa; }
+.bt-status-in { background: rgba(199,109,109,.1); border: 1px solid rgba(199,109,109,.2); color: var(--cer); }
+.bt-status-def { background: rgba(154,176,196,.1); border: 1px solid rgba(154,176,196,.2); color: var(--ct3); }
+.bt-sdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.bt-status-er .bt-sdot { animation: livePulse 2s infinite; }
 
-												<i class="fas fa-bus fs-4 color-fond "></i>
-												<div>{{bus.nom|capitalize}}</div>
-												<small class="text-muted">Bus</small>
-											</div>
+.bt-fav-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--cbo);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ct3); cursor: pointer; transition: var(--tr);
+  text-decoration: none;
+}
+.bt-fav-btn:hover { border-color: var(--cph); color: var(--cph); background: rgba(0,201,167,.06); transform: scale(1.08); }
+.bt-fav-btn.active { border-color: var(--cph); background: rgba(0,201,167,.1); color: var(--cp); }
 
-											<div class="col-6 col-md-3 info-box">
-												<i class="fas fa-user-tie fs-4 color-fond"></i>
-												<div>{{bus.administrateur?.nom|capitalize}}</div>
-												<small class="text-muted">Conducteur</small>
-											</div>
+/* infos grille */
+.bt-card-info {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 14px 18px;
+}
+.bt-info-cell {
+  text-align: center; padding: 6px 8px;
+  border-right: 1px solid var(--cbo);
+}
+.bt-info-cell:last-child { border-right: none; }
+.bt-info-cell i { font-size: 1rem; color: var(--cf); margin-bottom: 5px; display: block; }
+.bt-info-val { font-size: .88rem; font-weight: 700; color: var(--ct1); }
+.bt-info-lbl { font-size: .7rem; color: var(--ct3); margin-top: 1px; }
 
-											<div class="col-6 col-md-3 info-box">
-												<i class="bi bi-people fs-4 color-fond"></i>
-												<div>{{bus.capacite}}</div>
-												<small class="text-muted">Places</small>
-											</div>
+/* ══ EMPTY STATE ══ */
+.bt-empty {
+  text-align: center; padding: 56px 24px;
+  background: var(--csf); border-radius: 16px;
+  border: 2px dashed var(--cbo);
+}
+.bt-empty i { font-size: 2.4rem; color: var(--cbo); display: block; margin-bottom: 12px; }
+.bt-empty-t { font-size: .95rem; font-weight: 700; color: var(--ct1); margin-bottom: 6px; }
+.bt-empty-s { font-size: .84rem; color: var(--ct2); }
 
-											<div class="col-6 col-md-3 info-box">
-												<i class="bi bi-geo-alt fs-4 color-fond"></i>
+/* ══ MODAL INSCRIPTION ══ */
+.modal-content { border-radius: 18px !important; overflow: hidden !important; border: none !important; box-shadow: 0 24px 60px rgba(10,22,40,.25) !important; }
+.modal-header.entete_form {
+  background: var(--cf) !important; padding: 22px 24px 18px !important; border-bottom: none !important;
+}
+.title-modal {
+  display: inline-flex !important; align-items: center !important; gap: 8px !important;
+  padding: 6px 18px !important; border-radius: 30px !important;
+  border: 1px solid rgba(0,201,167,.28) !important;
+  background: rgba(1,146,113,.15) !important;
+  color: var(--cph) !important; font-weight: 700 !important; font-size: .92rem !important;
+  width: auto !important; margin: 0 !important;
+}
+.annul {
+  position: absolute !important; top: 14px !important; right: 14px !important;
+  width: 28px !important; height: 28px !important; border-radius: 50% !important;
+  background: rgba(255,255,255,.08) !important; border: none !important;
+  color: rgba(255,255,255,.45) !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  font-size: .82rem !important; cursor: pointer !important; transition: var(--tr) !important;
+}
+.annul:hover { background: rgba(255,255,255,.16) !important; color: #fff !important; }
+.modal-body { padding: 22px 24px !important; }
+.modal-footer { border: none !important; }
+.Enregistrement {
+  width: 100% !important; padding: 12px !important; margin-top: 8px !important;
+  border-radius: 10px !important; border: none !important;
+  background: linear-gradient(135deg, var(--cp), var(--cph)) !important;
+  color: #fff !important; font-size: .92rem !important; font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0,201,167,.28) !important; transition: var(--tr) !important;
+}
+.Enregistrement:hover { transform: translateY(-1px) !important; }
 
-												{% if bus.etat == 'Inactif' %}
-													<div>
-														<span>En Attente</span>
-													</div>
-												{% else %}
-													{% set parts = bus.direction|lower|split('vers') %}
-													<div>
-														<span class="text-black">
-															{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
-														</span>
-													</div>
-												{%endif%}
-												<small class="text-muted">
-													Prochain Arrêts
-												</small>
+/* form controls in modal */
+.form_control { margin-bottom: 12px; }
+.form_control label { font-size: .77rem; font-weight: 600; color: var(--ct2); margin-bottom: 5px; display: block; }
+.form_control input {
+  width: 100%; padding: 10px 13px;
+  background: var(--cbg); border: 1.5px solid var(--cbo);
+  border-radius: 9px; font-family: inherit; font-size: .88rem;
+  color: var(--ct1); outline: none; transition: var(--tr);
+}
+.form_control input:focus { border-color: var(--cph); background: #fff; box-shadow: 0 0 0 3px rgba(0,201,167,.09); }
 
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .bt-header { padding: 0 14px; }
+  .bt-search-form { display: none; }
+  .bt-hero { padding: 32px 14px 28px; }
+  .bt-main { padding: 16px 14px 48px; }
+  .bt-card-info { grid-template-columns: 1fr 1fr; }
+  .bt-info-cell:nth-child(2) { border-right: none; }
+  .bt-info-cell:nth-child(3), .bt-info-cell:nth-child(4) { border-top: 1px solid var(--cbo); }
+  .bt-filters { flex-direction: column; }
+  .bt-select { min-width: auto; width: 100%; }
+}
+</style>
 
-												</div>
+{# ── FLASH MESSAGES ── #}
+<div class="flash-wrap">
+  {% for message in app.flashes('success') %}
+    {% if message %}
+      <div class="flash-msg">
+        <i class="flash-icon bi bi-check-circle" style="color:var(--cok)"></i>
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
 
-											</div>
-										</div>
+  {% for message in app.flashes('info_favoris') %}
+    {% if message %}
+      <div class="flash-msg info">
+        <i class="flash-icon bi bi-x-circle" style="color:var(--cer)"></i>
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
 
-									</div>
-								{% else %}
-									<div class="row mx-2 my-2 border border-2 rounded rounded-2">
-										<p class="text-center">Aucun Bus pour le moment</p>
-									</div>
+  {% for message in app.flashes('favoris_delete') %}
+    {% if message %}
+      <div class="flash-msg delete">
+        <i class="flash-icon bi bi-check-circle" style="color:var(--cok)"></i>
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
 
-								{% endfor %}
-							</div>
-						</div>
-						{# Créer un compte USER #}
-						<div class="modal fade" id="busModal" tabindex="-1">
-							<div class="modal-dialog">
-								<div class="modal-content content-modal">
+{# ══ HEADER ══ #}
+<header class="bt-header">
 
-									<div class="modal-header entete_form">
-										<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-										<h5 class="modal-title text-center title-modal mt-4">
-											<i class="bi bi-person-add fs-3"></i>Créer un Compte</h5>
+  <a class="bt-logo" href="#">
+    <div class="bt-logo-ic"><i class="bi bi-bus-front-fill"></i></div>
+    <div class="bt-logo-tx">Bus<span>Track</span></div>
+  </a>
 
-									</div>
+  {% if app.user %}
+    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+      <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+      <button type="submit">Rechercher</button>
+    </form>
+  {% else %}
+    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+      <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+      <button type="submit">Rechercher</button>
+    </form>
+  {% endif %}
 
-									<div class="modal-body">
+  <div class="bt-header-actions">
+    {% if app.user %}
+      {# utilisateur connecté : pas de boutons connexion/inscription #}
+    {% else %}
+      <a href="{{ path('app_login') }}" class="bt-btn bt-btn-outline">
+        <i class="bi bi-box-arrow-in-right"></i> Connexion
+      </a>
+      <button class="bt-btn bt-btn-primary" data-bs-toggle="modal" data-bs-target="#busModal">
+        <i class="bi bi-person-plus"></i> Inscription
+      </button>
+    {% endif %}
+  </div>
 
-										{{ form_start(formCreateUser) }}
-										{{ form_row(formCreateUser.nom, {
-    	'attr': {'class': 'form-control form_control',
-        'placeholder': 'Entrer le Nom'
-        
-      
-      }}) }}
-										{{ form_row(formCreateUser.username, {
-        'attr': {'class': 'form-control form_control',
-        'placeholder': 'Entrer le Prenom'
-        }}) }}
+</header>
 
-										{{ form_row(formCreateUser.password, {'attr': {
+{# ══ BARRE DE NAVIGATION ══ #}
+<nav class="bt-nav-bar">
+  <div class="bt-nav-links" id="menu1">
+    <a href="#" class="bt-nav-link active">Bus en temps réel</a>
+
+    {% if app.user %}
+      <a href="{{ path('favoris_list') }}" class="bt-nav-link">Mes favoris</a>
+    {% else %}
+      <a href="{{ path('app_user_favoris_NoConnect') }}" class="bt-nav-link">Mes favoris</a>
+    {% endif %}
+
+    {% if app.user %}
+      <a href="{{ path('app_user_profil') }}" class="bt-nav-link">Profil</a>
+    {% else %}
+      <a href="{{ path('app_user_profil_NoConnect') }}" class="bt-nav-link">Profil</a>
+    {% endif %}
+  </div>
+</nav>
+
+{# ══ HERO SECTION ══ #}
+<section class="bt-hero">
+  <div class="bt-hero-inner">
+
+    <div class="bt-live-pill">
+      <div class="bt-live-dot"></div>
+      Suivi en direct · Douala
+    </div>
+
+    <h1>Suivez vos bus en<br><span>temps réel</span></h1>
+
+    <p class="bt-hero-sub">
+      Consultez l'état de
+      <strong>{{ NombreDeBus }} bus actifs</strong>
+      sur le réseau de Douala. Filtrez par zone ou par trajet
+      pour trouver votre bus rapidement, sans compte requis.
+    </p>
+
+    {# ── FILTRES ── #}
+    <form method="GET" action="{{ path('app_user') }}" class="bt-filters">
+
+      <div class="bt-filter-group">
+        <label for="zone">Zone</label>
+        <select id="zone" name="zonefilter" class="bt-select">
+          <option value="">Toutes les zones</option>
+          <option value="Douala I">Douala I</option>
+          <option value="Douala II">Douala II</option>
+          <option value="Douala III">Douala III</option>
+          <option value="Douala IV">Douala IV</option>
+          <option value="Douala V">Douala V</option>
+        </select>
+      </div>
+
+      <div class="bt-filter-group">
+        <label for="trajet">Trajet</label>
+        <select id="trajet" name="trajet" class="bt-select">
+          <option value="">Tous les trajets</option>
+          {% for trajet in trajets %}
+            <option value="{{ trajet.id }}" data-zone="{{ trajet.zone }}">
+              {{ trajet.nom }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="bt-filter-group">
+        <label>Statut</label>
+        <select name="statut" class="bt-select">
+          <option value="">Tous</option>
+          <option value="En route">En route</option>
+          <option value="Chargement">Chargement</option>
+          <option value="Incident">Incident</option>
+          <option value="Inactif">Inactif</option>
+        </select>
+      </div>
+
+      <button type="submit" class="bt-filter-btn">
+        <i class="bi bi-funnel-fill"></i> Filtrer
+      </button>
+
+    </form>
+
+  </div>
+</section>
+
+{# ══ BARRE ZONES ══ #}
+<div class="bt-zone-bar">
+  <div class="bt-zone-inner">
+    <div class="bt-zone-pills">
+      <a href="{{ path('app_user') }}"
+         class="bt-zone-pill active">
+        <i class="bi bi-globe2" style="margin-right:5px"></i> Tous
+      </a>
+      <a href="{{ path('app_user', {zone:'Douala I'}) }}"   class="bt-zone-pill">Douala I</a>
+      <a href="{{ path('app_user', {zone:'Douala II'}) }}"  class="bt-zone-pill">Douala II</a>
+      <a href="{{ path('app_user', {zone:'Douala III'}) }}" class="bt-zone-pill">Douala III</a>
+      <a href="{{ path('app_user', {zone:'Douala IV'}) }}"  class="bt-zone-pill">Douala IV</a>
+      <a href="{{ path('app_user', {zone:'Douala V'}) }}"   class="bt-zone-pill">Douala V</a>
+    </div>
+  </div>
+</div>
+
+{# ══ LISTE DES BUS ══ #}
+<main class="bt-main">
+
+  <div class="bt-result-bar">
+    <div>
+      <div class="bt-result-title">{{ AllBus|length }} bus disponibles</div>
+      <div class="bt-result-sub">Mis à jour en temps réel · Réseau Douala</div>
+    </div>
+  </div>
+
+  {% for bus in AllBus %}
+
+    {# Définir la classe statut #}
+    {% if bus.etat == 'En route' %}
+      {% set statusClass = 'bt-status-er' %}
+    {% elseif bus.etat == 'Chargement' %}
+      {% set statusClass = 'bt-status-ch' %}
+    {% elseif bus.etat == 'Incident' %}
+      {% set statusClass = 'bt-status-in' %}
+    {% else %}
+      {% set statusClass = 'bt-status-def' %}
+    {% endif %}
+
+    {# Prochain arrêt #}
+    {% if bus.etat == 'Inactif' %}
+      {% set nextStop = 'En attente' %}
+    {% else %}
+      {% set parts = bus.direction|lower|split('vers') %}
+      {% set nextStop = parts|length > 1 ? parts[1]|trim|capitalize : 'Inconnu' %}
+    {% endif %}
+
+    <div class="bt-bus-card">
+
+      {# HEAD #}
+      <div class="bt-card-head">
+        <div class="bt-card-left">
+          <div class="bt-line-badge">{{ bus.trajet.ligne }}</div>
+          <div>
+            <div class="bt-card-name">{{ bus.trajet.nom|capitalize }}</div>
+            <div class="bt-card-dir">
+              {% if bus.etat != 'Inactif' %}
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                {{ bus.direction }}
+              {% else %}
+                <i class="bi bi-clock"></i>
+                Indisponible
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="bt-card-right">
+
+          {# STATUT #}
+          <div class="bt-status {{ statusClass }}">
+            <span class="bt-sdot"></span>
+            {{ bus.etat }}
+          </div>
+
+          {# FAVORIS #}
+          {% if bus.trajet.id in favoris %}
+            <a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}"
+               class="bt-fav-btn active"
+               title="Retirer des favoris">
+              <i class="bi bi-heart-fill" style="color:var(--cph)"></i>
+            </a>
+          {% else %}
+            <a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}"
+               class="bt-fav-btn"
+               title="Ajouter aux favoris">
+              <i class="bi bi-heart"></i>
+            </a>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {# INFO GRID #}
+      <div class="bt-card-info">
+        <div class="bt-info-cell">
+          <i class="bi bi-bus-front-fill" style="color:var(--cf)"></i>
+          <div class="bt-info-val">{{ bus.nom|capitalize }}</div>
+          <div class="bt-info-lbl">Bus</div>
+        </div>
+        <div class="bt-info-cell">
+          <i class="bi bi-person-badge-fill" style="color:var(--cf)"></i>
+          <div class="bt-info-val">{{ bus.administrateur.nom|capitalize}}</div>
+          <div class="bt-info-lbl">Conducteur</div>
+        </div>
+        <div class="bt-info-cell">
+          <i class="bi bi-people-fill" style="color:var(--cf)"></i>
+          <div class="bt-info-val">{{ bus.capacite }}</div>
+          <div class="bt-info-lbl">Places</div>
+        </div>
+        <div class="bt-info-cell">
+          <i class="bi bi-geo-alt-fill" style="color:var(--cph)"></i>
+          <div class="bt-info-val">{{ nextStop }}</div>
+          <div class="bt-info-lbl">Prochain arrêt</div>
+        </div>
+      </div>
+
+    </div>
+
+  {% else %}
+
+    <div class="bt-empty">
+      <i class="bi bi-bus-front"></i>
+      <div class="bt-empty-t">Aucun bus pour le moment</div>
+      <div class="bt-empty-s">Essayez de modifier vos filtres ou sélectionnez une autre zone.</div>
+    </div>
+
+  {% endfor %}
+
+</main>
+
+{# ══ MODAL INSCRIPTION ══ #}
+<div class="modal fade" id="busModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header entete_form position-relative">
+        <button type="button" class="annul" data-bs-dismiss="modal">×</button>
+        <h5 class="modal-title w-100 text-center mt-3">
+          <span class="title-modal">
+            <i class="bi bi-person-plus-fill"></i> Créer un compte
+          </span>
+        </h5>
+      </div>
+
+      <div class="modal-body">
+        {{ form_start(formCreateUser) }}
+
+        {{ form_row(formCreateUser.nom, {
+          'label': 'Nom de famille',
+          'attr': {
             'class': 'form-control form_control',
-            'placeholder': 'Entrer le mot de passe'
-            }}) }}
-										<button class="Enregistrement mx-4 mt-1">Enregistrer</button>
-									</div>
-									{{ form_end(formCreateUser) }}
-									<div class="modal-footer"></div>
+            'placeholder': 'Entrez votre nom'
+          }
+        }) }}
 
-								</div>
-							</div>
-						</div>
+        {{ form_row(formCreateUser.username, {
+          'label': 'Prénom',
+          'attr': {
+            'class': 'form-control form_control',
+            'placeholder': 'Entrez votre prénom'
+          }
+        }) }}
 
-					</div>
-				</main>
-				<script src="js/bootstrap.bundle.min.js"></script>
+        {{ form_row(formCreateUser.password, {
+          'label': 'Mot de passe',
+          'attr': {
+            'class': 'form-control form_control',
+            'placeholder': 'Minimum 6 caractères'
+          }
+        }) }}
 
-				<script>
-					{
-# const links = document.querySelectorAll("#menu1 .nav-links");
-#
+        <button type="submit" class="Enregistrement">
+          <i class="bi bi-check-circle"></i> Créer mon compte
+        </button>
+
+        {{ form_end(formCreateUser) }}
+      </div>
+
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+{# ══ SCRIPTS ══ #}
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+/* Navigation onglets */
+document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
+  link.addEventListener('click', function () {
+    document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* Filtre zone → masquer trajets hors zone */
+const zoneSelect  = document.getElementById('zone');
+const trajetSelect = document.getElementById('trajet');
+
+if (zoneSelect && trajetSelect) {
+  zoneSelect.addEventListener('change', function () {
+    const selected = this.value;
+    trajetSelect.querySelectorAll('option').forEach(opt => {
+      const zone = opt.getAttribute('data-zone');
+      if (!opt.value || !selected || zone === selected) {
+        opt.style.display = '';
+      } else {
+        opt.style.display = 'none';
+      }
+    });
+    trajetSelect.value = '';
+  });
 }
-const links = document.querySelectorAll("#menu1 a");
+</script>
 
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-const links = document.querySelectorAll("#favoris .favoris");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-				</script>
-				<script>
-					document.addEventListener("DOMContentLoaded", function () {
-const links = document.querySelectorAll("menu1 .nav-links");
-
-links.forEach(link => {
-link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
-links.forEach(l => l.classList.remove("active"));
-
-
-this.classList.add("active");
-});
-});
-});
-				</script>
-				<script>
-					document.getElementById('zone').addEventListener('change', function () {
-
-let selectedZone = this.value;
-let trajetSelect = document.getElementById('trajet');
-let options = trajetSelect.querySelectorAll('option');
-
-options.forEach(option => {
-
-let zone = option.getAttribute('data-zone');
-
-if (option.value === '') {
-option.style.display = 'block';
-}
-if (! selectedZone || zone === selectedZone) {
-option.style.display = 'block';
-} else {
-option.style.display = 'none';
-}
-
-});
-
-});
-				</script>
-			{% endblock %}
+{% endblock %}

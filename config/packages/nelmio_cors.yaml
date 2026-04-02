@@ -1,0 +1,26 @@
+# nelmio_cors:
+#     defaults:
+#         origin_regex: true
+#         allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+#         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+#         allow_headers: ['Content-Type', 'Authorization']
+#         expose_headers: ['Link']
+#         max_age: 3600
+#     paths:
+#         '^/': null
+nelmio_cors:
+    defaults:
+        origin_regex: true
+        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+        allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+        allow_headers: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-CSRF-Token']
+        expose_headers: ['Link', 'X-Total-Count']
+        max_age: 3600
+        allow_credentials: false   # passe à true seulement si tu utilises credentials: 'include'
+
+    paths:
+        '^api/':          # ← ce regex doit matcher /api/trajets et /api/trajets/
+            allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+            allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+            allow_headers: ['Content-Type', 'Authorization']
+            max_age: 3600
