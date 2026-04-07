@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}BusTrack
 {% endblock %}
@@ -266,4 +266,280 @@ option.style.display = 'none';
 
 });
 	</script>
+{% endblock %} #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Favoris{% endblock %}
+
+{% block body %}
+{{ include('style/style.html.twig') }}
+{{ include('style/js.html.twig') }}
+
+<style>
+:root {
+    --cf: #0A1628;
+    --cp: #019271;
+    --cph: #00C9A7;
+    --cbg: #F5F7FA;
+    --csf: #ffffff;
+    --cbo: #DDE4EC;
+    --ct1: #0D1B2A;
+    --ct2: #5A7184;
+    --cer: #C76D6D;
+    --tr: .25s ease;
+}
+
+body { background: var(--cbg); }
+
+.favoris-hero {
+    background: linear-gradient(135deg, var(--cf), #0f2339);
+    color: white;
+    padding: 50px 20px 40px;
+    margin-top: 108px;
+    border-radius: 0 0 24px 24px;
+}
+</style>
+
+{# Flash messages #}
+<div class="flash-wrap mt-5 pt-3">
+    {% for message in app.flashes('delete_favoris') %}
+        <div class="alert alert-success text-center mx-auto" style="max-width:520px;">
+            <i class="bi bi-check-circle"></i> {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('delete_Allfavoris')|merge(app.flashes('Delete_Allfavoris')) %}
+        <div class="alert alert-danger text-center mx-auto" style="max-width:520px;">
+            <i class="bi bi-x-circle"></i> {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
+{# HEADER #}
+<header class="bt-header">
+    <a class="bt-logo" href="{{ path('app_user') }}">
+        <div class="bt-logo-ic"><i class="bi bi-bus-front-fill"></i></div>
+        <div class="bt-logo-tx">Bus<span>Track</span></div>
+    </a>
+
+    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+        <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+        <button type="submit">Rechercher</button>
+    </form>
+</header>
+
+{# NAV #}
+<nav class="bt-nav-bar">
+    <div class="bt-nav-links" id="menu1">
+        <a href="{{ path('app_user') }}" class="bt-nav-link">Bus en temps réel</a>
+        <a href="{{ path('favoris_list') }}" class="bt-nav-link active">Mes favoris</a>
+        <a href="{{ path('app_user_profil') }}" class="bt-nav-link">Profil</a>
+    </div>
+</nav>
+
+<div class="favoris-hero text-center">
+    <h2 class="fw-bold mb-2">❤️ Mes trajets favoris</h2>
+    <p class="mb-0 opacity-75">Vos lignes préférées avec toutes leurs informations en temps réel</p>
+    
+    <div class="mt-4 d-inline-flex align-items-center gap-3 bg-white bg-opacity-10 px-4 py-2 rounded-pill">
+        <span class="fw-bold fs-4">{{ countfavoris }}</span>
+        <span class="opacity-75">lignes favorites</span>
+    </div>
+</div>
+
+<main class="container mt-4 pb-5" style="max-width: 1100px;">
+    {% if AllBus is empty %}
+        <div class="text-center py-5">
+            <i class="bi bi-heart fs-1 text-muted mb-3 d-block"></i>
+            <h5>Aucun favori pour le moment</h5>
+            <p class="text-muted">Ajoute tes trajets préférés depuis la page d’accueil</p>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{{ path('favoris_delete_All') }}" class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i> Tout supprimer
+            </a>
+        </div>
+
+    {% for bus in AllBus %}
+		
+    {# Définir la classe statut #}
+    {% if bus.etat == 'En route' %}
+      {% set statusClass = 'bt-status-er' %}
+    {% elseif bus.etat == 'Chargement' %}
+      {% set statusClass = 'bt-status-ch' %}
+    {% elseif bus.etat == 'Incident' %}
+      {% set statusClass = 'bt-status-in' %}
+    {% else %}
+      {% set statusClass = 'bt-status-def' %}
+    {% endif %}
+
+    {# Prochain arrêt #}
+    {% if bus.etat == 'Inactif' %}
+      {% set nextStop = 'En attente' %}
+    {% else %}
+      {% set parts = bus.direction|lower|split('vers') %}
+      {% set nextStop = parts|length > 1 ? parts[1]|trim|capitalize : 'Inconnu' %}
+    {% endif %}
+
+    <div class="bt-bus-card">
+
+      {# HEAD #}
+      <div class="bt-card-head">
+        <div class="bt-card-left">
+          <div class="bt-line-badge">{{ bus.trajet.ligne }}</div>
+          <div>
+            <div class="bt-card-name">{{ bus.trajet.nom|capitalize }}</div>
+            <div class="bt-card-dir">
+              {% if bus.etat != 'Inactif' %}
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                {{ bus.direction }}
+              {% else %}
+                <i class="bi bi-clock"></i>
+                Indisponible
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="bt-card-right">
+
+          {# STATUT #}
+          <div class="bt-status {{ statusClass }}">
+            <span class="bt-sdot"></span>
+            {{ bus.etat }}
+          </div>
+
+          {# FAVORIS #}
+          {# {% if bus.trajet.id in favoris %}
+            <a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}"
+               class="bt-fav-btn active"
+               title="Retirer des favoris">
+              <i class="bi bi-heart-fill" style="color:var(--cph)"></i>
+            </a>
+          {% else %}
+            <a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}"
+               class="bt-fav-btn"
+               title="Ajouter aux favoris">
+              <i class="bi bi-heart"></i>
+            </a>
+          {% endif %} #}
+
+        </div>
+      </div>
+
+      {# INFO GRID #}
+      <div class="bt-card-info">
+        <div class="bt-info-cell">
+          <i class="bi bi-bus-front-fill" style="color:var(--cf)"></i>
+          <div class="bt-info-val">{{ bus.nom|capitalize }}</div>
+          <div class="bt-info-lbl">Bus</div>
+        </div>
+        <div class="bt-info-cell">
+          <i class="bi bi-person-badge-fill" style="color:var(--cf)"></i>
+          <div class="bt-info-val">{{ bus.administrateur.nom|capitalize}}</div>
+          <div class="bt-info-lbl">Conducteur</div>
+        </div>
+        <div class="bt-info-cell">
+          <i class="bi bi-people-fill" style="color:var(--cf)"></i>
+          <div class="bt-info-val">{{ bus.capacite }}</div>
+          <div class="bt-info-lbl">Places</div>
+        </div>
+        <div class="bt-info-cell">
+          <i class="bi bi-geo-alt-fill" style="color:var(--cph)"></i>
+          <div class="bt-info-val">{{ nextStop }}</div>
+          <div class="bt-info-lbl">Prochain arrêt</div>
+        </div>
+      </div>
+
+    </div>
+
+  {# {% else %}
+
+    <div class="bt-empty">
+      <i class="bi bi-bus-front"></i>
+      <div class="bt-empty-t">Aucun bus pour le moment</div>
+      <div class="bt-empty-s">Essayez de modifier vos filtres ou sélectionnez une autre zone.</div>
+    </div> #}
+
+            {# <div class="card bt-card mb-3">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bt-line-badge rounded-3 bg-dark text-white d-flex align-items-center justify-content-center fw-bold fs-5" 
+                                 style="width:52px;height:52px;">
+                                {{ bus.trajet.ligne }}
+                            </div>
+                            <div>
+                                <h5 class="mb-1">{{ bus.trajet.nom|capitalize }}</h5>
+                                <small class="text-muted">
+                                    {% if bus.etat == 'Inactif' %}
+                                        Indisponible
+                                    {% else %}
+                                        {{ bus.direction }}
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge 
+                                {% if bus.etat == 'En route' %}bg-success
+                                {% elseif bus.etat == 'Chargement' %}bg-info
+                                {% elseif bus.etat == 'Incident' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                ● {{ bus.etat }}
+                            </span>
+                            
+                            <a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}" 
+                               class="btn btn-sm btn-outline-danger rounded-circle">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row text-center mt-4 g-3">
+                        <div class="col-6 col-md-3">
+                            <i class="bi bi-bus-front-fill fs-4 text-dark"></i>
+                            <div class="fw-bold mt-1">{{ bus.nom|capitalize }}</div>
+                            <small class="text-muted">Bus</small>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <i class="bi bi-person-badge-fill fs-4 text-dark"></i>
+                            <div class="fw-bold mt-1">{{ bus.administrateur.nom|capitalize }}</div>
+                            <small class="text-muted">Conducteur</small>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <i class="bi bi-people-fill fs-4 text-dark"></i>
+                            <div class="fw-bold mt-1">{{ bus.capacite }}</div>
+                            <small class="text-muted">Places</small>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <i class="bi bi-geo-alt-fill fs-4 text-success"></i>
+                            <div class="fw-bold mt-1">
+                                {% if bus.etat == 'Inactif' %}En attente
+                                {% else %}
+                                    {% set parts = bus.direction|lower|split('vers') %}
+                                    {{ parts|length > 1 ? parts[1]|trim|capitalize : 'Inconnu' }}
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">Prochain arrêt</small>
+                        </div>
+                    </div>
+                </div>
+            </div> #}
+        {% endfor %}
+    {% endif %}
+</main>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+// Active nav
+document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+    });
+});
+</script>
 {% endblock %}

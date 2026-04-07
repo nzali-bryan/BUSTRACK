@@ -1,220 +1,161 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BusTrack
-{% endblock %}
+{% block title %}BusTrack{% endblock %}
 
 {% block body %}
-	{{ include('style/style.html.twig') }}
-	{{ include('style/js.html.twig') }}
-	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
-	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
+{{ include('style/style.html.twig') }}
+{{ include('style/js.html.twig') }}
 
-	<main class=" min-vw-100">
-			{% for message in app.flashes('error_password') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2">
-								<i class="bi bi-check-circle text-danger fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article><hr>
-				</div>
-			{% endif %}
-		{% endfor %}
-					{% for message in app.flashes('success_edit') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2">
-								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article><hr>
-				</div>
-			{% endif %}
-		{% endfor %}
-		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
-			<h3 class=" text-white col-3">
-				<span class="color-fresh">Bus</span>Track</h3>
+<style>
+:root {
+    --cf: #0A1628;
+    --cp: #019271;
+    --cph: #00C9A7;
+    --cbg: #F5F7FA;
+    --csf: #ffffff;
+    --cbo: #DDE4EC;
+    --ct1: #0D1B2A;
+    --ct2: #5A7184;
+    --cer: #C76D6D;
+    --tr: .25s ease;
+}
 
+body { background: var(--cbg); }
 
-			<form method="GET" class="col-4 col-sm-6 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
-				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Trajets,Point et Bus">
-				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-			</form>
+/* Petits ajustements Bootstrap */
+.bt-card {
+    border: 1.5px solid var(--cbo);
+    border-top: 4px solid var(--cph);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(13,27,42,0.07);
+}
 
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(135deg, var(--cp), var(--cph));
+    color: white;
+    font-size: 2.8rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 6px solid var(--csf);
+    box-shadow: 0 8px 25px rgba(0,201,167,0.3);
+}
+</style>
 
-			<div class="sous-entete position-fixed bg-white w-100 ">
-				<nav class="nav color-fresh " id="menu1">
-					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
-					<a href="{{path('favoris_list')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Mes favoris</a>
-					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Profil</a>
-				</nav>
-				<hr class="mb-0">
-			</div>
-		</header>
-
-		<div class="corps2">
-			<div class="d-flex justify-content-center align-items-center   container rounded rounded-circle">
-				<div class=" haut-favoris rounded-circle border border-color border-3 text-center d-flex justify-content-center" style=" width:100px ; height: 100px;">
-						<span class="color-fresh fs-1 fw-bold"> {{ app.user.nom|first|capitalize }}</span>
-					
-				</div>
-			</div>
-				<div class="container rounded rounded-2 border border-1 border-secondary">
-
-					<div class="entete-info row mb-3">
-						<div class="rounded rounded-2 icone-info   d-inline">
-							<i class="bi bi-person fs-1 icon-info px-1 rounded rounded-2"></i>
-							<span class=" fw-semibold fs-4">Informations personnelles</span>
-						</div>
-						<div class="col-sm-2 col position-absolute end-0 me-5 mt-3">
-							<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#busModal">Modifier</button>
-						</div>
-						<hr>
-					</div>
-					<div class="row mb-3">
-						<div class=" col-xs-12 col-sm-4 text-center">
-							<span class=" text-secondary">Nom</span>
-							<br>
-							<span class=" fw-semibold">{{user.nom|capitalize}}</span>
-						</div>
-						<div class=" col-xs-12 col-sm-4 text-center">
-							<span class=" text-secondary">Username</span>
-							<br>
-							<span class=" fw-semibold">{{user.username}}</span>
-						</div>
-						<div class=" col-xs-12 col-sm-4 text-center">
-							<span class=" text-secondary">Mot de passe</span>
-							<br>
-							<span class=" fw-semibold">*********</span>
-						</div>
-					</div>
-					<div class="row mb-3 deconnect">
-						<a id="danger" class="nav-link text-danger text-center fs-3 colorDashboard" href="{{path ('deconnexion')}}">
-							<i class="bi bi-box-arrow-right"></i>
-							<span class=" fs-5">Déconnexion</span>
-						</a>
-					</div>
-
-				</div>
-			</div>
-
-		</main>
-
-
-{# formulaire de modification d'information #}
-		<div class="modal fade" id="busModal" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content content-modal">
-
-					<div class="modal-header entete_form">
-						<button type="button" class="position-absolute end-0 top-0  mx-1 mt-1 annul rounded rounded-circle" data-bs-dismiss="modal">x</button>
-						<h5 class="modal-title text-center title-modal mt-4">
-							Modifier vos informations</h5>
-
-					</div>
-
-					<div class="modal-body">
-						{{ form_start(form) }}
-
-						{% if error %}
-							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData) }}</div>
-						{% endif %}
-						{{ form_row(form.nom , {
-								'attr': {'class': 'form-control form_control',
-							}}) }}
-						{{ form_row(form.username, {
-								'attr': {'class': 'form-control form_control',
-							}}) }}
-						{{ form_row(form.currentPassword , {
-								'attr': {'class': 'form-control form_control',
-								'placeholder': 'Mot de Passe'
-							}}) }}
-						{{ form_row(form.newPassword , {
-								'attr': {'class': 'form-control form_control',
-								'placeholder': 'Mot de Passe'
-							}}) }}
-						<button class="Enregistrement mx-4 mt-1">Modifier</button>
-					</div>
-					{{ form_end(form) }}
-				</div>
-
-				<div class="modal-footer"></div>
-
-			</div>
-		</div>
-	</div>
+{# Flash messages #}
+<div class="flash-wrap mt-5 pt-3">
+    {% for message in app.flashes('error_password') %}
+        <div class="alert alert-danger text-center mx-auto" style="max-width: 520px;">
+            <i class="bi bi-x-circle"></i> {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('success_edit') %}
+        <div class="alert alert-success text-center mx-auto" style="max-width: 520px;">
+            <i class="bi bi-check-circle"></i> {{ message }}
+        </div>
+    {% endfor %}
 </div>
+
+{# HEADER #}
+<header class="bt-header">
+    <a class="bt-logo" href="{{ path('app_user') }}">
+        <div class="bt-logo-ic"><i class="bi bi-bus-front-fill"></i></div>
+        <div class="bt-logo-tx">Bus<span>Track</span></div>
+    </a>
+
+    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+        <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+        <button type="submit">Rechercher</button>
+    </form>
+</header>
+
+{# NAV #}
+<nav class="bt-nav-bar">
+    <div class="bt-nav-links" id="menu1">
+        <a href="{{ path('app_user') }}" class="bt-nav-link">Bus en temps réel</a>
+        <a href="{{ path('favoris_list') }}" class="bt-nav-link">Mes favoris</a>
+        <a href="{{ path('app_user_profil') }}" class="bt-nav-link active">Profil</a>
+    </div>
+</nav>
+
+<main class="container-90  mt-5 pt-4" >
+    <div class="text-center mb-5 mt-5">
+        <div class="profile-avatar mx-auto rounded-circle mb-3">
+            {{ app.user.nom|first|upper }}
+        </div>
+        <h2 class="fw-bold">Bonjour, {{ app.user.nom|capitalize }}</h2>
+    </div>
+
+    <div class="card bt-card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-person fs-3 text-success"></i>
+                <h5 class="mb-0 fw-semibold">Informations personnelles</h5>
+            </div>
+            <button class="btn btn-success btn-sm px-4" data-bs-toggle="modal" data-bs-target="#busModal">
+                Modifier
+            </button>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-12 col-md-4">
+                <small class="text-muted d-block">Nom</small>
+                <strong class="fs-5">{{ user.nom|capitalize }}</strong>
+            </div>
+            <div class="col-12 col-md-4">
+                <small class="text-muted d-block">Username</small>
+                <strong class="fs-5">{{ user.username }}</strong>
+            </div>
+            <div class="col-12 col-md-4">
+                <small class="text-muted d-block">Mot de passe</small>
+                <strong class="fs-5">••••••••</strong>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('deconnexion') }}" class="btn btn-outline-danger w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2">
+        <i class="bi bi-box-arrow-right"></i>
+        Se déconnecter
+    </a>
+</main>
+
+<!-- Modal Modification -->
+<div class="modal fade" id="busModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white position-relative">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title w-100 text-center">
+                    <i class="bi bi-pencil-square"></i> Modifier mes informations
+                </h5>
+            </div>
+            <div class="modal-body p-4">
+                {{ form_start(form) }}
+                {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(form.currentPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe actuel'}}) }}
+                {{ form_row(form.newPassword, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe'}}) }}
+                
+                <button type="submit" class="btn btn-success w-100 py-3 mt-3 fw-bold">
+                    Enregistrer les modifications
+                </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-	{
-# const links = document.querySelectorAll("#menu1 .nav-links");
-#
-}
-const links = document.querySelectorAll("#menu1 a");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-const links = document.querySelectorAll("#favoris .favoris");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
+// Active nav
+document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+    });
 });
 </script>
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-const links = document.querySelectorAll("menu1 .nav-links");
-
-links.forEach(link => {
-link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
-links.forEach(l => l.classList.remove("active"));
-
-
-this.classList.add("active");
-});
-});
-});
-</script>
-<script>
-	document.getElementById('zone').addEventListener('change', function () {
-
-let selectedZone = this.value;
-let trajetSelect = document.getElementById('trajet');
-let options = trajetSelect.querySelectorAll('option');
-
-options.forEach(option => {
-
-let zone = option.getAttribute('data-zone');
-
-if (option.value === '') {
-option.style.display = 'block';
-}
-if (! selectedZone || zone === selectedZone) {
-option.style.display = 'block';
-} else {
-option.style.display = 'none';
-}
-
-});
-
-});
-</script>{% endblock %}
+{% endblock %}

@@ -456,18 +456,20 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
     </form>
   {% endif %}
 
-  <div class="bt-header-actions">
+  
     {% if app.user %}
       {# utilisateur connecté : pas de boutons connexion/inscription #}
     {% else %}
+    <div class="bt-header-actions">
       <a href="{{ path('app_login') }}" class="bt-btn bt-btn-outline">
         <i class="bi bi-box-arrow-in-right"></i> Connexion
       </a>
       <button class="bt-btn bt-btn-primary" data-bs-toggle="modal" data-bs-target="#busModal">
         <i class="bi bi-person-plus"></i> Inscription
       </button>
+    </div>
     {% endif %}
-  </div>
+  
 
 </header>
 
