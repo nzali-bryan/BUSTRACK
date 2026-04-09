@@ -77,6 +77,18 @@ class PointRepository extends ServiceEntityRepository
         ->getQuery()
         ->getSingleScalarResult();
     }
+
+    // recuperation du point du conducteur Api 
+       public function findPointDriver(int $idTrajet)
+    {
+            return $this->createQueryBuilder('p')
+            ->join('p.trajet', 't')
+            ->where('t.id = :id')
+            ->setParameter('id', $idTrajet)
+            ->getQuery()
+            ->getResult();
+    }
+
 //     public function findPointsByTrajetId(int $trajetId): array
 // {
 //     return $this->createQueryBuilder('p') 

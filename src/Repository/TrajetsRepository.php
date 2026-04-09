@@ -24,6 +24,18 @@ class TrajetsRepository extends ServiceEntityRepository
         ->getSingleScalarResult();
     }
 
+
+    // recuperation du trajet du conducteur API
+    public function findTrajetDriver(int $idbus)
+    {
+            return $this->createQueryBuilder('t')
+            ->join('t.buses', 'b')
+            ->where('b.id = :id')
+            ->setParameter('id', $idbus)
+            ->getQuery()
+            ->getSingleResult();
+    }
+
 //    /**
 //     * @return Trajets[] Returns an array of Trajets objects
 //     */

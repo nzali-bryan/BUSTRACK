@@ -111,6 +111,21 @@ class BusRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+// recuperation du bus du conducteur API API
+
+    public function findBusDriver(int $id)
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.administrateur = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            // ->getResult();
+            ->getSingleResult();
+    }
+
+// recuperation du bus du conducteur API API
+
+
     //    /**
     //     * @return Bus[] Returns an array of Bus objects
     //     */
