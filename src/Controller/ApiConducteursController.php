@@ -15,37 +15,28 @@ use Symfony\Component\Routing\Attribute\Route;
  #[Route('/api', name: '')]
 final class ApiConducteursController extends AbstractController
 {
-    #[Route('/conducteurs/{id}', name: 'app_api_conducteurs', methods:['POST','GET'])]
-    public function index($id,Request $request,PointRepository $pointRepository, AdministrateurRepository $administrateurRepository, TrajetsRepository $trajetsRepository, BusRepository $busRepository): JsonResponse
+    #[Route('/conducteurs', name: 'app_api_conducteurs', methods:['POST','GET'])]
+    public function index(Request $request,PointRepository $pointRepository, AdministrateurRepository $administrateurRepository, TrajetsRepository $trajetsRepository, BusRepository $busRepository): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+        $id = $data['id'] ?? null;
+        
         $user=$administrateurRepository->find(['id'=>$id]);
         // récupération d'un bus lié au conducteurs
 
         $busUser=$busRepository->findBusDriver($id);
-
-        // récupération du trajet lié au bus
-        foreach ($busUser as $bus ){ 
-            $data[] = [
-                'id' => $bus->getId(),
-            ];
-            
-        }
-        
-        $idbus=$data[0]['id'];
+      
+        $idbus=$busUser->getId();
         $trajetUser=$trajetsRepository->findTrajetDriver($idbus);  
         
-        // récupération des points liés au trajets 
-        foreach ($trajetUser as $trajet ){ 
-            $data[] = [
-                'id' => $trajet->getId(),
-            ];
-            
-        }
-        $idTrajets=$data[0]['id'];
 
-        $pointUser=$pointRepository->findPointDriver($idTrajets);
+        $idTrajets=$trajetUser->getId();
 
-        // dd($user,$busUser,$trajetUser,$pointUser);
+        $pointUserASC=$pointRepository->findPointDriverASC($idTrajets);
+        $pointUserDESC=$pointRepository->findPointDriverDESC($idTrajets);
+
+
+        // dd($user,$busUser,$trajetUser,$pointUserASC,$pointUserDESC);
 
         return $this->json([
             'success' => true,
@@ -67,11 +58,15 @@ final class ApiConducteursController extends AbstractController
             'trajet' => [
                 'id' => $trajetUser->getId(),
                 'nom' => $trajetUser->getNom(),
-                'ligne'=> $trajetUser->getUsername(),
+                'ligne'=> $trajetUser->getLigne(),
             ],
-            'point' => [
-                'id' => $pointUser->getId(),
-                'nom' => $pointUser->getNom(),
+            'pointASC' => [
+                'id' => $pointUserASC->getId(),
+                'nom' => $pointUserASC->getNom(),
+            ],
+            'pointDESC' => [
+                'id' => $pointUserDESC->getId(),
+                'nom' => $pointUserDESC->getNom(),
             ],
         ], 200);
     }
