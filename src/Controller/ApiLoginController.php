@@ -97,6 +97,7 @@ class ApiLoginController extends AbstractController
         return $this->json([
             'success'=>true,
             'message'=>'Inscription réussie',
+            'id' => $user->getId(),
         ], 200);
     }
 }

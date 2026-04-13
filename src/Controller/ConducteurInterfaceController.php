@@ -97,7 +97,7 @@ public function profil(Request $request, EntityManagerInterface $em,Authenticati
     if (!$user) {
         return $this->redirectToRoute('app_login');
     }
-
+    
     $form = $this->createForm(ProfilType::class, $user);
     $form->handleRequest($request);
     $error = $authenticationUtils->getLastAuthenticationError();
