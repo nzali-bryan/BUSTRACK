@@ -32,7 +32,7 @@ public function index(Request $request,AdministrateurRepository $administrateurR
         ], 400);
     }
 
-    // Récupération des données avec protection contre null
+    // Récupération des données
     $user = $administrateurRepository->find($driverId);
     if (!$user) {
         return $this->json([

@@ -145,7 +145,19 @@ class BusRepository extends ServiceEntityRepository
         ->getOneOrNullResult();
 }
 
-// recuperation du bus du conducteur API API
+// recuperation du bus du et le trajet conducteur API API
+
+    public function findAllBusNotNullAndTrajets()
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.administrateur IS NOT NULL')
+             ->innerJoin('b.trajet', 't')
+             ->select('t')
+            ->andwhere('b.trajet IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+// recuperation de tous les conducteurs qui ont un bus 
 
 
     //    /**

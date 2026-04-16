@@ -64,7 +64,17 @@ class AdministrateurRepository extends ServiceEntityRepository implements Passwo
         ->getQuery()
         ->getSingleScalarResult();
     }
+//  requete pour les drivers qui ont un bus
 
+public function findDriverHaveBus()
+{
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.bus', 'b')         
+            // ->addSelect('b')                 
+            ->orderBy('a.nom', 'ASC')           
+            ->getQuery()
+            ->getResult();
+}
 
 
 
