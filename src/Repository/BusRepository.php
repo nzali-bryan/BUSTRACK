@@ -158,7 +158,21 @@ class BusRepository extends ServiceEntityRepository
             ->getResult();
     }
 // recuperation de tous les conducteurs qui ont un bus 
-
+/**
+ * Récupère tous les bus avec leurs relations Trajet et Administrateur (Conducteur)
+ */
+public function findAllWithRelations(): array
+{
+    return $this->createQueryBuilder('b')
+        ->leftJoin('b.trajet', 't')
+        ->leftJoin('b.administrateur', 'a')
+        ->where('b.administrateur IS NOT NULL')
+        ->andWhere('b.trajet IS NOT NUll')
+        ->addSelect('t', 'a')  
+        ->orderBy('t.nom', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
 
     //    /**
     //     * @return Bus[] Returns an array of Bus objects

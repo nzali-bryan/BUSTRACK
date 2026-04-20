@@ -82,7 +82,9 @@ class ApiLoginController extends AbstractController
             'success' => false,
             'message' => 'Cet email est déjà utilisé'
         ], 409);
-    }
+    }else{
+
+    
 
     $user= new Administrateur();
     $user->setNom($nom);
@@ -93,11 +95,15 @@ class ApiLoginController extends AbstractController
     $em->persist($user);
     $em->flush();
 
-
         return $this->json([
-            'success'=>true,
-            'message'=>'Inscription réussie',
-            'id' => $user->getId(),
+            'success' => true,
+            'message' => 'Connexion réussie',
+            'user' => [
+                'id' => $user->getId(),
+                'nom' => $user->getNom(),
+                'roles' => $user->getRoles()
+            ]
         ], 200);
+    }
     }
 }
