@@ -63,7 +63,7 @@ final class FavorisController extends AbstractController
          $countfavoris=$favorisRepository->count([
             'administrateur'=>$user,
          ]);
-         dump($favoris);
+        //  dump($favoris);
         return $this->render('user/favoris.html.twig', [
             'favoris' => $favoris,
             'AllBus' => $bus,

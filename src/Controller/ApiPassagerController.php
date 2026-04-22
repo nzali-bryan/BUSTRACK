@@ -12,30 +12,26 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ApiPassagerController extends AbstractController
 {
     #[Route('', name: 'api_accueil', methods: ['GET'])]
-    public function index(
-        BusRepository $busRepository,
-        AdministrateurRepository $administrateurRepository
-    ): JsonResponse {
-
-        // Récupération des bus avec leurs relations
-        $buses = $busRepository->findAllWithRelations(); // Assure-toi que cette méthode existe et joint bien les données
+    public function index(BusRepository $busRepository,AdministrateurRepository $administrateurRepository): JsonResponse 
+    {
+        $buses = $busRepository->findAllWithRelations(); 
 
         $data = [];
 
         foreach ($buses as $bus) {
-            $driver = $bus->getAdministrateur(); // Relation entre Bus et Administrateur (conducteur)
-
+            $driver = $bus->getAdministrateur(); 
+            $trajet=$bus->getTrajet();
             $data[] = [
                 'id'          => $bus->getId(),
                 'nom'         => $bus->getNom(),
                 'capacite'    => $bus->getCapacite(),
                 'etat'        => $bus->getEtat() ?? 'Inactif',
                 'direction'   => $bus->getDirection() ?? 'Direction non définie',
-                'conducteur'  => $driver ? $driver->getNom() : 'Non assigné',
-                'ligne'       => $bus->getTrajet() ? $bus->getTrajet()->getLigne() : 'N/A',
-                'trajetNom'   => $bus->getTrajet() ? $bus->getTrajet()->getNom() : 'Trajet principal',
-                'trajetId'   => $bus->getTrajet() ? $bus->getTrajet()->getId():'' ,
-                'zone'        => $bus->getTrajet() ? $bus->getTrajet()->getZone(): 'Douala', 
+                'conducteur'  => $driver->getNom() ?? 'Non assigné',
+                'ligne'       => $trajet->getLigne() ?? '?',
+                'trajetNom'   => $trajet->getNom() ?? 'Trajet principal',
+                'trajetId'    => $trajet->getId() ?? '?' ,
+                'zone'        => $trajet->getZone() ?? 'Douala', 
             ];
         }
 

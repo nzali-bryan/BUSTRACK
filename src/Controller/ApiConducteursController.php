@@ -18,7 +18,7 @@ final class ApiConducteursController extends AbstractController
 {
 
 
-    #[Route('/conducteurs', name: 'app_api_conducteurs', methods: ['POST', 'GET'])]
+    #[Route('/conducteurs', name: 'app_api_conducteurs', methods: ['POST'])]
 public function index(Request $request,AdministrateurRepository $administrateurRepository,BusRepository $busRepository,TrajetsRepository $trajetsRepository,PointRepository $pointRepository,EntityManagerInterface $em): JsonResponse 
 {
     $data = json_decode($request->getContent(), true) ?? [];
@@ -28,7 +28,7 @@ public function index(Request $request,AdministrateurRepository $administrateurR
     if (!$driverId) {
         return $this->json([
             'success' => false,
-            'message' => 'ID conducteur manquant'
+            'message' => 'infomations du conducteur manquantes'
         ], 400);
     }
 
@@ -57,22 +57,23 @@ public function index(Request $request,AdministrateurRepository $administrateurR
         ], 404);
     }
 
+    // le premier et deuxieme point d'embarquement
     $pointUserASC = $pointRepository->findPointDriverASC($trajetUser->getId());
     $pointUserDESC = $pointRepository->findPointDriverDESC($trajetUser->getId());
 
-    // Mise à jour direction/état si envoyés
-    $direction = $data['direction'] ?? null;
-    $etat = $data['etat'] ?? null;
+    // // Mise à jour direction/état si envoyés
+    // $direction = $data['direction'] ?? null;
+    // $etat = $data['etat'] ?? null;
 
-    if ($direction !== null) {
-        $busUser->setDirection($direction);
-    }
-    if ($etat !== null) {
-        $busUser->setEtat($etat);
-    }
-    if ($direction !== null || $etat !== null) {
-        $em->flush();
-    }
+    // if ($direction !== null) {
+    //     $busUser->setDirection($direction);
+    // }
+    // if ($etat !== null) {
+    //     $busUser->setEtat($etat);
+    // }
+    // if ($direction !== null || $etat !== null) {
+    //     $em->flush();
+    // }
 
     return $this->json([
         'success' => true,

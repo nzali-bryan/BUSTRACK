@@ -16,21 +16,20 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ApiUserFavorisController extends AbstractController
 {
-#[Route('/api/favoris', name: 'api_favoris_list', methods: ['POST','GET'])]
+#[Route('/api/favoris', name: 'api_favoris_list', methods: ['POST'])]
 public function apiListFavoris(Request $request, FavorisRepository $favorisRepository, BusRepository $busRepository): JsonResponse
 {
     $data = json_decode($request->getContent(), true);
-    $userId = $data['userId'] ?? null;
-    $userId=55;
-   
+    $userId = $data['userId'];
+
     if (!$userId) {
-        return $this->json(['success' => false, 'message' => 'Utilisateur non identifié'], 401);
+        return $this->json(['success' => false, 'message' => 'Utilisateur non authentifié'], 401);
     }
     
     $bus = $busRepository->findBusByUserFavoris($userId);
     $countFavoris = $favorisRepository->count(['administrateur' => $userId]);
     
-    // Formater les données pour React Native
+    
     $formattedBus = [];
     foreach ($bus as $item) {
         $formattedBus[] = [
@@ -61,8 +60,8 @@ public function apiListFavoris(Request $request, FavorisRepository $favorisRepos
 public function apiDeleteFavoris(Request $request, FavorisRepository $favorisRepository, EntityManagerInterface $em): JsonResponse
 {
     $data = json_decode($request->getContent(), true);
-    $userId = $data['userId'] ?? null;
-    $trajetId = $data['trajetId'] ?? null;
+    $userId = $data['userId'];
+    $trajetId = $data['trajetId'];
     
     if (!$userId || !$trajetId) {
         return $this->json(['success' => false, 'message' => 'Paramètres manquants'], 400);
@@ -113,26 +112,26 @@ public function apiDeleteAllFavoris(Request $request,FavorisRepository $favorisR
 public function apiAjouterFavori(Request $request,FavorisRepository $favorisRepository, TrajetsRepository $trajetsRepository,AdministrateurRepository $administrateurRepository, EntityManagerInterface $em): JsonResponse
 {
     $data = json_decode($request->getContent(), true);
-    $userId = $data['userId'] ?? null;
-    $trajetId = $data['trajetId'] ?? null;
+    $userId = $data['userId'] ;
+    $trajetId = $data['trajetId'] ;
     
     if (!$userId || !$trajetId) {
         return $this->json(['success' => false, 'message' => 'Paramètres manquants'], 400);
     }
     
-    // Récupérer l'utilisateur
+  
     $user =$administrateurRepository->find($userId);
     if (!$user) {
         return $this->json(['success' => false, 'message' => 'Utilisateur non trouvé'], 404);
     }
     
-    // Récupérer le trajet
+   
     $trajet = $trajetsRepository->find($trajetId);
     if (!$trajet) {
         return $this->json(['success' => false, 'message' => 'Trajet non trouvé'], 404);
     }
     
-    // Vérifier si déjà en favori
+    // on Verifie si déjà en favori
     $existingFavori = $favorisRepository->findOneBy([
         'administrateur' => $user,
         'trajets' => $trajet

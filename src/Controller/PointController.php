@@ -36,7 +36,7 @@ final class PointController extends AbstractController
         if ($formPoint->isSubmitted() && $formPoint->isValid()) {
             $entityManager->persist($point);
             $entityManager->flush();
-            dump($point);
+            // dump($point);
             $this->addFlash('admin_create_point', 'Point ajouter avec succès');
             return $this->redirectToRoute('app_point_index', [], Response::HTTP_SEE_OTHER);
         }

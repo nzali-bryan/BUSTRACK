@@ -101,12 +101,12 @@ class BusRepository extends ServiceEntityRepository
     public function findBusByUserFavoris(int $userId): array
     {
         return $this->createQueryBuilder('b')
-            ->join('b.trajet', 't')        // Bus → Trajet
-            ->join('t.favoris', 'f')       // Trajet → Favori
-            ->join('f.administrateur', 'u')          // Favori → User
-            ->andWhere('u.id = :userId')
+            ->join('b.trajet', 't')        
+            ->join('t.favoris', 'f')       
+            ->join('f.administrateur', 'a')         
+            ->andWhere('a.id = :userId')
             ->setParameter('userId', $userId)
-            ->orderBy('b.id', 'DESC')
+            ->orderBy('t.nom', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -145,19 +145,7 @@ class BusRepository extends ServiceEntityRepository
         ->getOneOrNullResult();
 }
 
-// recuperation du bus du et le trajet conducteur API API
 
-    public function findAllBusNotNullAndTrajets()
-    {
-        return $this->createQueryBuilder('b')
-            ->where('b.administrateur IS NOT NULL')
-             ->innerJoin('b.trajet', 't')
-             ->select('t')
-            ->andwhere('b.trajet IS NOT NULL')
-            ->getQuery()
-            ->getResult();
-    }
-// recuperation de tous les conducteurs qui ont un bus 
 /**
  * Récupère tous les bus avec leurs relations Trajet et Administrateur (Conducteur)
  */
@@ -174,28 +162,4 @@ public function findAllWithRelations(): array
         ->getResult();
 }
 
-    //    /**
-    //     * @return Bus[] Returns an array of Bus objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Bus
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
