@@ -373,7 +373,7 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
 .modal-body { padding: 22px 24px !important; }
 .modal-footer { border: none !important; }
 .Enregistrement {
-  width: 100% !important; padding: 12px !important; margin-top: 8px !important;
+  width: 90% !important; padding: 12px !important; margin-top: 8px !important;
   border-radius: 10px !important; border: none !important;
   background: linear-gradient(135deg, var(--cp), var(--cph)) !important;
   color: #fff !important; font-size: .92rem !important; font-weight: 700 !important;
@@ -434,6 +434,16 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
       </div>
     {% endif %}
   {% endfor %}
+      {% for message in app.flashes('success_delete') %}
+        <div class="alert alert-danger text-center mx-auto" style="max-width: 520px;">
+            <i class="bi bi-x-circle"></i> {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('success_user') %}
+        <div class="alert alert-success text-center mx-auto" style="max-width: 520px;">
+            <i class="bi bi-check-circle"></i> {{ message }}
+        </div>
+    {% endfor %}
 </div>
 
 {# ══ HEADER ══ #}
@@ -689,7 +699,7 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
 
 </main>
 
-{# ══ MODAL INSCRIPTION ══ #}
+
 <div class="modal fade" id="busModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -730,8 +740,8 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
           }
         }) }}
 
-        <button type="submit" class="Enregistrement">
-          <i class="bi bi-check-circle"></i> Créer mon compte
+        <button type="submit" class="Enregistrement centrage">
+           Créer mon compte
         </button>
 
         {{ form_end(formCreateUser) }}
@@ -742,10 +752,10 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
   </div>
 </div>
 
-{# ══ SCRIPTS ══ #}
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-/* Navigation onglets */
+
 document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
   link.addEventListener('click', function () {
     document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
@@ -753,7 +763,7 @@ document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
   });
 });
 
-/* Filtre zone → masquer trajets hors zone */
+
 const zoneSelect  = document.getElementById('zone');
 const trajetSelect = document.getElementById('trajet');
 

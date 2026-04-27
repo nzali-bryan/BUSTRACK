@@ -141,6 +141,9 @@
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
 }
+.centrage{
+    margin: 0px;
+}
 .Enregistrerment:hover{
     background-color: #00C9A7;
 }

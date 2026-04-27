@@ -19,12 +19,15 @@ use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+ use Symfony\Bundle\SecurityBundle\Security;   // Important !
+
 
 #[Route('/', name: '')]
 final class UserController extends AbstractController
 {
     #[Route('', name: 'app_user')]
-    public function index(BusRepository $busRepository,FavorisRepository $favorisRepository, TrajetsRepository $trajetsRepository, Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    public function index(Security $security,BusRepository $busRepository,FavorisRepository $favorisRepository, TrajetsRepository $trajetsRepository, Request $request, AdministrateurRepository $administrateurRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
     {
         $countbus = $busRepository->findBusActifs([
             'En Route',
@@ -54,6 +57,7 @@ final class UserController extends AbstractController
             $administrateur->setPassword($hashedPassword);
             $entityManager->persist($administrateur);
             $entityManager->flush();
+            $response = $security->login($administrateur, \App\Security\AdministrateurAuthenticator::class);
             $this->addFlash('success_user', 'Utilisateur enregistré');
 
             return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
