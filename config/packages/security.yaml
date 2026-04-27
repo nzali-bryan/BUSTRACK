@@ -21,7 +21,7 @@ security:
             logout:
                 path: /deconnexion
                 # where to redirect after logout
-                target: app_login
+                target: app_user
 
             remember_me:
                 secret: '%kernel.secret%'
