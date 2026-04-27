@@ -120,36 +120,68 @@
 </div>
 
 <div class="corps-5">
-	<header class="w-100">
-		<span>
-			
-				<h3 class=" d-inline text-black ">Tableau de bord</h3><br><small class=" text-secondary-emphasis">Vue d'ensemble du systeme</small>		
-		</span>
-		<button class="Ajouter d-inline position-absolute end-0 top-0 my-2 mx-1 btn-sm">
-			{{ "now"|date("d/m/Y H:i") }}     {# 29/03/2026 14:35 #}
-			{# {{ "now"|date("H:i") }}           14:35 #}
-			{# {{ "now"|date("l")rr }}             dimanche #}
-		</button>
-		<hr>
-	</header>
-	<div class="corps-7">
+{# ========== EN-TÊTE MODERNE (Tableau de bord + date) ========== #}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 mt-2 px-3">
+    <div>
+        <h1 class="display-6 fw-bold" style="color: var(--color-text-primary);">Tableau de bord</h1>
+        <p class="text-muted mt-1 mb-0">Vue d’ensemble du système</p>
+    </div>
+    <div>
+        <button class="btn btn-outline-success rounded-pill px-4" style="border-color: var(--color-btn-primary-hover); color: var(--color-btn-primary-hover); background: white;">
+            <i class="bi bi-calendar3 me-1"></i> {{ "now"|date("d/m/Y H:i") }}
+        </button>
+    </div>
+</div>
 
-		{# Mot de bienvenu #}
+{# ========== CARTE DE BIENVENUE MODERNISÉE ========== #}
+<div class="container-fluid px-3 mb-5">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #0A1628 0%, #0F1F33 100%); border-top: 5px solid var(--color-btn-primary-hover);">
+        <div class="row g-0 align-items-center">
+            
+            {# TEXTE GAUCHE #}
+            <div class="col-12 col-xl-7 p-4 p-xl-5">
+                <div class="d-flex align-items-baseline gap-2 flex-wrap">
+                    <h2 class="fw-bold text-white mb-0">Bonjour,</h2>
+                    <h2 class="fw-bold" style="color: var(--color-btn-primary-hover);">{{ user.nom|capitalize }}</h2>
+                </div>
+                
+                <p class="text-white-50 mt-3" style="line-height: 1.6;">
+                    Bienvenue sur votre centre de pilotage. Gagnez la confiance de vos usagers en leur fournissant des données en temps réel sur votre réseau de transport. 
+                    En ce moment vous supervisez :
+                </p>
 
-		<div class="container-90 rounded-3  bg-fond text-secondary p-3 border-top-color">
-			<div class="row">
-				<div class="col-12 col-xl-7">
-					<h1>Bonjour,</h1>
-					<h3 class="text-fond">{{user.nom|capitalize}}</h3>
-					<p>Bienvenue sur votre centre de pilotage, gagner la confiance de vos usagers en les fournissant des données en temps réel  sur votre reseau de transport. En ce moment vous supervisez <span class="colorIcon">{{nombreBus}} bus actifs</span>, <span class="colorIcon">{{nombreTrajets}} Trajets</span> et <span class="colorIcon">{{nombreDrivers}} conducteurs.</span></p>	
-					<div class="bg-before"></div>
-				</div>
-				<div class="col-12  col-xl-5">
-					<img class=" rounded-2 container-90 " src="{{asset('img/floote.jpg')}}" alt="" width="300px" height="300px">
-				</div>
+                <div class="d-flex flex-wrap gap-4 mt-4">
+                    <div>
+                        <span class="badge bg-success bg-opacity-25 text-white p-2 px-3 rounded-pill">
+                             <strong class="fs-5">{{ nombreBus }}</strong> bus actifs
+                        </span>
+                    </div>
+                    <div>
+                        <span class="badge bg-info bg-opacity-25 text-white p-2 px-3 rounded-pill">
+                             <strong class="fs-5">{{ nombreTrajets }}</strong> Trajets
+                        </span>
+                    </div>
+                    <div>
+                        <span class="badge bg-warning bg-opacity-25 text-white p-2 px-3 rounded-pill">
+                             <strong class="fs-5">{{ nombreDrivers }}</strong> conducteurs
+                        </span>
+                    </div>
+                </div>
 
-			</div>
-		</div>
+                {# Petit décor subtil (sans casser la mise en page) #}
+                <div class="mt-4" style="width: 60px; height: 3px; background: var(--color-btn-primary-hover); border-radius: 5px;"></div>
+            </div>
+
+            {# IMAGE DROITE (photo bus) #}
+            <div class="col-12 col-xl-5 text-center p-3 p-xl-4">
+                <img class="img-fluid rounded-4 shadow-lg" 
+                     src="{{ asset('img/floote.jpg') }}" 
+                     alt="Bus Track" 
+                     style="max-height: 260px; object-fit: cover; width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
 
 
 		<div id="animate" class="container-fluid Dashboard ">

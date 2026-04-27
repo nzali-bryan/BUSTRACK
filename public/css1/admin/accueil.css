@@ -153,3 +153,48 @@
 .border-top-color{
     border-top: 4px solid var(--color-btn-primary-hover) !important;
 }
+
+/* Amélioration des cartes actions rapides */
+.action {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 20px !important;
+    font-weight: 500;
+}
+
+.action:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 201, 167, 0.15);
+    border-color: var(--color-btn-primary-hover) !important;
+}
+/* Animation et effet au survol des cartes Actions rapides */
+.action-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.action-card:active {
+    transform: translateY(-2px);
+}
+
+/* Icônes dans le cercle */
+.action-card .rounded-circle i {
+    transition: transform 0.2s ease;
+}
+
+.action-card:hover .rounded-circle i {
+    transform: scale(1.1);
+}
+
+/* Badge "Nouveau" dans l'en-tête */
+.badge.bg-success {
+    background-color: var(--color-btn-primary-hover) !important;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+}
