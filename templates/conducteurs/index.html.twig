@@ -128,8 +128,9 @@
       
       }}) }}
 				{{ form_row(form.username, {
+					'label': 'Email',
         'attr': {'class': 'form-control form_control',
-        'placeholder': 'Entrer le Prenom'
+        'placeholder': 'Entrer Email'
         }}) }}
 
 				{{ form_row(form.password, {'attr': {
@@ -181,7 +182,7 @@
 						<input type="text" name="conducteurs[nom]" value="{{ conducteur.nom }}" class="form-control form_control">
 					</div>
 					<div class="mb-3">
-						<label>Username</label>
+						<label>Email</label>
 						<input type="text" name="conducteurs[username]" value="{{ conducteur.username }}" class="form-control form_control">
 					</div>
 					<div class="mb-3">

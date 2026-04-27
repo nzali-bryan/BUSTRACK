@@ -26,7 +26,7 @@
 		<div class="p-4 p-sm-5 bg-light">
 			<form method="post" action="{{path('app_login')}}">
 				{% if error %}
-					<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					<div class="alert alert-danger text-center">Les identifiants saisis sont incorrects</div>
 				{% endif %}
 
 				{% if app.user %}
@@ -38,8 +38,8 @@
 					</div>
 				{% endif %}
 				<div class="mb-3">
-					<label for="username">Nom</label>
-					<input type="text" value="{{ last_username }}" name="Nom" id="inputNom" class="form-control form_control " placeholder="Entrer Votre Nom" autocomplete="username" required autofocus>
+					<label for="username">Email</label>
+					<input type="text" value="{{ last_username }}" name="Nom" id="inputNom" class="form-control form_control " placeholder="Entrer Votre Email" autocomplete="username" required autofocus>
 				</div>
 				<div class="mb-3">
 					<label for="password">Mot de passe</label>

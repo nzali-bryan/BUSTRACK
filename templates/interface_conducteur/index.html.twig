@@ -10,11 +10,12 @@
     
     <link rel="stylesheet" href="{{ asset('css1/driver/conducteurs.css') }}">
     <link rel="stylesheet" href="{{ asset('css1/driver/root.css') }}">
+	<link rel="stylesheet" href="{{asset('css1/user/tous.css')}}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
 
     <body class="driver-body">
-        <!-- EN-TÊTE MODERNE -->
-        <header class="driver-header">
+   
+        <header class="driver-header bt-header">
             <div class="container-fluid h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-6">
@@ -33,13 +34,12 @@
             </div>
         </header>
 
-        <!-- MAIN CONTENT -->
+
         <main class="driver-main">
             <div class="container-custom">
-            <!-- CARTE INFOS BUS (statut, trajet, direction) -->
-			<!-- GRILLE D'INFOS (SANS ICÔNES SAUF POUR BUS) -->
+
 			<div class="info-grid">
-				<!-- Carte Bus (avec icône conservée) -->
+	
 				<div class="info-card">
 					<div class="info-card-icon">
 						<i class="bi bi-bus-front"></i>
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 
-				<!-- Carte Trajet (sans icône) -->
+	
 				<div class="info-card no-icon">
 					<div class="info-card-content">
 						<span class="info-card-label">Trajet assigné</span>
@@ -58,7 +58,7 @@
 					</div>
 				</div>
 
-				<!-- Carte Direction (sans icône) -->
+		
 				<div class="info-card no-icon">
 					<div class="info-card-content">
 						<span class="info-card-label">Direction</span>
@@ -76,7 +76,7 @@
 					</div>
 				</div>
 
-				<!-- Carte Statut (sans icône) -->
+			
 				<div class="info-card no-icon">
 					<div class="info-card-content">
 						<span class="info-card-label">Statut actuel</span>
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 
-                <!-- FORMULAIRE DE MISE À JOUR -->
+               
                 <form method="post" class="update-form" action="{{ path('update_direction_bus', {'id': bus.id}) }}">
                     <div class="form-row">
                         <!-- STATUT DU BUS -->
@@ -171,7 +171,7 @@
                     
                     <div class="form-submit">
                         <button type="submit" class="submit-btn">
-                            <i class="bi bi-arrow-repeat"></i>
+                            {# <i class="bi bi-arrow-repeat"></i> #}
                             Mettre à jour
                         </button>
                     </div>
@@ -181,7 +181,7 @@
 
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         
-        <!-- VOS SCRIPTS CONSERVÉS INTÉGRALEMENT -->
+
         <script>
             const radios = document.querySelectorAll('input[name="statut"]');
             radios.forEach(radio => {

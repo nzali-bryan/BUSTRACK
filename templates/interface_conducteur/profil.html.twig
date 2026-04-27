@@ -8,7 +8,8 @@
 	{{ include('style/js.html.twig') }}
 	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
 	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
-    	<link rel="stylesheet" href="{{asset('css1/driver/conducteurs.css')}}">
+	<link rel="stylesheet" href="{{asset('css1/user/tous.css')}}">
+    <link rel="stylesheet" href="{{asset('css1/driver/conducteurs.css')}}">
 
 	<main class=" min-vw-100">
 			{% for message in app.flashes('error_password') %}
@@ -39,7 +40,7 @@
 				</div>
 			{% endif %}
 		{% endfor %}
-			<header class="fond3 row title position-fixed top-0 min-vw-100 m-0">
+			<header class="fond3 bt-header row title position-fixed top-0 min-vw-100 m-0">
 				<div class=" col-3 mt-2">
 					<a href="{{path('app_interface_conducteur')}}" class=" text-decoration-none">
 						<h3 class=" text-white col-3">
@@ -82,7 +83,7 @@
 							<span class=" fw-semibold">{{user.nom|capitalize}}</span>
 						</div>
 						<div class=" col-xs-12 col-sm-4 text-center">
-							<span class=" text-secondary">Username</span>
+							<span class=" text-secondary">Email</span>
 							<br>
 							<span class=" fw-semibold">{{user.username|capitalize}}</span>
 						</div>
@@ -127,6 +128,7 @@
 								'attr': {'class': 'form-control form_control',
 							}}) }}
 						{{ form_row(form.username, {
+								'label': 'Email',
 								'attr': {'class': 'form-control form_control',
 							}}) }}
 						{{ form_row(form.currentPassword , {

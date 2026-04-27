@@ -106,7 +106,7 @@ body { background: var(--cbg); }
                 <strong class="fs-5">{{ user.nom|capitalize }}</strong>
             </div>
             <div class="col-12 col-md-4">
-                <small class="text-muted d-block">Username</small>
+                <small class="text-muted d-block">Email</small>
                 <strong class="fs-5">{{ user.username }}</strong>
             </div>
             <div class="col-12 col-md-4">
@@ -135,7 +135,7 @@ body { background: var(--cbg); }
             <div class="modal-body p-4">
                 {{ form_start(form) }}
                 {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(form.username, {'label': 'Email','attr': {'class': 'form-control'}}) }}
                 {{ form_row(form.currentPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe actuel'}}) }}
                 {{ form_row(form.newPassword, {'attr': {'class': 'form-control', 'placeholder': 'Nouveau mot de passe'}}) }}
                 
