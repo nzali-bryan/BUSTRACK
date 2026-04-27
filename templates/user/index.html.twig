@@ -781,6 +781,30 @@ if (zoneSelect && trajetSelect) {
     trajetSelect.value = '';
   });
 }
+
+document.getElementById('inscription-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    const response = await fetch(this.action, {
+        method: 'POST',
+        body: formData
+    });
+
+    const html = await response.text();
+
+    if (response.status === 422) {
+        // Erreur validation → réafficher le formulaire dans la modal
+        document.getElementById('modal-body').innerHTML = html;
+        // Réactiver les listeners si besoin
+    } else {
+        // Succès
+        $('#inscriptionModal').modal('hide');   // fermer la modal
+        // Afficher le flash success (tu peux le mettre dans la page principale)
+        location.reload();   // ou mieux : afficher un toast
+    }
+});
 </script>
 
 {% endblock %}

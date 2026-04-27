@@ -59,7 +59,7 @@ final class UserController extends AbstractController
             $entityManager->flush();
             $response = $security->login($administrateur, \App\Security\AdministrateurAuthenticator::class);
             $this->addFlash('success_user', 'Utilisateur enregistré');
-
+            $status = $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK;
             return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -89,7 +89,7 @@ final class UserController extends AbstractController
         // filtre par mot 
         if ($mot) {
             $Allbus = $busRepository->searchBus($mot);
-            dump($Allbus);
+            // dump($Allbus);
         } elseif ($trajet || $statut || $zone) {
             $Allbus = $busRepository->findfilter($zone, $trajet, $statut);
         } elseif ($zone1) {
@@ -97,14 +97,6 @@ final class UserController extends AbstractController
         } else {
             $Allbus = $busRepository->findAllBusNotNull();
         }
-
-        // dump($Allbus);
-        // return $this->render('user/profilNoConnect.html.twig',[
-        //     'formCreateUser' => $form,
-        // ]);
-        // 
-
-
         // gerer l'affichage des favoris
         $user= $this->getUser();
         if($user){
@@ -115,7 +107,7 @@ final class UserController extends AbstractController
             $favorisId=null;
         }
         
-        //  dd($favoris);
+        
         return $this->render('user/index.html.twig', [
 
             'formCreateUser' => $form,

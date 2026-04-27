@@ -85,6 +85,9 @@ final class TrajetsController extends AbstractController
             foreach($trajet->getPoint() as $point){
                 $point->setTrajet(null);
             }
+        foreach ($trajet->getFavoris() as $favoris) {
+        $entityManager->remove($favoris);
+    }
             $entityManager->remove($trajet);
             $entityManager->flush();
         }

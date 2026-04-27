@@ -43,7 +43,7 @@ class Trajets
     /**
      * @var Collection<int, Favoris>
      */
-    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'trajets', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'trajets', orphanRemoval: true,cascade: ['remove'])]
     private Collection $favoris;
 
     public function __construct()
