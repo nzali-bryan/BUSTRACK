@@ -8,26 +8,58 @@
 	{{ include('style/js.html.twig') }}
 	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
 	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
-	<main class=" min-vw-100 min-vh-100 body-color">
-		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
-			<h3 class=" text-white col-3">
-				<span class="color-fresh">Bus</span>Track</h3>
+	<header class="bt-header">
+
+  <a class="bt-logo" href="#">
+    <div class="bt-logo-ic"><i class="bi bi-bus-front-fill"></i></div>
+    <div class="bt-logo-tx">Bus<span>Track</span></div>
+  </a>
+
+  {% if app.user %}
+    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+      <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+      <button type="submit">Rechercher</button>
+    </form>
+  {% else %}
+    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+      <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+      <button type="submit">Rechercher</button>
+    </form>
+  {% endif %}
+
+  
+    {% if app.user %}
+      {# utilisateur connecté#}
+    {% else %}
+    <div class="bt-header-actions">
+      <a href="{{ path('app_login') }}" class="bt-btn bt-btn-outline">
+        <i class="bi bi-box-arrow-in-right"></i> Connexion
+      </a>
+    </div>
+    {% endif %}
+  
+
+</header>
 
 
-			<form method="GET" class="col-4 col-sm-6 h-75 position-absolute end-0  my-1" action="{{path('app_user')}}">
-				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Trajets,Point et Bus">
-				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-			</form>
-			<div class="sous-entete position-fixed bg-white w-100 ">
-				<nav class="nav color-fresh " id="menu1">
-					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
-					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3 color-fresh active">Mes favoris</a>
-					<a href="{{path('app_user_profil_NoConnect')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm ">Profil</a>
-				</nav>
-				<hr class="mb-0">
-			</div>
-		</header>
+<nav class="bt-nav-bar">
+  <div class="bt-nav-links" id="menu1">
+    <a href="{{ path('app_user') }}" class="bt-nav-link ">Bus en temps réel</a>
 
+    {% if app.user %}
+      <a href="{{ path('favoris_list') }}" class="bt-nav-link active">Mes favoris</a>
+    {% else %}
+      <a href="{{ path('app_user_favoris_NoConnect') }}" class="bt-nav-link active ">Mes favoris</a>
+    {% endif %}
+
+    {% if app.user %}
+      <a href="{{ path('app_user_profil') }}" class="bt-nav-link ">Profil</a>
+    {% else %}
+      <a href="{{ path('app_user_profil_NoConnect') }}" class="bt-nav-link ">Profil</a>
+    {% endif %}
+  </div>
+</nav>
+	<main class=" min-vw-100 mt-4 min-vh-100 body-color">
 		<div class="haut-favoris haut-1 container rounded rounded-4">
 			<h3 class="text-white">❤️Mes trajets favoris
 			</h3>
@@ -37,7 +69,7 @@
 		</div>
 
 		<div class="corps2 corps3 ">
-			<div class="bg-white container d-grid justify-content-center  border border-secondary-subtle text-center rounded rounded-4">
+			<div class="bg-white container d-grid justify-content-center  border border-secondary-subtle text-center rounded rounded-4 py-3">
 				<i class="bi bi-person fs-4"></i>
 				<h3>Non Connecté</h3>
 				<span class=" text-secondary my-1">Connectez-vous pour acceder à vos favoris</span>
@@ -57,69 +89,11 @@
 	<script src="js/bootstrap.bundle.min.js"></script>
 
 	<script>
-		{
-# const links = document.querySelectorAll("#menu1 .nav-links");
-#
-}
-const links = document.querySelectorAll("#menu1 a");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-const links = document.querySelectorAll("#favoris .favoris");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-	</script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-const links = document.querySelectorAll("menu1 .nav-links");
-
-links.forEach(link => {
-link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
-links.forEach(l => l.classList.remove("active"));
-
-
-this.classList.add("active");
-});
-});
-});
-	</script>
-	<script>
-		document.getElementById('zone').addEventListener('change', function () {
-
-let selectedZone = this.value;
-let trajetSelect = document.getElementById('trajet');
-let options = trajetSelect.querySelectorAll('option');
-
-options.forEach(option => {
-
-let zone = option.getAttribute('data-zone');
-
-if (option.value === '') {
-option.style.display = 'block';
-}
-if (! selectedZone || zone === selectedZone) {
-option.style.display = 'block';
-} else {
-option.style.display = 'none';
-}
-
-});
-
+document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+    });
 });
 	</script>
 {% endblock %}
