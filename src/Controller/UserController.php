@@ -97,7 +97,26 @@ final class UserController extends AbstractController
         } else {
             $Allbus = $busRepository->findAllBusNotNull();
         }
-        // gerer l'affichage des favoris
+     
+        foreach ($Allbus as $busPer) {
+
+            if ($busPer->getEtat() === 'En route' && $busPer->getStartTime() && $busPer->getTempsInitial() !== null) {
+                $startTime = $busPer->getStartTime();
+                $tempsInitial = $busPer->getTempsInitial();
+                $tempsActuel = new \DateTimeImmutable();
+                $tempsEcoule = ($tempsActuel->getTimestamp() - $startTime->getTimestamp()) / 60;
+                $tempsRestant = $tempsInitial - $tempsEcoule;
+                $busPer->setTempsEcoule((int) round($tempsEcoule));
+                $busPer->setTempsRestant((int) round($tempsRestant));
+               
+                
+            } else {
+                $busPer->setTempsEcoule(null);
+                $busPer->setTempsRestant(null);
+            }
+        }
+        $entityManager->flush(); // Un seul flush à la fin
+        
         $user= $this->getUser();
         if($user){
              $id= $user->getId();

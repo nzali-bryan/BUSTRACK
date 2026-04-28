@@ -31,6 +31,7 @@ final class ConducteurInterfaceController extends AbstractController
     $UserDriver= $administrateurRepository->find($id);
     $bus=$UserDriver->getBus();
     $trajet=$bus->getTrajet();
+    $ancienEtat=$bus->getEtat();
     $pointASC = $pointRepository->findByTrajetIdASC($trajet->getId());
     $pointDESC=$pointRepository->findByTrajetIdDESC($trajet->getId());
     
@@ -47,6 +48,25 @@ final class ConducteurInterfaceController extends AbstractController
         $em->persist($formDirection);
         $em->flush();
     }
+    $etatBus=$bus->getEtat();
+    if ($etatBus === 'En route' ){
+        $vitesse=$bus->getVitesse();
+        $distance=$trajet->getDistance();
+        $tempsInitial=($distance / $vitesse)*60;
+        $bus->setTempsInitial((int) round($tempsInitial));
+        $bus->setstartTime(new \DateTimeImmutable());
+        $em->persist($bus);
+        $em->flush();
+        dump($bus,$ancienEtat);
+    }else{
+        $tempsInitial=00;
+        $bus->setTempsInitial((int) round($tempsInitial));
+        $bus->setstartTime(new \DateTimeImmutable());
+        $em->persist($bus);
+        $em->flush();
+    }
+
+    // dd($vitesse,$distance,$tempsInitial);
     {
         return $this->render('interface_conducteur/index.html.twig', [
             'conducteur'=> $UserDriver,

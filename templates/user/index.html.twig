@@ -636,7 +636,19 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
         </div>
 
         <div class="bt-card-right">
-
+          {# {% if bus.tempsEstimeTexte != '-- min' %} #}
+              <span class="badge bg-info">
+            {% if bus.tempsRestant < 0 %}
+              {% if bus.etat == 'En route' %}
+               En retard
+              {% else %}
+                --min
+              {% endif %}
+            {% else %}
+              {{ bus.tempsRestant ?? '--'}}min
+            {% endif %}
+            </span>
+          {# {% endif %} #}
           {# STATUT #}
           <div class="bt-status {{ statusClass }}">
             <span class="bt-sdot"></span>

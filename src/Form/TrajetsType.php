@@ -11,6 +11,7 @@ use App\Entity\Point;
 use App\Repository\PointRepository;
 use Dom\Entity;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 
 class TrajetsType extends AbstractType
@@ -36,7 +37,14 @@ class TrajetsType extends AbstractType
                 ],])
 
             ->add('ligne')
-
+            ->add('Distance', NumberType::class, [
+                'label' => 'Distance (km)',
+                'attr' => [
+                    'step' => 0.01,        // pour les décimaux
+                    'min' => 0,            // valeur minimale
+                    'placeholder' => 'Ex: 12.5'
+                ]
+            ])
             ->add('depart', EntityType::class, [
             'class' => Point::class,
             'choice_label' => 'nom',

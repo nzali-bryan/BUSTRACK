@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TrajetsRepository;
+use BcMath\Number;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -45,6 +46,9 @@ class Trajets
      */
     #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'trajets', orphanRemoval: true,cascade: ['remove'])]
     private Collection $favoris;
+
+    #[ORM\Column(type: Types::FLOAT,precision: 10, nullable: true)]
+    private ?float $Distance = null;
 
     public function __construct()
     {
@@ -224,6 +228,18 @@ class Trajets
                 $favori->setTrajets(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDistance(): ?float
+    {
+        return $this->Distance;
+    }
+
+    public function setDistance(?float $Distance): static
+    {
+        $this->Distance = $Distance;
 
         return $this;
     }
