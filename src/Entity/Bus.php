@@ -53,6 +53,9 @@ class Bus
     #[ORM\Column(nullable: true)]
     private ?int $tempsRestant = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $marge = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -190,6 +193,18 @@ public function getTempsRestant(): ?int
 public function setTempsRestant(?int $tempsRestant): static
 {
     $this->tempsRestant = $tempsRestant;
+
+    return $this;
+}
+
+public function getMarge(): ?int
+{
+    return $this->marge;
+}
+
+public function setMarge(?int $marge): static
+{
+    $this->marge = $marge;
 
     return $this;
 }

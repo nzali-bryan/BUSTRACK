@@ -106,9 +106,10 @@ public function updateDirection(Request $request, Bus $bus,AdministrateurReposit
     }
 
 
-        dump($ancienEtat);
+     
         $etatBus=$bus->getEtat();
-        if ($etatBus === 'En route' && $ancienEtat !== 'En route')
+        // dd($ancienEtat,$etatBus);
+        if ($etatBus === 'En route' && $ancienEtat === 'En route')
         {         
             $vitesse=$bus->getVitesse();
             $distance=$trajet->getDistance();
@@ -117,17 +118,36 @@ public function updateDirection(Request $request, Bus $bus,AdministrateurReposit
             $bus->setstartTime(new \DateTimeImmutable());
             $entityManager->persist($bus);
             $entityManager->flush();
+           
         }
-        elseif ($etatBus === 'Incident' && $ancienEtat !== 'En route'){
+        elseif ($etatBus === 'Incident' && $ancienEtat === 'En route'){
             $tempsInitial=$bus->getTempsRestant();
             $bus->setTempsInitial((int) round($tempsInitial));
             $entityManager->persist($bus);
             $entityManager->flush();
-        }elseif ($etatBus === 'En route' && $ancienEtat !== 'Incident'){
+            
+        }elseif ($etatBus === 'En route' && $ancienEtat === 'Incident'){
             $bus->setstartTime(new \DateTimeImmutable());
             $entityManager->persist($bus);
             $entityManager->flush();
+            
+        }else{
+            $bus->setTempsInitial(null);
+            $entityManager->persist($bus);
+            $entityManager->flush();
         }
+        $tempsInitial=$bus->getTempsInitial();
+       
+        if ($tempsInitial <= 10){
+            $bus->setMarge(12);
+        }elseif($tempsInitial <= 20){
+            $bus->setMarge(20);
+        }elseif($tempsInitial <= 30){
+            $bus->setMarge(27);
+        }else{
+            $bus->setMarge(33);
+        }
+        $entityManager->flush();
 return $this->redirectToRoute('app_interface_conducteur', [
     'id' => $bus->getAdministrateur()->getId()
 ]);

@@ -108,6 +108,7 @@ final class UserController extends AbstractController
                 $tempsRestant = $tempsInitial - $tempsEcoule;
                 $busPer->setTempsEcoule((int) round($tempsEcoule));
                 $busPer->setTempsRestant((int) round($tempsRestant));
+                
                
                 
             } else {
