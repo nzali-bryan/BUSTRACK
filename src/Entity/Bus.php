@@ -45,8 +45,7 @@ class Bus
     #[ORM\Column(nullable: true)]
     private ?float $tempsEcoule = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $CurrentTime = null;
+ 
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $startTime = null;
@@ -144,50 +143,6 @@ class Bus
 
         return $this;
     }
-       /**
-     * Calcule le temps estimé en minutes pour ce bus
-     * Retourne null si le bus n'est pas "en route" ou si les données sont manquantes
-     */
-public function getTempsEstimeMinutes(): ?int
-{
-    // Contrainte n°1 : uniquement si "en route"
-    if ($this->etat !== 'en route') {
-        return null;
-    }
-    
-    $trajet = $this->getTrajet();
-    if (!$trajet) {
-        return null;
-    }
-    
-    // Directement un float, plus besoin de conversion
-    $distance = $trajet->getDistance();
-    if (!$distance || $distance <= 0) {
-        return null;
-    }
-    
-    // Directement un float, plus besoin de conversion
-    $vitesse = $this->getVitesse();
-    if (!$vitesse || $vitesse <= 0) {
-        return null;
-    }
-    
-    // Calcul simple
-    $tempsMinutes = ($distance / $vitesse) * 60;
-    
-    return (int) round($tempsMinutes);
-}
-
-public function getTempsEstimeTexte(): string
-{
-    $minutes = $this->getTempsEstimeMinutes();
-    
-    if ($minutes === null) {
-        return '-- min';
-    }
-    
-    return $minutes . ' min';
-}
 
 public function getTempsInitial(): ?float
 {
@@ -213,17 +168,7 @@ public function setTempsEcoule(?float $tempsEcoule): static
     return $this;
 }
 
-public function getCurrentTime(): ?float
-{
-    return $this->CurrentTime;
-}
 
-public function setCurrentTime(?float $CurrentTime): static
-{
-    $this->CurrentTime = $CurrentTime;
-
-    return $this;
-}
 
 public function getStartTime(): ?\DateTimeImmutable
 {

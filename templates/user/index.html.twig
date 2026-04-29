@@ -641,6 +641,8 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
             {% if bus.tempsRestant < 0 %}
               {% if bus.etat == 'En route' %}
                En retard
+              {% elseif bus.etat == 'Incident'  %}
+                Indeterminé
               {% else %}
                 --min
               {% endif %}
