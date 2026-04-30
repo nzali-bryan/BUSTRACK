@@ -393,7 +393,7 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
 }
 .form_control input:focus { border-color: var(--cph); background: #fff; box-shadow: 0 0 0 3px rgba(0,201,167,.09); }
 
-/* RESPONSIVE */
+/* RESPONSIVE 1*/
 @media (max-width: 768px) {
   .bt-header { padding: 0 14px; }
   .bt-search-form { display: none; }
