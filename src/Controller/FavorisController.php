@@ -137,13 +137,14 @@ final class FavorisController extends AbstractController
         $Allfavoris = $favorisRepository->findFavoris($id);
         if(!$Allfavoris){
             $this->addFlash('Delete_Allfavoris', 'aucun trajet à supprimé !');
+             return $this->redirectToRoute('favoris_list');
         }
         foreach($Allfavoris as $favoris){
 
             $em->remove($favoris);
             $em->flush();
-            $this->addFlash('delete_Allfavoris', 'Tous les trajets on été supprimés !');
         }
+        $this->addFlash('delete_Allfavoris', 'Tous les trajets on été supprimés !');
 
 
         return $this->redirectToRoute('favoris_list');

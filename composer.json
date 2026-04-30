@@ -25,6 +25,7 @@
         "symfony/http-client": "6.4.*",
         "symfony/intl": "6.4.*",
         "symfony/mailer": "6.4.*",
+        "symfony/mercure": "^0.7.2",
         "symfony/mime": "6.4.*",
         "symfony/monolog-bundle": "^3.0|^4.0",
         "symfony/notifier": "6.4.*",

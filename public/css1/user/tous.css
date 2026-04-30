@@ -193,6 +193,11 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
   display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
 }
 .bt-filter-group { display: flex; flex-direction: column; gap: 4px; }
+@media  screen and (max-width:768px) {
+  .bt-filter-group{
+    width: 100% !important;
+  }
+}
 .bt-filter-group label {
   font-size: .71rem; font-weight: 700; color: rgba(255,255,255,.38);
   text-transform: uppercase; letter-spacing: .07em;
@@ -399,4 +404,7 @@ body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif; backg
   .bt-info-cell:nth-child(3), .bt-info-cell:nth-child(4) { border-top: 1px solid var(--cbo); }
   .bt-filters { flex-direction: column; }
   .bt-select { min-width: auto; width: 100%; }
+  .bt-filter-group{
+    width: 100% !important;
+  }
 }

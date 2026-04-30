@@ -1,545 +1,213 @@
-{# {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}BusTrack
+{% block title %}Mes Favoris
 {% endblock %}
 
 {% block body %}
 	{{ include('style/style.html.twig') }}
 	{{ include('style/js.html.twig') }}
-	<link rel="stylesheet" href="{{asset('css1/admin/form.css')}}">
-	<link rel="stylesheet" href="{{asset('css1/user/passager.css')}}">
 
-	<main class=" min-vw-100">
-		{% for message in app.flashes('delete_favoris') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2">
-								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article><hr>
-				</div>
-			{% endif %}
-		{% endfor %}
-		{% for message in app.flashes('delete_Allfavoris') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2">
-								<i class="bi bi-check-circle message-success fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article><hr>
-				</div>
-			{% endif %}
-		{% endfor %}
-				{% for message in app.flashes('Delete_Allfavoris') %}
-			{% if message %}
-				<div class=" row w-100 d-flex justify-content-center align-items-center border-bottom border">
-					<article class=" message ">
-						<div id="toast-container text-center d-flex justify-content-center">
-							<span class="fs-2 ">
-								<i class="bi bi-x-circle text-danger fs-2 fw-bold"></i>
-								{{ message }}
-							</span>
-						</div>
-					</article>
-				</div><hr>
-			{% endif %}
-		{% endfor %}
-		<header class="entete1 fond row title position-fixed min-vw-100 m-0">
-			<h3 class=" text-white col-3">
-				<span class="color-fresh">Bus</span>Track</h3>
+	<style>:root
+	{
+		--cf: #0A1628;
+		--cp: #019271;
+		--cph: #00C9A7;
+		--cbg: #F5F7FA;
+		--csf: #ffffff;
+		--cbo: #DDE4EC;
+		--ct1: #0D1B2A;
+		--ct2: #5A7184;
+		--cer: #C76D6D;
+		--tr: 0.25s ease;
+	}
 
+	body {
+		background: var(--cbg);
+	}
 
-			<form method="GET" class="col-4 col-sm-6 h-75  my-1 position-absolute end-0" action="{{path('app_user')}}">
-				<input type="text" name="mot" class="mt-1 w-75 h-100 text-start  rounded rounded-2 connexion  recherche" required placeholder="Trajets,Point et Bus">
-				<button class="btn btn-sm filtrer h-100 mb-1">Rechercher</button>
-			</form>
-
-
-			<div class="sous-entete position-fixed bg-white w-100 ">
-				<nav class="nav color-fresh " id="menu1">
-					<a href="{{path('app_user')}}" class="nav-links mx-2 mt-1 mt-xxl-3 color-norm">Bus en temps réel</a>
-					<a href="#" class="nav-links mx-2 mt-1 mt-xxl-3  color-fresh active">Mes favoris</a>
-					<a href="{{path('app_user_profil' , {'id':app.user.id})}}" class="nav-links mx-2 mt-1 mt-xxl-3  color-norm">Profil</a>
-				</nav>
-				<hr class="mb-0">
-			</div>
-		</header>
-
-		<div class="corps2">
-			<div class=" haut-favoris container rounded rounded-4">
-				<div class="row">
-					<div class=" col-sm-8 col-xl-9">
-						<h3 class="text-white">❤️Mes trajets favoris
-						</h3>
-						<span class="text-secondary">Vos lignes préférées avec toutes leurs informations directement ici
-						</span>
-					</div>
-					<div class="col-sm-3 ms-3 col-xl-2">
-						<div class="rounded rounded-3 text-center nombre-favoris  fw-bold">
-							<p class="fs-1 m-0">{{countfavoris}}
-							</p>
-							<small class=" text-secondary fs-6 fw-normal">Lignes Favoris</small>
-
-						</div>
-						<button class="btn btn-danger dang btn-xxl rounded-2">
-							<a href="{{path('favoris_delete_All')}}" class=" text-decoration-none text-danger w-100">
-								<i class="bi bi-trash" style="color:red;"></i>
-								Tous Supprimer</a>
-						</button>
-
-					</div>
-				</div>
-
-			</div>
-			<div class="listbus">
-				{% for bus in AllBus %}
-
-
-					<div class="container bus-detail my-2">
-
-
-						<div
-							class="card info-bus1 p-3 shadow-sm">
-
-							<!-- HEADER -->
-							<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-								<div class="d-flex align-items-center">
-									<span class="badge badge-route me-2">
-										<div class="logo col-xxl-2 mt-2 ms-2 text-center rounded rounded-2 d-grid align-items-center">
-											<span class=" position-static ">{{bus.trajet.ligne}}</span>
-										</div>
-									</span>
-									<div>
-										<h5 class="mb-0 w-100">{{bus.trajet.nom}}</h5>
-											{% if bus.etat == 'Inactif' %}
-													<span>Indisponible</span>
-											{% else %}
-												<span class="info2">{{bus.direction}}</span>
-											{%endif%}										
-									</div>
-								</div><hr>
-
-								<div>
-									<span class="badge status etat2">●
-										{{bus.etat}}
-									</span>
-									<a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}" class="text-danger ">
-										<button class="favoris text-danger rounded rounded-circle color-delete">
-											<i class=" bi bi-trash  "></i>
-										</button>
-									</a>
-								</div>
-							</div>
-
-							<!-- INFOS -->
-							<div class="row text-center g-3">
-
-								<div class="col-6 col-md-3 info-box">
-
-									<i class="fas fa-bus fs-4 color-fond "></i>
-									<div>{{bus.nom|capitalize}}</div>
-									<small class="text-muted">Bus</small>
-								</div>
-
-								<div class="col-6 col-md-3 info-box">
-									<i class="fas fa-user-tie fs-4 color-fond"></i>
-									<div>{{bus.administrateur.nom|capitalize}}c</div>
-									<small class="text-muted">Conducteur</small>
-								</div>
-
-								<div class="col-6 col-md-3 info-box">
-									<i class="bi bi-people fs-4 color-fond"></i>
-									<div>{{bus.capacite}}</div>
-									<small class="text-muted">Places</small>
-								</div>
-
-								<div class="col-6 col-md-3 info-box">
-									<i class="bi bi-geo-alt fs-4 color-fond"></i>
-
-												{% if bus.etat == 'Inactif' %}
-													<div>
-														<span>En Attente</span>
-													</div>
-												{% else %}
-													{% set parts = bus.direction|lower|split('vers') %}
-													<div>
-														<span class="text-black">
-															{{ parts|length > 1 ? parts[1]|trim : 'Inconnu' }}
-														</span>
-													</div>
-												{%endif%}
-												<small class="text-muted">
-													Prochain Arrêts
-												</small>
-								</div>
-
-							</div>
-						</div>
-
-					</div>
-				{% else %}
-					<div class="row mx-2 my-2 border border-2 rounded rounded-2">
-						<p class="text-center">Aucun Favoris pour le moment</p>
-					</div>
-
-				{% endfor %}
-			</div>
-		</div>
-
-		<div class="modal-footer"></div>
-
-
-	</div>
-	<script src="js/bootstrap.bundle.min.js"></script>
-
-	<script>
-		{
-# const links = document.querySelectorAll("#menu1 .nav-links");
-#
-}
-const links = document.querySelectorAll("#menu1 a");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-const links = document.querySelectorAll("#favoris .favoris");
-
-links.forEach(link => {
-link.addEventListener("click", function () { // enlever active sur tous les liens
-links.forEach(l => l.classList.remove("active"));
-
-// ajouter active au lien cliqué
-this.classList.add("active");
-
-});
-});
-	</script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-const links = document.querySelectorAll("menu1 .nav-links");
-
-links.forEach(link => {
-link.addEventListener("click", function (event) { // enlever la classe active sur tous les boutons
-links.forEach(l => l.classList.remove("active"));
-
-
-this.classList.add("active");
-});
-});
-});
-	</script>
-	<script>
-		document.getElementById('zone').addEventListener('change', function () {
-
-let selectedZone = this.value;
-let trajetSelect = document.getElementById('trajet');
-let options = trajetSelect.querySelectorAll('option');
-
-options.forEach(option => {
-
-let zone = option.getAttribute('data-zone');
-
-if (option.value === '') {
-option.style.display = 'block';
-}
-if (! selectedZone || zone === selectedZone) {
-option.style.display = 'block';
-} else {
-option.style.display = 'none';
-}
-
-});
-
-});
-	</script>
-{% endblock %} #}
-
-{% extends 'base.html.twig' %}
-
-{% block title %}Mes Favoris{% endblock %}
-
-{% block body %}
-{{ include('style/style.html.twig') }}
-{{ include('style/js.html.twig') }}
-
-<style>
-:root {
-    --cf: #0A1628;
-    --cp: #019271;
-    --cph: #00C9A7;
-    --cbg: #F5F7FA;
-    --csf: #ffffff;
-    --cbo: #DDE4EC;
-    --ct1: #0D1B2A;
-    --ct2: #5A7184;
-    --cer: #C76D6D;
-    --tr: .25s ease;
-}
-
-body { background: var(--cbg); }
-
-.favoris-hero {
-    background: linear-gradient(135deg, var(--cf), #0f2339);
-    color: white;
-    padding: 50px 20px 40px;
-    margin-top: 108px;
-    border-radius: 0 0 24px 24px;
-}
+	.favoris-hero {
+		background: linear-gradient(135deg, var(--cf), #0f2339);
+		color: white;
+		padding: 50px 20px 40px;
+		margin-top: 108px;
+		border-radius: 0 0 24px 24px;
+	}
 </style>
 
 {# Flash messages #}
 <div class="flash-wrap mt-5 pt-3">
-    {% for message in app.flashes('delete_favoris') %}
-        <div class="alert alert-success text-center mx-auto" style="max-width:520px;">
-            <i class="bi bi-check-circle"></i> {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('delete_Allfavoris')|merge(app.flashes('Delete_Allfavoris')) %}
-        <div class="alert alert-danger text-center mx-auto" style="max-width:520px;">
-            <i class="bi bi-x-circle"></i> {{ message }}
-        </div>
-    {% endfor %}
+	{% for message in app.flashes('delete_favoris') %}
+		<div class="alert alert-success text-center mx-auto" style="max-width:520px;">
+			<i class="bi bi-check-circle"></i>
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('delete_Allfavoris')|merge(app.flashes('Delete_Allfavoris')) %}
+		<div class="alert alert-danger text-center mx-auto" style="max-width:520px;">
+			<i class="bi bi-x-circle"></i>
+			{{ message }}
+		</div>
+	{% endfor %}
 </div>
 
 {# HEADER #}
 <header class="bt-header">
-    <a class="bt-logo" href="{{ path('app_user') }}">
-        <div class="bt-logo-ic"><i class="bi bi-bus-front-fill"></i></div>
-        <div class="bt-logo-tx">Bus<span>Track</span></div>
-    </a>
+	<a class="bt-logo" href="{{ path('app_user') }}">
+		<div class="bt-logo-ic">
+			<i class="bi bi-bus-front-fill"></i>
+		</div>
+		<div class="bt-logo-tx">Bus<span>Track</span>
+		</div>
+	</a>
 
-    <form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
-        <input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
-        <button type="submit">Rechercher</button>
-    </form>
+	<form method="GET" class="bt-search-form" action="{{ path('app_user') }}">
+		<input type="text" name="mot" required placeholder="Trajets, Points, Bus…">
+		<button type="submit">Rechercher</button>
+	</form>
 </header>
 
 {# NAV #}
 <nav class="bt-nav-bar">
-    <div class="bt-nav-links" id="menu1">
-        <a href="{{ path('app_user') }}" class="bt-nav-link">Bus en temps réel</a>
-        <a href="{{ path('favoris_list') }}" class="bt-nav-link active">Mes favoris</a>
-        <a href="{{ path('app_user_profil') }}" class="bt-nav-link">Profil</a>
-    </div>
+	<div class="bt-nav-links" id="menu1">
+		<a href="{{ path('app_user') }}" class="bt-nav-link">Bus en temps réel</a>
+		<a href="{{ path('favoris_list') }}" class="bt-nav-link active">Mes favoris</a>
+		<a href="{{ path('app_user_profil') }}" class="bt-nav-link">Profil</a>
+	</div>
 </nav>
 
 <div class="favoris-hero text-center">
-    <h2 class="fw-bold mb-2">❤️ Mes trajets favoris</h2>
-    <p class="mb-0 opacity-75">Vos lignes préférées avec toutes leurs informations en temps réel</p>
-    
-    <div class="mt-4 d-inline-flex align-items-center gap-3 bg-white bg-opacity-10 px-4 py-2 rounded-pill">
-        <span class="fw-bold fs-4">{{ countfavoris }}</span>
-        <span class="opacity-75">lignes favorites</span>
-    </div>
+	<h2 class="fw-bold mb-2">❤️ Mes trajets favoris</h2>
+	<p class="mb-0 opacity-75">Vos lignes préférées avec toutes leurs informations en temps réel</p>
+
+	<div class="mt-4 d-inline-flex align-items-center gap-3 bg-white bg-opacity-10 px-4 py-2 rounded-pill">
+		<span class="fw-bold fs-4">{{ countfavoris }}</span>
+		<span class="opacity-75">lignes favorites</span>
+	</div>
 </div>
 
 <main class="container mt-4 pb-5" style="max-width: 1100px;">
-    {% if AllBus is empty %}
-        <div class="text-center py-5">
-            <i class="bi bi-heart fs-1 text-muted mb-3 d-block"></i>
-            <h5>Aucun favori pour le moment</h5>
-            <p class="text-muted">Ajoute tes trajets préférés depuis la page d’accueil</p>
-        </div>
-    {% else %}
-        <div class="d-flex justify-content-end mb-3">
-            <a href="{{ path('favoris_delete_All') }}" class="btn btn-outline-danger">
-                <i class="bi bi-trash"></i> Tout supprimer
-            </a>
-        </div>
+	{% if AllBus is empty %}
+		<div class="text-center py-5">
+			<i class="bi bi-heart fs-1 text-muted mb-3 d-block"></i>
+			<h5>Aucun favori pour le moment</h5>
+			<p class="text-muted">Ajoute tes trajets préférés depuis la page d’accueil</p>
+		</div>
+	{% else %}
+		<div class="d-flex justify-content-end mb-3">
+			<a href="{{ path('favoris_delete_All') }}" class="btn btn-outline-danger">
+				<i class="bi bi-trash"></i>
+				Tout supprimer
+			</a>
+		</div>
 
-    {% for bus in AllBus %}
-		
-    {# Définir la classe statut #}
-    {% if bus.etat == 'En route' %}
-      {% set statusClass = 'bt-status-er' %}
-    {% elseif bus.etat == 'Chargement' %}
-      {% set statusClass = 'bt-status-ch' %}
-    {% elseif bus.etat == 'Incident' %}
-      {% set statusClass = 'bt-status-in' %}
-    {% else %}
-      {% set statusClass = 'bt-status-def' %}
-    {% endif %}
+		{% for bus in AllBus %}
 
-    {# Prochain arrêt #}
-    {% if bus.etat == 'Inactif' %}
-      {% set nextStop = 'En attente' %}
-    {% else %}
-      {% set parts = bus.direction|lower|split('vers') %}
-      {% set nextStop = parts|length > 1 ? parts[1]|trim|capitalize : 'Inconnu' %}
-    {% endif %}
+			{# Définir la classe statut #}
+			{% if bus.etat == 'En route' %}
+				{% set statusClass = 'bt-status-er' %}
+			{% elseif bus.etat == 'Chargement' %}
+				{% set statusClass = 'bt-status-ch' %}
+			{% elseif bus.etat == 'Incident' %}
+				{% set statusClass = 'bt-status-in' %}
+			{% else %}
+				{% set statusClass = 'bt-status-def' %}
+			{% endif %}
 
-    <div class="bt-bus-card">
+			{# Prochain arrêt #}
+			{% if bus.etat == 'Inactif' %}
+				{% set nextStop = 'En attente' %}
+			{% else %}
+				{% set parts = bus.direction|lower|split('vers') %}
+				{% set nextStop = parts|length > 1 ? parts[1]|trim|capitalize : 'Inconnu' %}
+			{% endif %}
 
-      {# HEAD #}
-      <div class="bt-card-head">
-        <div class="bt-card-left">
-          <div class="bt-line-badge">{{ bus.trajet.ligne }}</div>
-          <div>
-            <div class="bt-card-name">{{ bus.trajet.nom|capitalize }}</div>
-            <div class="bt-card-dir">
-              {% if bus.etat != 'Inactif' %}
-                <i class="bi bi-arrow-right-circle-fill"></i>
-                {{ bus.direction }}
-              {% else %}
-                <i class="bi bi-clock"></i>
-                Indisponible
-              {% endif %}
-            </div>
-          </div>
-        </div>
+			<div
+				class="bt-bus-card">
 
-        <div class="bt-card-right">
+				{# HEAD #}
+				<div class="bt-card-head">
+					<div class="bt-card-left">
+						<div class="bt-line-badge">{{ bus.trajet.ligne }}</div>
+						<div>
+							<div class="bt-card-name">{{ bus.trajet.nom|capitalize }}</div>
+							<div class="bt-card-dir">
+								{% if bus.etat != 'Inactif' %}
+									<i class="bi bi-arrow-right-circle-fill"></i>
+									{{ bus.direction }}
+								{% else %}
+									<i class="bi bi-clock"></i>
+									Indisponible
+								{% endif %}
+							</div>
+						</div>
+					</div>
 
-          {# STATUT #}
-          <div class="bt-status {{ statusClass }}">
-            <span class="bt-sdot"></span>
-            {{ bus.etat }}
-          </div>
+					<div
+						class="bt-card-right">
+						{# calcul du temps restant avec des intervalles basé sur  la distance du trajet #}
+						{% set min = (bus.tempsRestant - (bus.tempsRestant * bus.marge / 100))|round(0, 'floor') %}
+						{% set max = (bus.tempsRestant + (bus.tempsRestant * bus.marge / 100))|round(0, 'ceil') %}
+						<span class="bt-status {{ statusClass }}">
+							{% if max <= 0 %}
+								{% if bus.etat == 'En route' %}
+									En retard
+								{% elseif bus.etat == 'Incident'  %}
+									Indeterminé
+								{% else %}
+									--min
+								{% endif %}
+							{% else %}
+								[{{ min ~ ' - ' ~ max ?? '--'}}]min
+							{% endif %}
+						</span>
+						{# STATUT #}
+						<div class="bt-status {{ statusClass }}">
+							<span class="bt-sdot"></span>
+							{{ bus.etat }}
+						</div>
 
-          {# FAVORIS #}
-          {# {% if bus.trajet.id in favoris %}
-            <a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}"
-               class="bt-fav-btn active"
-               title="Retirer des favoris">
-              <i class="bi bi-heart-fill" style="color:var(--cph)"></i>
-            </a>
-          {% else %}
-            <a href="{{ path('favori_ajouter', {'id': bus.trajet.id}) }}"
-               class="bt-fav-btn"
-               title="Ajouter aux favoris">
-              <i class="bi bi-heart"></i>
-            </a>
-          {% endif %} #}
 
-        </div>
-      </div>
 
-      {# INFO GRID #}
-      <div class="bt-card-info">
-        <div class="bt-info-cell">
-          <i class="bi bi-bus-front-fill" style="color:var(--cf)"></i>
-          <div class="bt-info-val">{{ bus.nom|capitalize }}</div>
-          <div class="bt-info-lbl">Bus</div>
-        </div>
-        <div class="bt-info-cell">
-          <i class="bi bi-person-badge-fill" style="color:var(--cf)"></i>
-          <div class="bt-info-val">{{ bus.administrateur.nom|capitalize}}</div>
-          <div class="bt-info-lbl">Conducteur</div>
-        </div>
-        <div class="bt-info-cell">
-          <i class="bi bi-people-fill" style="color:var(--cf)"></i>
-          <div class="bt-info-val">{{ bus.capacite }}</div>
-          <div class="bt-info-lbl">Places</div>
-        </div>
-        <div class="bt-info-cell">
-          <i class="bi bi-geo-alt-fill" style="color:var(--cph)"></i>
-          <div class="bt-info-val">{{ nextStop }}</div>
-          <div class="bt-info-lbl">Prochain arrêt</div>
-        </div>
-      </div>
+					</div>
+				</div>
 
-    </div>
+				{# INFO GRID #}
+				<div class="bt-card-info">
+					<div class="bt-info-cell">
+						<i class="bi bi-bus-front-fill" style="color:var(--cf)"></i>
+						<div class="bt-info-val">{{ bus.nom|capitalize }}</div>
+						<div class="bt-info-lbl">Bus</div>
+					</div>
+					<div class="bt-info-cell">
+						<i class="bi bi-person-badge-fill" style="color:var(--cf)"></i>
+						<div class="bt-info-val">{{ bus.administrateur.nom|capitalize}}</div>
+						<div class="bt-info-lbl">Conducteur</div>
+					</div>
+					<div class="bt-info-cell">
+						<i class="bi bi-people-fill" style="color:var(--cf)"></i>
+						<div class="bt-info-val">{{ bus.capacite }}</div>
+						<div class="bt-info-lbl">Places</div>
+					</div>
+					<div class="bt-info-cell">
+						<i class="bi bi-geo-alt-fill" style="color:var(--cph)"></i>
+						<div class="bt-info-val">{{ nextStop }}</div>
+						<div class="bt-info-lbl">Prochain arrêt</div>
+					</div>
+				</div>
 
-  {# {% else %}
+			</div>
 
-    <div class="bt-empty">
-      <i class="bi bi-bus-front"></i>
-      <div class="bt-empty-t">Aucun bus pour le moment</div>
-      <div class="bt-empty-s">Essayez de modifier vos filtres ou sélectionnez une autre zone.</div>
-    </div> #}
-
-            {# <div class="card bt-card mb-3">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="bt-line-badge rounded-3 bg-dark text-white d-flex align-items-center justify-content-center fw-bold fs-5" 
-                                 style="width:52px;height:52px;">
-                                {{ bus.trajet.ligne }}
-                            </div>
-                            <div>
-                                <h5 class="mb-1">{{ bus.trajet.nom|capitalize }}</h5>
-                                <small class="text-muted">
-                                    {% if bus.etat == 'Inactif' %}
-                                        Indisponible
-                                    {% else %}
-                                        {{ bus.direction }}
-                                    {% endif %}
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge 
-                                {% if bus.etat == 'En route' %}bg-success
-                                {% elseif bus.etat == 'Chargement' %}bg-info
-                                {% elseif bus.etat == 'Incident' %}bg-danger
-                                {% else %}bg-secondary{% endif %}">
-                                ● {{ bus.etat }}
-                            </span>
-                            
-                            <a href="{{ path('favoris_delete', {'id': bus.trajet.id}) }}" 
-                               class="btn btn-sm btn-outline-danger rounded-circle">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="row text-center mt-4 g-3">
-                        <div class="col-6 col-md-3">
-                            <i class="bi bi-bus-front-fill fs-4 text-dark"></i>
-                            <div class="fw-bold mt-1">{{ bus.nom|capitalize }}</div>
-                            <small class="text-muted">Bus</small>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <i class="bi bi-person-badge-fill fs-4 text-dark"></i>
-                            <div class="fw-bold mt-1">{{ bus.administrateur.nom|capitalize }}</div>
-                            <small class="text-muted">Conducteur</small>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <i class="bi bi-people-fill fs-4 text-dark"></i>
-                            <div class="fw-bold mt-1">{{ bus.capacite }}</div>
-                            <small class="text-muted">Places</small>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <i class="bi bi-geo-alt-fill fs-4 text-success"></i>
-                            <div class="fw-bold mt-1">
-                                {% if bus.etat == 'Inactif' %}En attente
-                                {% else %}
-                                    {% set parts = bus.direction|lower|split('vers') %}
-                                    {{ parts|length > 1 ? parts[1]|trim|capitalize : 'Inconnu' }}
-                                {% endif %}
-                            </div>
-                            <small class="text-muted">Prochain arrêt</small>
-                        </div>
-                    </div>
-                </div>
-            </div> #}
-        {% endfor %}
-    {% endif %}
+		{% endfor %}
+	{% endif %}
 </main>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-// Active nav
+	// Active nav
 document.querySelectorAll('#menu1 .bt-nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-    });
+link.addEventListener('click', () => {
+document.querySelectorAll('#menu1 .bt-nav-link').forEach(l => l.classList.remove('active'));
+link.classList.add('active');
 });
-</script>
-{% endblock %}
+});
+</script>{% endblock %}
