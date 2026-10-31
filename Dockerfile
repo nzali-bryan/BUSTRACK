@@ -27,3 +27,9 @@ RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 # 7. On donne les bonnes permissions d'accès aux dossiers de cache et de logs
 RUN chown -R www-data:www-data var public
+
+# 8. AUTOMATION : On force l'exécution des migrations au démarrage du conteneur
+RUN printf "#!/bin/sh\nphp bin/console doctrine:migrations:migrate --no-interaction\nexec apache2-foreground\n" > /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
