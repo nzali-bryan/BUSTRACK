@@ -22,7 +22,8 @@ WORKDIR /var/www/html
 COPY . .
 
 # 6. On installe les dépendances de ton projet Symfony
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+
 
 # 7. On donne les bonnes permissions d'accès aux dossiers de cache et de logs
 RUN chown -R www-data:www-data var public
