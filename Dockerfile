@@ -1,5 +1,5 @@
 # 1. On prend une image Linux officielle avec PHP 8.2 et le serveur Web Apache
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # 2. On installe les outils système indispensables et l'extension pour MySQL
 RUN apt-get update && apt-get install -y \
