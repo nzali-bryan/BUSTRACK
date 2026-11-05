@@ -203,7 +203,7 @@
             const directions = document.querySelectorAll('input[name="direction"]');
             directions.forEach(input => {
                 input.addEventListener('change', function () {
-                    document.querySelectorAll('input[name="direction"]').forEach(i => {
+                    document.queryorAll('input[name="direction"]').forEach(i => {
                         i.nextElementSibling.classList.remove('direction-selected');
                     });
                     const box = this.nextElementSibling;
